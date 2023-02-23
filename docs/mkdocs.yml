@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Keuzewijzer HBO Deeltijd ICT
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format # Geeft linting error maar is geen error
+
+plugins:
+  - offline
+
+# edit_uri: edit/master/docs/
+
+repo_url: https://github.com/ditmarvisser-windesheim/keuzewijzer-hbo-deeltijd-ict
+repo_name: keuzewijzer-hbo-deeltijd-ict
+
+#page-tree
+nav:
+  - Keuzewijzer HBO Deeltijd ICT:
+    - Inleiding: index.md
+    - Werken aan de documentatie: werken-aan-de-documentatie.md
+    - Diagrammen: diagrammen.md
