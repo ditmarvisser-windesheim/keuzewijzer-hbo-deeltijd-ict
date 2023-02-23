@@ -18,4 +18,4 @@ jobs:
           key: ${{ github.ref }}
           path: .cache
       - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force --verbose
+      - run: mkdocs gh-deploy --force --verbose --config-file docs/mkdocs.yml
