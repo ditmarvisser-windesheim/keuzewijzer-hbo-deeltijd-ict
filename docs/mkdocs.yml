@@ -3,6 +3,8 @@
 site_name: Keuzewijzer HBO Deeltijd ICT
 
 theme:
+  favicon: images/favicon.ico
+  logo: images/windesheim-logo.png
   name: material
   palette:
     # Palette toggle for dark mode
