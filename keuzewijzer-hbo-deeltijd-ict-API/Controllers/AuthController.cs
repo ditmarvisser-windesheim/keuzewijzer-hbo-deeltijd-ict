@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity;
+using keuzewijzer_hbo_deeltijd_ict_API.Request;
+using Microsoft.EntityFrameworkCore;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -17,10 +14,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AuthController(UserContext context)
+        public AuthController(UserContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost("login")]
@@ -28,7 +29,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         public async Task<ActionResult<User>> Login(LoginRequest loginRequest)
         {
             // Zoek de gebruiker op in de database op basis van de gegeven gebruikersnaam
-            var user = await _userManager.FindByNameAsync(loginRequest.Username);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName);
 
             // Controleer of het wachtwoord niet overeenkomt met de opgeslagen hash
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginRequest.Password))
@@ -36,9 +37,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 // Als de gebruiker niet is gevonden of het wachtwoord onjuist is, retourneer dan een foutmelding
                 return BadRequest(new { message = "Ongeldige gebruikersnaam of wachtwoord" });
             }
-
-            // Aanmelden met SignInManager
-            await _signInManager.SignInAsync(user, isPersistent: false);
 
             // Maak een JWT-token aan voor de gebruiker
             var token = JwtUtils.GenerateToken(user);
