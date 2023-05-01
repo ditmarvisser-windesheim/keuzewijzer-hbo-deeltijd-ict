@@ -16,10 +16,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public User User { get; set; } = null!;
         public ICollection<StudyRouteItem> Posts { get; } = new List<StudyRouteItem>();
 
-        public StudyRoute()
-        {
-        }
-
         public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> posts)
         {
             Id = id;
@@ -32,6 +28,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
             UserId = userId;
             User = user;
             Posts = posts;
+        }
+
+        public StudyRoute()
+        {
         }
     }
 }

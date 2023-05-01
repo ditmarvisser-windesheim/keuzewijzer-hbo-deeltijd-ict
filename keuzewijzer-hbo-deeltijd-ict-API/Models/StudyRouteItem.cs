@@ -16,5 +16,10 @@
             StudyRouteId = studyRouteId;
             StudyRoute = studyRoute;
         }
+
+        public StudyRouteItem()
+        {
+        }
+
     }
 }

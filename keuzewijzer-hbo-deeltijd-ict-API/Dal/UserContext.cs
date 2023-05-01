@@ -11,5 +11,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<StudyRoute> StudyRoute { get; set; }
+
+        public DbSet<StudyRouteItem> StudyRouteItem { get; set; }
+
     }
 }
