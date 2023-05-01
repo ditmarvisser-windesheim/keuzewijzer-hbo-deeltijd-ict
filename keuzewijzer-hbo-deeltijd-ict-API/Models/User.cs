@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Models
 {
-    //Example model
     public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public StudyRoute StudyRoute { get; set; } = null!;
 
         public User(int id, string name)
         {
