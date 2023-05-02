@@ -4,6 +4,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity;
 using keuzewijzer_hbo_deeltijd_ict_API.Request;
+using keuzewijzer_hbo_deeltijd_ict_API.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
