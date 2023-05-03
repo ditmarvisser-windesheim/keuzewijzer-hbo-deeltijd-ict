@@ -91,7 +91,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return CreatedAtAction("GetStudyRouteItem", new { id = @studyRouteItem.Id }, @studyRouteItem);
         }
 
-        // DELETE: api/StudyRoute/5
+        // DELETE: api/StudyRouteItem/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
