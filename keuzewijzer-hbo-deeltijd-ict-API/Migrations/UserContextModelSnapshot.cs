@@ -9,7 +9,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(KeuzewijzerContext))]
     partial class UserContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

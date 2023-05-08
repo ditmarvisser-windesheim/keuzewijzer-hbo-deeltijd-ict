@@ -16,9 +16,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly KeuzewijzerContext _context;
 
-        public UserController(UserContext context)
+        public UserController(KeuzewijzerContext context)
         {
             _context = context;
         }
