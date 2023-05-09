@@ -14,7 +14,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public bool Send_eb { get; set; }
         public int UserId { get; set; }
         public User User { get; set; } = null!;
-        public ICollection<StudyRouteItem> Posts { get; } = new List<StudyRouteItem>();
+        public ICollection<StudyRouteItem> Posts { get; set; }
 
         public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> posts)
         {

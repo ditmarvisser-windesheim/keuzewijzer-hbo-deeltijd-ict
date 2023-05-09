@@ -75,11 +75,18 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Semester = table.Column<int>(type: "int", nullable: false),
-                    StudyRouteId = table.Column<int>(type: "int", nullable: false)
+                    StudyRouteId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudyRouteItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudyRouteItems_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudyRouteItems_StudyRoutes_StudyRouteId",
                         column: x => x.StudyRouteId,
@@ -93,6 +100,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 table: "Cohorts",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyRouteItems_ModuleId",
+                table: "StudyRouteItems",
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudyRouteItems_StudyRouteId",
@@ -112,10 +124,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "Cohorts");
 
             migrationBuilder.DropTable(
-                name: "Modules");
+                name: "StudyRouteItems");
 
             migrationBuilder.DropTable(
-                name: "StudyRouteItems");
+                name: "Modules");
 
             migrationBuilder.DropTable(
                 name: "StudyRoutes");

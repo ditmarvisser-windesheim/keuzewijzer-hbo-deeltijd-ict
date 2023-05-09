@@ -112,6 +112,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
@@ -122,6 +125,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
 
                     b.HasIndex("StudyRouteId");
 
@@ -169,11 +174,19 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
                 {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", "Modules")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
                         .WithMany("Posts")
                         .HasForeignKey("StudyRouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Modules");
 
                     b.Navigation("StudyRoute");
                 });
