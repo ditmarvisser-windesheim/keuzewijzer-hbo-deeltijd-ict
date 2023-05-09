@@ -10,7 +10,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(KeuzewijzerContext))]
     [Migration("20230419120439_example")]
     partial class example
     {

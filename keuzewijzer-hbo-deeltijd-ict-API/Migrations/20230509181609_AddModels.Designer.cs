@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
@@ -10,9 +11,10 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20230509181609_AddModels")]
+    partial class AddModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

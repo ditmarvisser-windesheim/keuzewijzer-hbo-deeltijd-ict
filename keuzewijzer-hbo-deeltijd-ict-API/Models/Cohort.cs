@@ -4,13 +4,14 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; } = null!;
 
-        public Cohort(int id, string name, User user)
+        public Cohort(int id, string name, int userId)
         {
             Id = id;
             Name = name;
-            User = user;
+            UserId = userId;
         }
 
         public Cohort()
