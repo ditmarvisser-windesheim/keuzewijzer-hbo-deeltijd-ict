@@ -9,9 +9,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     [ApiController]
     public class StudyRouteItemController : Controller
     {
-        private readonly UserContext _context;
+        private readonly KeuzewijzerContext _context;
 
-        public StudyRouteItemController(UserContext context)
+        public StudyRouteItemController(KeuzewijzerContext context)
         {
             _context = context;
         }
