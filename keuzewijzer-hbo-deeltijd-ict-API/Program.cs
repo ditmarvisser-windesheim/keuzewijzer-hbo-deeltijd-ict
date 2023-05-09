@@ -4,7 +4,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbSettings")));
+builder.Services.AddDbContext<KeuzewijzerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbSettings")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
