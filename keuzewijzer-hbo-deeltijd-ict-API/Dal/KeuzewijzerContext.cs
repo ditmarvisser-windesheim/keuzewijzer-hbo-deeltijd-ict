@@ -17,5 +17,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
         public DbSet<Module> Modules { get; set; }
 
+        public DbSet<Cohort> Cohorts { get; set; }
+
     }
 }
