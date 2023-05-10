@@ -5,13 +5,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 {
-    public class UserContext : IdentityDbContext
+    public class KeuzewijzerContext : IdentityDbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options)
+
+        public KeuzewijzerContext(DbContextOptions<KeuzewijzerContext> options) : base(options)
         {
         }
-    
+
+
+
         public DbSet<User> Users { get; set; }
+        public DbSet<Module> Modules { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

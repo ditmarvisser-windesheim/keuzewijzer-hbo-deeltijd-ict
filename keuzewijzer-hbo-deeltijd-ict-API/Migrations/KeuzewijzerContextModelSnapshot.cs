@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
@@ -11,11 +10,10 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20230501190113_seeder")]
-    partial class seeder
+    [DbContext(typeof(KeuzewijzerContext))]
+    partial class KeuzewijzerContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +21,27 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Modules");
+                });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
                 {
@@ -98,14 +117,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "880624c3-6613-4d93-a812-14e69b8a18b7",
+                            ConcurrencyStamp = "2c1e87c7-b558-4401-b4a4-0e0a3d821f7e",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ5aTzhyRhDmktxLMypgKJhRsVs0GMoyGwY+2lnKQ+F4SHz2fGAkZZPIAgYDnMYf7w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOFIDz5Ozvp693hM2zIV7I10i4RTAnsjfoJazkuDvETbaAJANCVgWkdE+5iEN65bPg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -114,14 +133,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb7d0add-d4eb-4245-843a-db6292b14454",
+                            ConcurrencyStamp = "886ae4db-0ec4-4cc1-b7a7-09564438fb0a",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBOXNOGX29undduTWiKtd5volLR5sx2NGyflUUkd0W7Gtco35dRcTX4krrr4dGLLoA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBQAG4ig/Y+18LcH3lW3/RpBRkme3HY60/2zppN5gD6TUbbopWr705dIqLN/78AqTA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"

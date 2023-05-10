@@ -14,11 +14,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     [Authorize] // voeg autorisatie toe aan de controller
     public class AuthController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly KeuzewijzerContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AuthController(UserContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(KeuzewijzerContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;

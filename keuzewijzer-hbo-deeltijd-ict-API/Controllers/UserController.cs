@@ -16,9 +16,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly KeuzewijzerContext _context;
 
-        public UserController(UserContext context)
+        public UserController(KeuzewijzerContext context)
         {
             _context = context;
         }
@@ -27,10 +27,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -38,10 +38,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -88,10 +88,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'UserContext.Users'  is null.");
-          }
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'KeuzewijzerContext.Users'  is null.");
+            }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

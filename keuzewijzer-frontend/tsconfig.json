@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "es2022",
+        "moduleResolution": "node",
+        "target": "es2017",
+        "baseUrl": "./src",
+        // your compiler options here
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+    },
+    "include": [
+        "src/**/*",
+    ],
+}
