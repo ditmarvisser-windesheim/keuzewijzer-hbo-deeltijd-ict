@@ -22,6 +22,29 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Cohorts");
+                });
+
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", b =>
                 {
                     b.Property<int>("Id")
@@ -41,6 +64,74 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Approved_eb")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Approved_sb")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Send_eb")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Send_sb")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("StudyRoutes");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudyRouteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("StudyRouteId");
+
+                    b.ToTable("StudyRouteItems");
                 });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
@@ -117,14 +208,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2c1e87c7-b558-4401-b4a4-0e0a3d821f7e",
+                            ConcurrencyStamp = "fd45a886-34f7-47c8-b76a-fdbc19302ac0",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOFIDz5Ozvp693hM2zIV7I10i4RTAnsjfoJazkuDvETbaAJANCVgWkdE+5iEN65bPg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOz8svQXh/PXttdzGuF61w/Xo03D9UaFbBigiMH+2WvlPkzbRuF3DaV7TakdVTXdgg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -133,14 +224,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "886ae4db-0ec4-4cc1-b7a7-09564438fb0a",
+                            ConcurrencyStamp = "4cbb3da3-76ef-4b3d-94e0-877eff78374b",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBQAG4ig/Y+18LcH3lW3/RpBRkme3HY60/2zppN5gD6TUbbopWr705dIqLN/78AqTA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGRXU5sUThe68kPoOqrWbbxL95OP0Tw64N7Hy0kwafiuHgGSv3X0ViXL5AnHbMHNaQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"
@@ -345,6 +436,47 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", "User")
+                        .WithOne("Cohort")
+                        .HasForeignKey("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", "User")
+                        .WithOne("StudyRoute")
+                        .HasForeignKey("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", "Modules")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
+                        .WithMany("Posts")
+                        .HasForeignKey("StudyRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Modules");
+
+                    b.Navigation("StudyRoute");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -394,6 +526,18 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
+                {
+                    b.Navigation("Cohort");
+
+                    b.Navigation("StudyRoute");
                 });
 #pragma warning restore 612, 618
         }

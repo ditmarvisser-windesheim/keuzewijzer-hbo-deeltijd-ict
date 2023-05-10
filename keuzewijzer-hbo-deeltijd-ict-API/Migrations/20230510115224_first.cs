@@ -198,15 +198,88 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "2c1e87c7-b558-4401-b4a4-0e0a3d821f7e", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEOFIDz5Ozvp693hM2zIV7I10i4RTAnsjfoJazkuDvETbaAJANCVgWkdE+5iEN65bPg==", null, false, null, null, false, "john@example.com" });
+            migrationBuilder.CreateTable(
+                name: "Cohorts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cohorts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cohorts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudyRoutes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Approved_sb = table.Column<bool>(type: "bit", nullable: false),
+                    Approved_eb = table.Column<bool>(type: "bit", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Send_sb = table.Column<bool>(type: "bit", nullable: false),
+                    Send_eb = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyRoutes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudyRoutes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudyRouteItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    StudyRouteId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyRouteItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudyRouteItems_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudyRouteItems_StudyRoutes_StudyRouteId",
+                        column: x => x.StudyRouteId,
+                        principalTable: "StudyRoutes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 2, 0, "886ae4db-0ec4-4cc1-b7a7-09564438fb0a", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEBQAG4ig/Y+18LcH3lW3/RpBRkme3HY60/2zppN5gD6TUbbopWr705dIqLN/78AqTA==", null, false, null, null, false, "jane@example.com" });
+                values: new object[] { 1, 0, "fd45a886-34f7-47c8-b76a-fdbc19302ac0", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEOz8svQXh/PXttdzGuF61w/Xo03D9UaFbBigiMH+2WvlPkzbRuF3DaV7TakdVTXdgg==", null, false, null, null, false, "john@example.com" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 2, 0, "4cbb3da3-76ef-4b3d-94e0-877eff78374b", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEGRXU5sUThe68kPoOqrWbbxL95OP0Tw64N7Hy0kwafiuHgGSv3X0ViXL5AnHbMHNaQ==", null, false, null, null, false, "jane@example.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -246,6 +319,28 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cohorts_UserId",
+                table: "Cohorts",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyRouteItems_ModuleId",
+                table: "StudyRouteItems",
+                column: "ModuleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyRouteItems_StudyRouteId",
+                table: "StudyRouteItems",
+                column: "StudyRouteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyRoutes_UserId",
+                table: "StudyRoutes",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -266,16 +361,25 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Modules");
+                name: "Cohorts");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "StudyRouteItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "StudyRoutes");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
