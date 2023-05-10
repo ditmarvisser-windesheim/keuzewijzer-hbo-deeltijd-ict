@@ -7,8 +7,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
     // Example model
     public class User : IdentityUser<string>
     {
-        public int Id { get; set; }
-
         // TODO: remove this and edit the user controller if needed
         public string Name { get; set; }
         public string FirstName { get; set; }
@@ -21,7 +19,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         [NotMapped]
         public int? CohortId { get; set; }
 
-        public User(int id, string name, string firstName, string lastName)
+        public User(string id, string name, string firstName, string lastName)
         {
             Id = id;
             Name = name;

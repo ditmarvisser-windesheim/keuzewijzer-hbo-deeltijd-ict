@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.Hosting;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Models
@@ -12,8 +13,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Note { get; set; }
         public bool Send_sb { get; set; }
         public bool Send_eb { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+        [NotMapped]
         public User User { get; set; } = null!;
+
+        [NotMapped]
         public ICollection<StudyRouteItem> Posts { get; set; }
 
         public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> posts)

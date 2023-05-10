@@ -49,13 +49,30 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cohorts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cohorts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Modules",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,33 +80,22 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "StudyRoutes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TimedOut = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Approved_sb = table.Column<bool>(type: "bit", nullable: false),
+                    Approved_eb = table.Column<bool>(type: "bit", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Send_sb = table.Column<bool>(type: "bit", nullable: false),
+                    Send_eb = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_StudyRoutes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,48 +205,50 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cohorts",
+                name: "CohortModules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    CohortsId = table.Column<int>(type: "int", nullable: false),
+                    ModulesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cohorts", x => x.Id);
+                    table.PrimaryKey("PK_CohortModules", x => new { x.CohortsId, x.ModulesId });
                     table.ForeignKey(
-                        name: "FK_Cohorts_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_CohortModules_Cohorts_CohortsId",
+                        column: x => x.CohortsId,
+                        principalTable: "Cohorts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CohortModules_Modules_ModulesId",
+                        column: x => x.ModulesId,
+                        principalTable: "Modules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudyRoutes",
+                name: "ModuleRelationships",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Approved_sb = table.Column<bool>(type: "bit", nullable: false),
-                    Approved_eb = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Send_sb = table.Column<bool>(type: "bit", nullable: false),
-                    Send_eb = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    DependentModulesId = table.Column<int>(type: "int", nullable: false),
+                    RequiredModulesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudyRoutes", x => x.Id);
+                    table.PrimaryKey("PK_ModuleRelationships", x => new { x.DependentModulesId, x.RequiredModulesId });
                     table.ForeignKey(
-                        name: "FK_StudyRoutes_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_ModuleRelationships_Modules_DependentModulesId",
+                        column: x => x.DependentModulesId,
+                        principalTable: "Modules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModuleRelationships_Modules_RequiredModulesId",
+                        column: x => x.RequiredModulesId,
+                        principalTable: "Modules",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -271,15 +279,77 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudyRouteId = table.Column<int>(type: "int", nullable: true),
+                    CohortId1 = table.Column<int>(type: "int", nullable: true),
+                    TimedOut = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Cohorts_CohortId1",
+                        column: x => x.CohortId1,
+                        principalTable: "Cohorts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Users_StudyRoutes_StudyRouteId",
+                        column: x => x.StudyRouteId,
+                        principalTable: "StudyRoutes",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "fd45a886-34f7-47c8-b76a-fdbc19302ac0", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEOz8svQXh/PXttdzGuF61w/Xo03D9UaFbBigiMH+2WvlPkzbRuF3DaV7TakdVTXdgg==", null, false, null, null, false, "john@example.com" });
+                table: "Cohorts",
+                columns: new[] { "Id", "Name", "UserId", "Year" },
+                values: new object[,]
+                {
+                    { 1, "Cohort 1", null, 1 },
+                    { 2, "Cohort 2", null, 1 },
+                    { 3, "Cohort 3", null, 2 },
+                    { 4, "Cohort 4", null, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Modules",
+                columns: new[] { "Id", "Description", "Name", "Semester", "Year" },
+                values: new object[,]
+                {
+                    { 1, "Description for Module 1", "Module 1", 1, 2023 },
+                    { 2, "Description for Module 2", "Module 2", 2, 2023 },
+                    { 3, "Description for Module 3", "Module 3", 1, 2024 },
+                    { 4, "Description for Module 4", "Module 4", 2, 2024 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 2, 0, "4cbb3da3-76ef-4b3d-94e0-877eff78374b", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEGRXU5sUThe68kPoOqrWbbxL95OP0Tw64N7Hy0kwafiuHgGSv3X0ViXL5AnHbMHNaQ==", null, false, null, null, false, "jane@example.com" });
+                columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StudyRouteId", "TimedOut", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "1", 0, null, "488f7bc5-42af-4eff-9214-e10caf77f9ee", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEKVoB2cifZWBzMktsVOF7N1FhQjBxow1tqkxDg1PR0OYkoAtKL96Pj6VDFxID544+Q==", null, false, null, null, null, false, "john@example.com" },
+                    { "2", 0, null, "c802f42d-7f05-46f8-b65a-18897ad6ad93", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEG5wxJAdGaMe74SDvDsnUF+3XmdrFaXirYeyKK/lvRhxsA/pr2myXHyXBzdTHF8VUg==", null, false, null, null, null, false, "jane@example.com" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -321,10 +391,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cohorts_UserId",
-                table: "Cohorts",
-                column: "UserId",
-                unique: true);
+                name: "IX_CohortModules_ModulesId",
+                table: "CohortModules",
+                column: "ModulesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleRelationships_RequiredModulesId",
+                table: "ModuleRelationships",
+                column: "RequiredModulesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudyRouteItems_ModuleId",
@@ -337,10 +411,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 column: "StudyRouteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudyRoutes_UserId",
-                table: "StudyRoutes",
-                column: "UserId",
-                unique: true);
+                name: "IX_Users_CohortId1",
+                table: "Users",
+                column: "CohortId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_StudyRouteId",
+                table: "Users",
+                column: "StudyRouteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -361,10 +439,16 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cohorts");
+                name: "CohortModules");
+
+            migrationBuilder.DropTable(
+                name: "ModuleRelationships");
 
             migrationBuilder.DropTable(
                 name: "StudyRouteItems");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -376,10 +460,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "Modules");
 
             migrationBuilder.DropTable(
-                name: "StudyRoutes");
+                name: "Cohorts");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "StudyRoutes");
         }
     }
 }

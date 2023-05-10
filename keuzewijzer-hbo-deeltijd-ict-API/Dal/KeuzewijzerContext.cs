@@ -22,35 +22,72 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
         public DbSet<Cohort> Cohorts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Module>()
+                .HasMany(m => m.RequiredModules)
+                .WithMany(m => m.DependentModules)
+                .UsingEntity(j => j.ToTable("ModuleRelationships"));
+
+
+            modelBuilder.Entity<Cohort>()
+                .HasMany(c => c.Modules)
+                .WithMany(m => m.Cohorts)
+                .UsingEntity(j =>
+                {
+                    j.ToTable("CohortModules");
+                });
+
+            // Your other configurations...
             base.OnModelCreating(modelBuilder);
 
             var passwordHasher = new PasswordHasher<User>();
 
             modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    UserName = "john@example.com",
-                    Email = "john@example.com",
-                    Name = "John Doe",
-                    FirstName = "John",
-                    LastName = "Doe",
-                    PasswordHash = passwordHasher.HashPassword(null, "welkom")
-                },
-                new User
-                {
-                    Id = 2,
-                    UserName = "jane@example.com",
-                    Email = "jane@example.com",
-                    Name = "Jane Smith",
-                    FirstName = "Jane",
-                    LastName = "Smith",
-                    PasswordHash = passwordHasher.HashPassword(null, "welkom")
-                }
-            );
+                    new User
+                    {
+                        Id = "1",
+                        UserName = "john@example.com",
+                        Email = "john@example.com",
+                        Name = "John Doe",
+                        FirstName = "John",
+                        LastName = "Doe",
+                        PasswordHash = passwordHasher.HashPassword(null, "welkom")
+                    },
+                    new User
+                    {
+                        Id = "2",
+                        UserName = "jane@example.com",
+                        Email = "jane@example.com",
+                        Name = "Jane Smith",
+                        FirstName = "Jane",
+                        LastName = "Smith",
+                        PasswordHash = passwordHasher.HashPassword(null, "welkom")
+                    }
+                );
+
+            var cohorts = new List<Cohort>
+            {
+                new Cohort(1, "Cohort 1", 1),
+                new Cohort(2, "Cohort 2", 1),
+                new Cohort(3, "Cohort 3", 2),
+                new Cohort(4, "Cohort 4", 2),
+            };
+
+            modelBuilder.Entity<Cohort>().HasData(cohorts);
+
+            var modules = new List<Module>
+            {
+                new Module(1, "Module 1", "Description for Module 1", 1, 2023),
+                new Module(2, "Module 2", "Description for Module 2", 2, 2023),
+                new Module(3, "Module 3", "Description for Module 3", 1, 2024),
+                new Module(4, "Module 4", "Description for Module 4", 2, 2024),
+            };
+
+
+            modelBuilder.Entity<Module>().HasData(modules);
+
+
+
+
         }
-
-
-
     }
 }
