@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
@@ -11,9 +12,10 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    partial class KeuzewijzerContextModelSnapshot : ModelSnapshot
+    [Migration("20230511150624_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,14 +337,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab766552-63ac-45b1-bbd9-8ba252e95013",
+                            ConcurrencyStamp = "7736087c-0675-4b4b-9e49-cd3ba7dfea25",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJTia2cnVF5FvCYUMaECyASuW2wzSv6Sv4tVyuvOBlePl3RQcSCY83YIRcWpnxXTXw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOOQO9f0teVFgj30HT0bdgdRy8J+PoyKm19+0dmPdzoow9cjkZ6J9EUEwoD/1QzzOw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -351,14 +353,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "300d74fc-c5cf-4bdf-b11f-23f421bb5363",
+                            ConcurrencyStamp = "9a8bc443-819f-40db-b88a-92bf83406e5c",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEzab9YGkHAyzrwCQNrG1AWJNK/vh15UKS7KVgEObDt0rhlTUiWp4Dd4oFvnUCWcZA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENWbK8jAUuSFcdJXFrb0SnR6r19JBTupHvbGdqiIPXMntOS8SgzN2pY67PSnTWbe5A==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"
@@ -576,28 +578,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasIndex("RequiredModulesId");
 
                     b.ToTable("ModuleRelationships", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            DependentModulesId = 2,
-                            RequiredModulesId = 1
-                        },
-                        new
-                        {
-                            DependentModulesId = 3,
-                            RequiredModulesId = 2
-                        },
-                        new
-                        {
-                            DependentModulesId = 4,
-                            RequiredModulesId = 3
-                        },
-                        new
-                        {
-                            DependentModulesId = 4,
-                            RequiredModulesId = 1
-                        });
                 });
 
             modelBuilder.Entity("CohortModule", b =>

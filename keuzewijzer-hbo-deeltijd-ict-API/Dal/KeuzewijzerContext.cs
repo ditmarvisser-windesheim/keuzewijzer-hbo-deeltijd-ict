@@ -85,8 +85,37 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
             modelBuilder.Entity<Module>().HasData(modules);
 
+            modelBuilder.Entity<Cohort>()
+                .HasMany(c => c.Modules)
+                .WithMany(m => m.Cohorts)
+                .UsingEntity(j =>
+                    {
+                        j.ToTable("CohortModules");
+                        j.HasData(
+                            new { CohortsId = 1, ModulesId = 1 },
+                            new { CohortsId = 1, ModulesId = 2 },
+                            new { CohortsId = 2, ModulesId = 1 },
+                            new { CohortsId = 2, ModulesId = 2 },
+                            new { CohortsId = 3, ModulesId = 3 },
+                            new { CohortsId = 3, ModulesId = 4 },
+                            new { CohortsId = 4, ModulesId = 3 },
+                            new { CohortsId = 4, ModulesId = 4 }
+                        );
+                    });
 
-
+            modelBuilder.Entity<Module>()
+                .HasMany(m => m.RequiredModules)
+                .WithMany(m => m.DependentModules)
+                .UsingEntity(j =>
+                {
+                    j.ToTable("ModuleRelationships");
+                    j.HasData(
+                        new { RequiredModulesId = 1, DependentModulesId = 2 },
+                        new { RequiredModulesId = 2, DependentModulesId = 3 },
+                        new { RequiredModulesId = 3, DependentModulesId = 4 },
+                        new { RequiredModulesId = 1, DependentModulesId = 4 }
+                    );
+                });
 
         }
     }

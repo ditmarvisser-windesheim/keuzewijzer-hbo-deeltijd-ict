@@ -16,8 +16,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     {
         private readonly KeuzewijzerContext _context;
 
-
-
         // Get the modules based on the cohort year
         [HttpGet("cohort/{cohortYear}")]
         public async Task<ActionResult<IEnumerable<Module>>> GetModulesByCohort(int cohortYear)
