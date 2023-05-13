@@ -12,8 +12,8 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    [Migration("20230511151802_SeedDataModule")]
-    partial class SeedDataModule
+    [Migration("20230513213143_Database")]
+    partial class Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,7 +163,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Module 1",
                             Name = "Module 1",
                             Semester = 1,
-                            Year = 2023
+                            Year = 2013
                         },
                         new
                         {
@@ -171,7 +171,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Module 2",
                             Name = "Module 2",
                             Semester = 2,
-                            Year = 2023
+                            Year = 2014
                         },
                         new
                         {
@@ -179,7 +179,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Module 3",
                             Name = "Module 3",
                             Semester = 1,
-                            Year = 2024
+                            Year = 2015
                         },
                         new
                         {
@@ -187,7 +187,63 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Module 4",
                             Name = "Module 4",
                             Semester = 2,
-                            Year = 2024
+                            Year = 2016
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Description for Module 5",
+                            Name = "Module 5",
+                            Semester = 1,
+                            Year = 2017
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Description for Module 6",
+                            Name = "Module 6",
+                            Semester = 2,
+                            Year = 2018
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Description for Module 7",
+                            Name = "Module 7",
+                            Semester = 1,
+                            Year = 2019
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Description for Module 8",
+                            Name = "Module 8",
+                            Semester = 2,
+                            Year = 2020
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Description for Module 9",
+                            Name = "Module 9",
+                            Semester = 1,
+                            Year = 2021
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "Description for Module 10",
+                            Name = "Module 10",
+                            Semester = 2,
+                            Year = 2022
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Description = "Description for Module 11",
+                            Name = "Module 11",
+                            Semester = 2,
+                            Year = 2023
                         });
                 });
 
@@ -225,6 +281,19 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StudyRoutes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Approved_eb = true,
+                            Approved_sb = true,
+                            Name = "Computer Science",
+                            Note = "This is a note",
+                            Send_eb = true,
+                            Send_sb = true,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
@@ -254,6 +323,88 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasIndex("StudyRouteId");
 
                     b.ToTable("StudyRouteItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ModuleId = 1,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ModuleId = 2,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ModuleId = 3,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ModuleId = 4,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ModuleId = 5,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ModuleId = 6,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ModuleId = 7,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ModuleId = 8,
+                            Semester = 1,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ModuleId = 9,
+                            Semester = 2,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ModuleId = 10,
+                            Semester = 2,
+                            StudyRouteId = 1,
+                            Year = 2023
+                        });
                 });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
@@ -337,14 +488,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab766552-63ac-45b1-bbd9-8ba252e95013",
+                            ConcurrencyStamp = "8f1c0471-21da-4ce7-afd9-3c45f772b670",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJTia2cnVF5FvCYUMaECyASuW2wzSv6Sv4tVyuvOBlePl3RQcSCY83YIRcWpnxXTXw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENextsNiz4T+5/w2dF6BwyJCo2JnqoC6bUmpu5NsyR3h+uDF8vHhwFNkADZJmN1WWg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -353,14 +504,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "300d74fc-c5cf-4bdf-b11f-23f421bb5363",
+                            ConcurrencyStamp = "9d23031c-e838-47e7-9fa8-4a908b03ae33",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEzab9YGkHAyzrwCQNrG1AWJNK/vh15UKS7KVgEObDt0rhlTUiWp4Dd4oFvnUCWcZA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL1jLISit2HaeEXJqIaUxTIQSJK0ZBQBmFnEp7JCDPD233OsD/GzDNSgs8Q4Uwl0dQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"

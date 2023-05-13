@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    public partial class first : Migration
+    public partial class Database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -336,19 +336,74 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "Description", "Name", "Semester", "Year" },
                 values: new object[,]
                 {
-                    { 1, "Description for Module 1", "Module 1", 1, 2023 },
-                    { 2, "Description for Module 2", "Module 2", 2, 2023 },
-                    { 3, "Description for Module 3", "Module 3", 1, 2024 },
-                    { 4, "Description for Module 4", "Module 4", 2, 2024 }
+                    { 1, "Description for Module 1", "Module 1", 1, 2013 },
+                    { 2, "Description for Module 2", "Module 2", 2, 2014 },
+                    { 3, "Description for Module 3", "Module 3", 1, 2015 },
+                    { 4, "Description for Module 4", "Module 4", 2, 2016 },
+                    { 5, "Description for Module 5", "Module 5", 1, 2017 },
+                    { 6, "Description for Module 6", "Module 6", 2, 2018 },
+                    { 7, "Description for Module 7", "Module 7", 1, 2019 },
+                    { 8, "Description for Module 8", "Module 8", 2, 2020 },
+                    { 9, "Description for Module 9", "Module 9", 1, 2021 },
+                    { 10, "Description for Module 10", "Module 10", 2, 2022 },
+                    { 11, "Description for Module 11", "Module 11", 2, 2023 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "StudyRoutes",
+                columns: new[] { "Id", "Approved_eb", "Approved_sb", "Name", "Note", "Send_eb", "Send_sb", "UserId" },
+                values: new object[] { 1, true, true, "Computer Science", "This is a note", true, true, 1 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StudyRouteId", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "488f7bc5-42af-4eff-9214-e10caf77f9ee", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEKVoB2cifZWBzMktsVOF7N1FhQjBxow1tqkxDg1PR0OYkoAtKL96Pj6VDFxID544+Q==", null, false, null, null, null, false, "john@example.com" },
-                    { "2", 0, null, "c802f42d-7f05-46f8-b65a-18897ad6ad93", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEG5wxJAdGaMe74SDvDsnUF+3XmdrFaXirYeyKK/lvRhxsA/pr2myXHyXBzdTHF8VUg==", null, false, null, null, null, false, "jane@example.com" }
+                    { "1", 0, null, "8f1c0471-21da-4ce7-afd9-3c45f772b670", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAENextsNiz4T+5/w2dF6BwyJCo2JnqoC6bUmpu5NsyR3h+uDF8vHhwFNkADZJmN1WWg==", null, false, null, null, null, false, "john@example.com" },
+                    { "2", 0, null, "9d23031c-e838-47e7-9fa8-4a908b03ae33", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEL1jLISit2HaeEXJqIaUxTIQSJK0ZBQBmFnEp7JCDPD233OsD/GzDNSgs8Q4Uwl0dQ==", null, false, null, null, null, false, "jane@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CohortModules",
+                columns: new[] { "CohortsId", "ModulesId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 2, 1 },
+                    { 2, 2 },
+                    { 3, 3 },
+                    { 3, 4 },
+                    { 4, 3 },
+                    { 4, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ModuleRelationships",
+                columns: new[] { "DependentModulesId", "RequiredModulesId" },
+                values: new object[,]
+                {
+                    { 2, 1 },
+                    { 3, 2 },
+                    { 4, 1 },
+                    { 4, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudyRouteItems",
+                columns: new[] { "Id", "ModuleId", "Semester", "StudyRouteId", "Year" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 1, 2023 },
+                    { 2, 2, 1, 1, 2023 },
+                    { 3, 3, 1, 1, 2023 },
+                    { 4, 4, 1, 1, 2023 },
+                    { 5, 5, 1, 1, 2023 },
+                    { 6, 6, 1, 1, 2023 },
+                    { 7, 7, 1, 1, 2023 },
+                    { 8, 8, 1, 1, 2023 },
+                    { 9, 9, 2, 1, 2023 },
+                    { 10, 10, 2, 1, 2023 }
                 });
 
             migrationBuilder.CreateIndex(

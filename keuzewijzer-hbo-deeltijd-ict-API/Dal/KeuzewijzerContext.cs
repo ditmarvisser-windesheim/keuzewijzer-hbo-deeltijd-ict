@@ -76,10 +76,17 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
             var modules = new List<Module>
             {
-                new Module(1, "Module 1", "Description for Module 1", 1, 2023),
-                new Module(2, "Module 2", "Description for Module 2", 2, 2023),
-                new Module(3, "Module 3", "Description for Module 3", 1, 2024),
-                new Module(4, "Module 4", "Description for Module 4", 2, 2024),
+                new Module(1, "Module 1", "Description for Module 1", 1, 2013),
+                new Module(2, "Module 2", "Description for Module 2", 2, 2014),
+                new Module(3, "Module 3", "Description for Module 3", 1, 2015),
+                new Module(4, "Module 4", "Description for Module 4", 2, 2016),
+                new Module(5, "Module 5", "Description for Module 5", 1, 2017),
+                new Module(6, "Module 6", "Description for Module 6", 2, 2018),
+                new Module(7, "Module 7", "Description for Module 7", 1, 2019),
+                new Module(8, "Module 8", "Description for Module 8", 2, 2020),
+                new Module(9, "Module 9", "Description for Module 9", 1, 2021),
+                new Module(10, "Module 10", "Description for Module 10", 2, 2022),
+                new Module(11, "Module 11", "Description for Module 11", 2, 2023)
             };
 
 
@@ -116,7 +123,23 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                         new { RequiredModulesId = 1, DependentModulesId = 4 }
                     );
                 });
+            modelBuilder.Entity<StudyRoute>().HasData(
+                new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = 1 }
+                );
 
+
+            modelBuilder.Entity<StudyRouteItem>().HasData(
+                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 1 },
+                new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 2 },
+                new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 3 },
+                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 4 },
+                new StudyRouteItem { Id = 5, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 5 },
+                new StudyRouteItem { Id = 6, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 6 },
+                new StudyRouteItem { Id = 7, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 7 },
+                new StudyRouteItem { Id = 8, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 8 },
+                new StudyRouteItem { Id = 9, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 9 },
+                new StudyRouteItem { Id = 10, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 10 }
+                );
         }
     }
 }
