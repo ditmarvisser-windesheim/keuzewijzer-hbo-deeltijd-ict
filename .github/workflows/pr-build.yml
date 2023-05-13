@@ -1,0 +1,29 @@
+name: PR builder
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+defaults:
+ run:
+  working-directory: ./keuzewijzer-hbo-deeltijd-ict-API
+
+env:
+  DOTNET_VERSION: '6.0.401' # The .NET SDK version to use
+
+jobs:
+  pr-merge-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
