@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Models
 {
@@ -12,11 +14,15 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Note { get; set; }
         public bool Send_sb { get; set; }
         public bool Send_eb { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; } = null!;
-        public ICollection<StudyRouteItem> Posts { get; set; }
+        public int? UserId { get; set; }
 
-        public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> posts)
+        [NotMapped]
+        public User? User { get; set; }
+
+        [NotMapped]
+        public ICollection<StudyRouteItem> StudyRouteItems { get; set; }
+
+        public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> studyRouteItems)
         {
             Id = id;
             Name = name;
@@ -27,11 +33,12 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
             Send_eb = send_eb;
             UserId = userId;
             User = user;
-            Posts = posts;
+            StudyRouteItems = studyRouteItems;
         }
 
         public StudyRoute()
         {
         }
+
     }
 }
