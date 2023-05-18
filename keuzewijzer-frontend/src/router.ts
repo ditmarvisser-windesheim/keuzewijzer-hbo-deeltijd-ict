@@ -1,5 +1,7 @@
 import { View } from './views/View';
 import * as Handlebars from 'handlebars';
+import * as fs from 'fs-extra';
+import * as path from 'path';
 
 export class Router {
   private routes: Map<string, View>;
@@ -24,7 +26,7 @@ export class Router {
     this.handleUrlChange(window.location.pathname);
   }
 
-  private handleUrlChange(path: string): void {
+  private async handleUrlChange(path: string): Promise<void> {
     const view = this.routes.get(path);
 
     if (!view) {
@@ -32,6 +34,9 @@ export class Router {
       this.show404();
       return;
     }
+
+    // Load the partials dynamically
+    await this.loadPartials();
 
     // Compile the view's template
     const template = Handlebars.compile(view.template);
@@ -49,6 +54,19 @@ export class Router {
 
     // Update the browser's history
     history.pushState({}, '', path);
+  }
+
+  private async loadPartials(): Promise<void> {
+    const partialsDir = path.join(__dirname, 'templates/partials');
+    const partials = await fs.readdir(partialsDir);
+
+    for (const partial of partials) {
+      const partialPath = path.join(partialsDir, partial);
+      const partialContent = await fs.readFile(partialPath, 'utf8');
+      const partialName = path.parse(partial).name;
+
+      Handlebars.registerPartial(partialName, partialContent);
+    }
   }
 
   private show404(): void {
