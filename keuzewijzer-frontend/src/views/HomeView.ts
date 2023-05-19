@@ -11,4 +11,8 @@ export class HomeView implements View {
   `;
 
   public data = {};
+
+  public setup(): void {
+    console.log('HomeView.setup()');
+  }
 }

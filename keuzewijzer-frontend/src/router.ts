@@ -1,7 +1,8 @@
 import { View } from './views/View';
 import * as Handlebars from 'handlebars';
-import * as fs from 'fs-extra';
+import * as fs from 'fs';
 import * as path from 'path';
+import { error } from 'console';
 
 export class Router {
   private routes: Map<string, View>;
@@ -47,6 +48,11 @@ export class Router {
 
     if (app) {
       app.innerHTML = html;
+
+      // Call the setup method of the view 
+      if (typeof view.setup === 'function') { 
+        view.setup(); 
+      } 
     }
 
     // Update the current view
@@ -57,15 +63,21 @@ export class Router {
   }
 
   private async loadPartials(): Promise<void> {
-    const partialsDir = path.join(__dirname, 'templates/partials');
-    const partials = await fs.readdir(partialsDir);
-
+    const partialsDir = '/templates/partials/'; // Adjust the path based on your server setup
+    const partials = ['sidebar']; // Add the names of your partial files here
+  
     for (const partial of partials) {
-      const partialPath = path.join(partialsDir, partial);
-      const partialContent = await fs.readFile(partialPath, 'utf8');
-      const partialName = path.parse(partial).name;
-
-      Handlebars.registerPartial(partialName, partialContent);
+      const partialPath = `${partialsDir}${partial}.handlebars`;
+      const response = await fetch(partialPath);
+  
+      if (response.ok) {
+        const partialContent = await response.text();
+        const partialName = partial;
+  
+        Handlebars.registerPartial(partialName, partialContent);
+      } else {
+        console.error(`Failed to load partial: ${partial}`);
+      }
     }
   }
 
