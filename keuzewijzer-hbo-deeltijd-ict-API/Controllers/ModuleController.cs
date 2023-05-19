@@ -16,6 +16,33 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     {
         private readonly KeuzewijzerContext _context;
 
+        // Get the modules based on the cohort year
+        [HttpGet("cohort/{cohortYear}")]
+        public async Task<ActionResult<IEnumerable<Module>>> GetModulesByCohort(int cohortYear)
+        {
+            //1. get the cohort with the correct year
+            var cohort = await _context.Cohorts.Where(c => c.Year == cohortYear).FirstOrDefaultAsync();
+            //2. check if the cohort exists
+            if (cohort == null) return NotFound();
+
+            //3. if the cohort exists, get the modules from the cohort
+            var modules = await _context.Modules
+                .Where(m => m.Cohorts.Contains(cohort))
+                //DIT GAAT NOG NIET HELEMAAL GOED
+                .Include(m => m.RequiredModules) // Load the required modules
+                .ToListAsync();
+
+            //4. check if there are any modules
+            if (modules == null) return NotFound();
+
+            //5. return the modules including the cohort and the required modules
+
+            return modules;
+
+
+            return NotFound();
+        }
+
         public ModuleController(KeuzewijzerContext context)
         {
             _context = context;
@@ -25,10 +52,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Module>>> GetModules()
         {
-          if (_context.Modules == null)
-          {
-              return NotFound();
-          }
+            if (_context.Modules == null)
+            {
+                return NotFound();
+            }
             return await _context.Modules.ToListAsync();
         }
 
@@ -36,10 +63,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(int id)
         {
-          if (_context.Modules == null)
-          {
-              return NotFound();
-          }
+            if (_context.Modules == null)
+            {
+                return NotFound();
+            }
             var @module = await _context.Modules.FindAsync(id);
 
             if (@module == null)
@@ -86,10 +113,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Module>> PostModule(Module @module)
         {
-          if (_context.Modules == null)
-          {
-              return Problem("Entity set 'KeuzewijzerContext.Modules'  is null.");
-          }
+            if (_context.Modules == null)
+            {
+                return Problem("Entity set 'KeuzewijzerContext.Modules'  is null.");
+            }
             _context.Modules.Add(@module);
             await _context.SaveChangesAsync();
 

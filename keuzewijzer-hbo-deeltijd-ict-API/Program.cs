@@ -1,12 +1,32 @@
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
+using Microsoft.AspNetCore.Identity;
+using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity;
+using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<KeuzewijzerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbSettings")));
 
-builder.Services.AddControllers();
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<KeuzewijzerContext>();
+
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,6 +42,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseAuthentication(); // Enable authentication
 app.UseAuthorization();
 
 app.MapControllers();

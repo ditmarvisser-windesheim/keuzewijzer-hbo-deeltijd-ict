@@ -1,11 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "keuzewijzer-hbo-deeltijd-ict-API", "keuzewijzer-hbo-deeltijd-ict-API.csproj", "{81414041-3433-40D1-BEFF-9E5DB883F524}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "keuzewijzer-frontend", "..\keuzewijzer-frontend\keuzewijzer-frontend.csproj", "{BDB5E5CE-61A8-4233-8329-BAD2F4318F32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "keuzewijzer-hbo-deeltijd-ict-API", "keuzewijzer-hbo-deeltijd-ict-API.csproj", "{D9250275-D812-4AFD-ADA9-B234A0B38F5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{81414041-3433-40D1-BEFF-9E5DB883F524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81414041-3433-40D1-BEFF-9E5DB883F524}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81414041-3433-40D1-BEFF-9E5DB883F524}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81414041-3433-40D1-BEFF-9E5DB883F524}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDB5E5CE-61A8-4233-8329-BAD2F4318F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDB5E5CE-61A8-4233-8329-BAD2F4318F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDB5E5CE-61A8-4233-8329-BAD2F4318F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDB5E5CE-61A8-4233-8329-BAD2F4318F32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9250275-D812-4AFD-ADA9-B234A0B38F5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9250275-D812-4AFD-ADA9-B234A0B38F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9250275-D812-4AFD-ADA9-B234A0B38F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9250275-D812-4AFD-ADA9-B234A0B38F5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7C726F77-1986-4BAD-A5BD-083A4CAFCBAC}
+		SolutionGuid = {8AE7040D-ACEA-4478-BBEE-92FC66DE264C}
 	EndGlobalSection
 EndGlobal
