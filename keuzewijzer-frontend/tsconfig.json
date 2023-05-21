@@ -7,6 +7,7 @@
         // your compiler options here
         "strict": true,
         "forceConsistentCasingInFileNames": true,
+        "types": ["jquery", "jqueryui"],
     },
     "include": [
         "src/**/*",

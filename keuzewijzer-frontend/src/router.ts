@@ -1,8 +1,5 @@
 import { View } from './views/View';
 import * as Handlebars from 'handlebars';
-import * as fs from 'fs';
-import * as path from 'path';
-import { error } from 'console';
 
 export class Router {
   private routes: Map<string, View>;
