@@ -8,7 +8,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Name { get; set; }
         public int Year { get; set; }
 
-        public ICollection<Module>? Modules { get; set; }
+        public ICollection<SemesterItem>? SemesterItems { get; set; }
 
         public int? UserId { get; set; }
 

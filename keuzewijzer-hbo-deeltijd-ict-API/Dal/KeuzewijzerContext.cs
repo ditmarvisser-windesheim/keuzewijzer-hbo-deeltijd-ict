@@ -14,26 +14,29 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Module> Modules { get; set; }
+        public DbSet<SemesterItems> Modules { get; set; }
 
         public DbSet<StudyRoute> StudyRoutes { get; set; }
 
+        public DbSet<SemesterItem> SemesterItems { get; set; }
+
         public DbSet<StudyRouteItem> StudyRouteItems { get; set; }
+
         public DbSet<Cohort> Cohorts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Module>()
-                .HasMany(m => m.RequiredModules)
-                .WithMany(m => m.DependentModules)
-                .UsingEntity(j => j.ToTable("ModuleRelationships"));
+            modelBuilder.Entity<SemesterItem>()
+                .HasMany(m => m.RequiredSemesterItem)
+                .WithMany(m => m.DependentSemesterItem)
+                .UsingEntity(j => j.ToTable("SemesterItemRelationships"));
 
 
             modelBuilder.Entity<Cohort>()
-                .HasMany(c => c.Modules)
+                .HasMany(c => c.SemesterItems)
                 .WithMany(m => m.Cohorts)
                 .UsingEntity(j =>
                 {
-                    j.ToTable("CohortModules");
+                    j.ToTable("CohortSemesterItems");
                 });
 
             // Your other configurations...
@@ -74,48 +77,48 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
             modelBuilder.Entity<Cohort>().HasData(cohorts);
 
-            var modules = new List<Module>
+            var modules = new List<SemesterItems>
             {
-                new Module(1, "Module 1", "Description for Module 1", 1, 2013),
-                new Module(2, "Module 2", "Description for Module 2", 2, 2014),
-                new Module(3, "Module 3", "Description for Module 3", 1, 2015),
-                new Module(4, "Module 4", "Description for Module 4", 2, 2016),
-                new Module(5, "Module 5", "Description for Module 5", 1, 2017),
-                new Module(6, "Module 6", "Description for Module 6", 2, 2018),
-                new Module(7, "Module 7", "Description for Module 7", 1, 2019),
-                new Module(8, "Module 8", "Description for Module 8", 2, 2020),
-                new Module(9, "Module 9", "Description for Module 9", 1, 2021),
-                new Module(10, "Module 10", "Description for Module 10", 2, 2022),
-                new Module(11, "Module 11", "Description for Module 11", 2, 2023)
+                new SemesterItems(1, "Module 1", 1),
+                new SemesterItems(2, "Module 2", 2),
+                new SemesterItems(3, "Module 3", 3),
+                new SemesterItems(4, "Module 4", 4),
+                new SemesterItems(5, "Module 5", 5),
+                new SemesterItems(6, "Module 6", 6),
+                new SemesterItems(7, "Module 7", 7),
+                new SemesterItems(8, "Module 8", 8),
+                new SemesterItems(9, "Module 9", 9),
+                new SemesterItems(10, "Module 10", 10),
+                new SemesterItems(11, "Module 11", 11)
             };
 
 
-            modelBuilder.Entity<Module>().HasData(modules);
+            modelBuilder.Entity<SemesterItems>().HasData(modules);
 
             modelBuilder.Entity<Cohort>()
-                .HasMany(c => c.Modules)
+                .HasMany(c => c.SemesterItems)
                 .WithMany(m => m.Cohorts)
                 .UsingEntity(j =>
                     {
-                        j.ToTable("CohortModules");
+                        j.ToTable("CohortSemesterItems");
                         j.HasData(
-                            new { CohortsId = 1, ModulesId = 1 },
-                            new { CohortsId = 1, ModulesId = 2 },
-                            new { CohortsId = 2, ModulesId = 1 },
-                            new { CohortsId = 2, ModulesId = 2 },
-                            new { CohortsId = 3, ModulesId = 3 },
-                            new { CohortsId = 3, ModulesId = 4 },
-                            new { CohortsId = 4, ModulesId = 3 },
-                            new { CohortsId = 4, ModulesId = 4 }
+                            new { CohortsId = 1, SemesterItemId = 1 },
+                            new { CohortsId = 1, SemesterItemId = 2 },
+                            new { CohortsId = 2, SemesterItemId = 1 },
+                            new { CohortsId = 2, SemesterItemId = 2 },
+                            new { CohortsId = 3, SemesterItemId = 3 },
+                            new { CohortsId = 3, SemesterItemId = 4 },
+                            new { CohortsId = 4, SemesterItemId = 3 },
+                            new { CohortsId = 4, SemesterItemId = 4 }
                         );
                     });
 
-            modelBuilder.Entity<Module>()
-                .HasMany(m => m.RequiredModules)
-                .WithMany(m => m.DependentModules)
+            modelBuilder.Entity<SemesterItem>()
+                .HasMany(m => m.RequiredSemesterItem)
+                .WithMany(m => m.DependentSemesterItem)
                 .UsingEntity(j =>
                 {
-                    j.ToTable("ModuleRelationships");
+                    j.ToTable("SemesterItemRelationships");
                     j.HasData(
                         new { RequiredModulesId = 1, DependentModulesId = 2 },
                         new { RequiredModulesId = 2, DependentModulesId = 3 },
