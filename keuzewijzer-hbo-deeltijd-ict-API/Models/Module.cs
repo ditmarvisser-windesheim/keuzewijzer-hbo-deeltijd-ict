@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Models
 {
-    public class SemesterItems
+    public class Module
     {
         [Key]
         public int Id { get; set; }
@@ -13,18 +13,18 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public int SemesterItemId { get; set; }
         public SemesterItem SemesterItem { get; set; } = null!;
 
-        public SemesterItems(string name)
+        public Module(string name)
         {
             Name = name;
         }
 
-        public SemesterItems(int id, string name, int semesterItemId)
+        public Module(int id, string name, int semesterItemId)
         {
             Id = id;
             Name = name;
             SemesterItemId = semesterItemId;
         }
 
-        public SemesterItems() { }
+        public Module() { }
     }
 }

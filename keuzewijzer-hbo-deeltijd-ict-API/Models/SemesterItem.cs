@@ -22,19 +22,22 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public List<SemesterItem> DependentSemesterItem { get; set; }
         public int StudyRouteId { get; set; }
         public StudyRoute StudyRoute { get; set; } = null!;
-        public virtual List<SemesterItems> Modules { get; set; } = new List<SemesterItems>();
-        public SemesterItem(int id, int year, int semester, int studyRouteId, StudyRoute studyRoute)
-        {
-            Id = id;
-            Year = year;
-            Semester = semester;
-            StudyRouteId = studyRouteId;
-            StudyRoute = studyRoute;
-        }
+        public virtual List<Module> Modules { get; set; } = new List<Module>();
 
         public SemesterItem()
         {
         }
 
+        public SemesterItem(int id, string name, string description, int year, int semester, ICollection<Cohort> cohorts)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Year = year;
+            Semester = semester;
+            Cohorts = cohorts;
+            RequiredSemesterItem = new List<SemesterItem>();;
+            DependentSemesterItem = new List<SemesterItem>();
+        }
     }
 }

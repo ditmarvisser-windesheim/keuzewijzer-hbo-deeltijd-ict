@@ -43,7 +43,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return NotFound();
         }
 
-        public ModuleController(KeuzewijzerContext context)
+        public SemesterItemController(KeuzewijzerContext context)
         {
             _context = context;
         }
@@ -80,7 +80,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // PUT: api/SemesterItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSemesterItem(int id, SemesterItems @semesterItems)
+        public async Task<IActionResult> PutSemesterItem(int id, SemesterItem @semesterItems)
         {
             if (id != @semesterItems.Id)
             {

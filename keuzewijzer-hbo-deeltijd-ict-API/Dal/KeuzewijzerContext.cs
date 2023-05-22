@@ -12,9 +12,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
         {
         }
 
-
         public DbSet<User> Users { get; set; }
-        public DbSet<SemesterItems> Modules { get; set; }
+
+        public DbSet<Module> Modules { get; set; }
 
         public DbSet<StudyRoute> StudyRoutes { get; set; }
 
@@ -25,6 +25,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
         public DbSet<Cohort> Cohorts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<SemesterItem>()
                 .HasMany(m => m.RequiredSemesterItem)
                 .WithMany(m => m.DependentSemesterItem)
@@ -66,6 +67,48 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                         PasswordHash = passwordHasher.HashPassword(null, "welkom")
                     }
                 );
+            modelBuilder.Entity<StudyRoute>().HasData(
+    new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = 1 }
+    );
+
+            modelBuilder.Entity<SemesterItem>().HasData(
+              new SemesterItem
+              {
+                  Id = 1,
+                  Name = "Semester Item 1",
+                  Description = "Description for Semester Item 1",
+                  Year = 2023,
+                  Semester = 1,
+                  StudyRouteId = 1
+              },
+              new SemesterItem
+              {
+                  Id = 2,
+                  Name = "Semester Item 2",
+                  Description = "Description for Semester Item 2",
+                  Year = 2023,
+                  Semester = 2,
+                  StudyRouteId = 1
+              },
+              new SemesterItem
+              {
+                  Id = 3,
+                  Name = "Semester Item 3",
+                  Description = "Description for Semester Item 3",
+                  Year = 2024,
+                  Semester = 1,
+                  StudyRouteId = 1
+              },
+              new SemesterItem
+              {
+                  Id = 4,
+                  Name = "Semester Item 4",
+                  Description = "Description for Semester Item 4",
+                  Year = 2024,
+                  Semester = 2,
+                  StudyRouteId = 1
+              }
+          );
 
             var cohorts = new List<Cohort>
             {
@@ -77,41 +120,41 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
             modelBuilder.Entity<Cohort>().HasData(cohorts);
 
-            var modules = new List<SemesterItems>
+            var modules = new List<Module>
             {
-                new SemesterItems(1, "Module 1", 1),
-                new SemesterItems(2, "Module 2", 2),
-                new SemesterItems(3, "Module 3", 3),
-                new SemesterItems(4, "Module 4", 4),
-                new SemesterItems(5, "Module 5", 5),
-                new SemesterItems(6, "Module 6", 6),
-                new SemesterItems(7, "Module 7", 7),
-                new SemesterItems(8, "Module 8", 8),
-                new SemesterItems(9, "Module 9", 9),
-                new SemesterItems(10, "Module 10", 10),
-                new SemesterItems(11, "Module 11", 11)
+                new Module(1, "Module 1", 1),
+                new Module(2, "Module 2", 2),
+                new Module(3, "Module 3", 3),
+                new Module(4, "Module 4", 4),
+                new Module(5, "Module 5", 5),
+                new Module(6, "Module 6", 6),
+                new Module(7, "Module 7", 7),
+                new Module(8, "Module 8", 8),
+                new Module(9, "Module 9", 9),
+                new Module(10, "Module 10", 10),
+                new Module(11, "Module 11", 11)
             };
 
 
-            modelBuilder.Entity<SemesterItems>().HasData(modules);
+            modelBuilder.Entity<Module>().HasData(modules);
 
             modelBuilder.Entity<Cohort>()
                 .HasMany(c => c.SemesterItems)
                 .WithMany(m => m.Cohorts)
                 .UsingEntity(j =>
-                    {
-                        j.ToTable("CohortSemesterItems");
-                        j.HasData(
-                            new { CohortsId = 1, SemesterItemId = 1 },
-                            new { CohortsId = 1, SemesterItemId = 2 },
-                            new { CohortsId = 2, SemesterItemId = 1 },
-                            new { CohortsId = 2, SemesterItemId = 2 },
-                            new { CohortsId = 3, SemesterItemId = 3 },
-                            new { CohortsId = 3, SemesterItemId = 4 },
-                            new { CohortsId = 4, SemesterItemId = 3 },
-                            new { CohortsId = 4, SemesterItemId = 4 }
-                        );
-                    });
+                {
+                    j.ToTable("CohortSemesterItems");
+                    j.HasData(
+                        new { CohortsId = 1, SemesterItemsId = 1 },
+                        new { CohortsId = 1, SemesterItemsId = 2 },
+                        new { CohortsId = 2, SemesterItemsId = 1 },
+                        new { CohortsId = 2, SemesterItemsId = 2 },
+                        new { CohortsId = 3, SemesterItemsId = 3 },
+                        new { CohortsId = 3, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 3 },
+                        new { CohortsId = 4, SemesterItemsId = 4 }
+                    );
+                });
 
             modelBuilder.Entity<SemesterItem>()
                 .HasMany(m => m.RequiredSemesterItem)
@@ -120,15 +163,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("SemesterItemRelationships");
                     j.HasData(
-                        new { RequiredModulesId = 1, DependentModulesId = 2 },
-                        new { RequiredModulesId = 2, DependentModulesId = 3 },
-                        new { RequiredModulesId = 3, DependentModulesId = 4 },
-                        new { RequiredModulesId = 1, DependentModulesId = 4 }
+                        new { RequiredSemesterItem = 1, DependentSemesterItem = 2 },
+                        new { RequiredSemesterItem = 2, DependentSemesterItem = 3 },
+                        new { RequiredSemesterItem = 3, DependentSemesterItem = 4 },
+                        new { RequiredSemesterItem = 1, DependentSemesterItem = 4 }
                     );
                 });
-            modelBuilder.Entity<StudyRoute>().HasData(
-                new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = 1 }
-                );
+
 
 
             modelBuilder.Entity<StudyRouteItem>().HasData(
@@ -143,6 +184,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 new StudyRouteItem { Id = 9, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 9 },
                 new StudyRouteItem { Id = 10, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 10 }
                 );
+
         }
     }
 }
