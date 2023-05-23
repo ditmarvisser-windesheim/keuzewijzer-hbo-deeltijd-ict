@@ -173,48 +173,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Id = 4,
                             Name = "Module 4",
                             SemesterItemId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Module 5",
-                            SemesterItemId = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Module 6",
-                            SemesterItemId = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Module 7",
-                            SemesterItemId = 7
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Module 8",
-                            SemesterItemId = 8
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Module 9",
-                            SemesterItemId = 9
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "Module 10",
-                            SemesterItemId = 10
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Name = "Module 11",
-                            SemesterItemId = 11
                         });
                 });
 
@@ -237,15 +195,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudyRouteId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudyRouteId");
 
                     b.ToTable("SemesterItems");
 
@@ -256,7 +209,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 1",
                             Name = "Semester Item 1",
                             Semester = 1,
-                            StudyRouteId = 1,
                             Year = 1
                         },
                         new
@@ -265,7 +217,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 2",
                             Name = "Semester Item 2",
                             Semester = 2,
-                            StudyRouteId = 1,
                             Year = 1
                         },
                         new
@@ -274,7 +225,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 3",
                             Name = "Semester Item 3",
                             Semester = 1,
-                            StudyRouteId = 1,
                             Year = 2
                         },
                         new
@@ -283,7 +233,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 4",
                             Name = "Semester Item 4",
                             Semester = 2,
-                            StudyRouteId = 1,
                             Year = 2
                         });
                 });
@@ -397,54 +346,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             SemesterItemId = 4,
                             StudyRouteId = 1,
                             Year = 2023
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Semester = 1,
-                            SemesterItemId = 5,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Semester = 1,
-                            SemesterItemId = 6,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Semester = 1,
-                            SemesterItemId = 7,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Semester = 1,
-                            SemesterItemId = 8,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Semester = 2,
-                            SemesterItemId = 9,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Semester = 2,
-                            SemesterItemId = 10,
-                            StudyRouteId = 1,
-                            Year = 2023
                         });
                 });
 
@@ -529,14 +430,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d7e497b-48b3-4fd3-8c87-f097b8eb4dba",
+                            ConcurrencyStamp = "1dba70b0-93e7-4464-ad4c-66c835b98e9e",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIsrXf4dJLpG/6gzRFfKDpasTr4A8UudXxfRTWqfbNFkP2wIDtCv7ZGvagf5+sBOEQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEANbIdeASb/faOOpedRlec31o1FCcTByPztUi2+ieuRJLJNJ4xbPcl3kyRmQ4rr6aw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -545,14 +446,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4252848f-bc8d-476a-a862-cd56b4ba3a32",
+                            ConcurrencyStamp = "2ee15037-1878-4918-821a-e48aefb9605f",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHzECuUBkYqx1PxiWUOT0XS4htlC3FRVfVg1BiLDARna6rmPjN6RSVh7IyXGiBW2tQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAMioTvw1rEWVzKR4RPgZ4Qv4N5gE76FfAWin1gsaaGJWDTuDZ8ecetioOe+edoKtA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"
@@ -820,17 +721,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Navigation("SemesterItem");
                 });
 
-            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", b =>
-                {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
-                        .WithMany()
-                        .HasForeignKey("StudyRouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("StudyRoute");
-                });
-
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
                 {
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
@@ -840,7 +730,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .IsRequired();
 
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
-                        .WithMany()
+                        .WithMany("StudyRouteItems")
                         .HasForeignKey("StudyRouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -934,6 +824,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", b =>
                 {
                     b.Navigation("Modules");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.Navigation("StudyRouteItems");
                 });
 #pragma warning restore 612, 618
         }

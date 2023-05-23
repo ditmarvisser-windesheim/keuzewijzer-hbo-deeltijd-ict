@@ -7,8 +7,8 @@
         public int Semester { get; set; }
         public int StudyRouteId { get; set; }
         public int SemesterItemId { get; set; }
-        public StudyRoute StudyRoute { get; set; } = null!;
-        public SemesterItem SemesterItem { get; set; } = null!;
+        public StudyRoute StudyRoute { get; set; }
+        public SemesterItem SemesterItem { get; set; }
 
         public StudyRouteItem(int id, int year, int semester, int studyRouteId, StudyRoute studyRoute)
         {

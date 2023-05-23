@@ -20,8 +20,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         // Navigation property for the many-to-many relationship
         public List<SemesterItem> RequiredSemesterItem { get; set; }
         public List<SemesterItem> DependentSemesterItem { get; set; }
-        public int StudyRouteId { get; set; }
-        public StudyRoute StudyRoute { get; set; } = null!;
         public virtual List<Module> Modules { get; set; } = new List<Module>();
 
         public SemesterItem()

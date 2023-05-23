@@ -79,7 +79,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                   Description = "Description for Semester Item 1",
                   Year = 1,
                   Semester = 1,
-                  StudyRouteId = 1,
                   RequiredSemesterItem = new List<SemesterItem>(),
                   DependentSemesterItem = new List<SemesterItem>()
         },
@@ -90,7 +89,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                   Description = "Description for Semester Item 2",
                   Year = 1,
                   Semester = 2,
-                  StudyRouteId = 1,
                   RequiredSemesterItem = new List<SemesterItem>(),
                   DependentSemesterItem = new List<SemesterItem>()
               },
@@ -101,7 +99,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                   Description = "Description for Semester Item 3",
                   Year = 2,
                   Semester = 1,
-                  StudyRouteId = 1,
                   RequiredSemesterItem = new List<SemesterItem>(),
                   DependentSemesterItem = new List<SemesterItem>()
               },
@@ -112,7 +109,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                   Description = "Description for Semester Item 4",
                   Year = 2,
                   Semester = 2,
-                  StudyRouteId = 1,
                   RequiredSemesterItem = new List<SemesterItem>(),
                   DependentSemesterItem = new List<SemesterItem>()
               }
@@ -133,14 +129,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 new Module(1, "Module 1", 1),
                 new Module(2, "Module 2", 2),
                 new Module(3, "Module 3", 3),
-                new Module(4, "Module 4", 4),
-                new Module(5, "Module 5", 5),
-                new Module(6, "Module 6", 6),
-                new Module(7, "Module 7", 7),
-                new Module(8, "Module 8", 8),
-                new Module(9, "Module 9", 9),
-                new Module(10, "Module 10", 10),
-                new Module(11, "Module 11", 11)
+                new Module(4, "Module 4", 4)
             };
 
 
@@ -184,13 +173,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
                 new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 2 },
                 new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
-                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 4 },
-                new StudyRouteItem { Id = 5, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 5 },
-                new StudyRouteItem { Id = 6, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 6 },
-                new StudyRouteItem { Id = 7, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 7 },
-                new StudyRouteItem { Id = 8, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 8 },
-                new StudyRouteItem { Id = 9, Year = 2023, Semester = 2, StudyRouteId = 1, SemesterItemId = 9 },
-                new StudyRouteItem { Id = 10, Year = 2023, Semester = 2, StudyRouteId = 1, SemesterItemId = 10 }
+                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 4 }
                 );
 
         }
