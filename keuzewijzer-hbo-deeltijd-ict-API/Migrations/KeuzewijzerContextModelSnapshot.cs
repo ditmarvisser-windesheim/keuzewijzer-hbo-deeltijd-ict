@@ -22,60 +22,60 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CohortModule", b =>
+            modelBuilder.Entity("CohortSemesterItem", b =>
                 {
                     b.Property<int>("CohortsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ModulesId")
+                    b.Property<int>("SemesterItemsId")
                         .HasColumnType("int");
 
-                    b.HasKey("CohortsId", "ModulesId");
+                    b.HasKey("CohortsId", "SemesterItemsId");
 
-                    b.HasIndex("ModulesId");
+                    b.HasIndex("SemesterItemsId");
 
-                    b.ToTable("CohortModules", (string)null);
+                    b.ToTable("CohortSemesterItems", (string)null);
 
                     b.HasData(
                         new
                         {
                             CohortsId = 1,
-                            ModulesId = 1
+                            SemesterItemsId = 1
                         },
                         new
                         {
                             CohortsId = 1,
-                            ModulesId = 2
+                            SemesterItemsId = 2
                         },
                         new
                         {
                             CohortsId = 2,
-                            ModulesId = 1
+                            SemesterItemsId = 1
                         },
                         new
                         {
                             CohortsId = 2,
-                            ModulesId = 2
+                            SemesterItemsId = 2
                         },
                         new
                         {
                             CohortsId = 3,
-                            ModulesId = 3
+                            SemesterItemsId = 3
                         },
                         new
                         {
                             CohortsId = 3,
-                            ModulesId = 4
+                            SemesterItemsId = 4
                         },
                         new
                         {
                             CohortsId = 4,
-                            ModulesId = 3
+                            SemesterItemsId = 3
                         },
                         new
                         {
                             CohortsId = 4,
-                            ModulesId = 4
+                            SemesterItemsId = 4
                         });
                 });
 
@@ -106,29 +106,80 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = 1,
                             Name = "Cohort 1",
-                            Year = 1
+                            Year = 2020
                         },
                         new
                         {
                             Id = 2,
                             Name = "Cohort 2",
-                            Year = 1
+                            Year = 2021
                         },
                         new
                         {
                             Id = 3,
                             Name = "Cohort 3",
-                            Year = 2
+                            Year = 2022
                         },
                         new
                         {
                             Id = 4,
                             Name = "Cohort 4",
-                            Year = 2
+                            Year = 2023
                         });
                 });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ModuleLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SemesterItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SemesterItemId");
+
+                    b.ToTable("Modules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Module 1",
+                            SemesterItemId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Module 2",
+                            SemesterItemId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Module 3",
+                            SemesterItemId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Module 4",
+                            SemesterItemId = 4
+                        });
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,101 +198,46 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                    b.Property<string>("YearJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modules");
+                    b.ToTable("SemesterItems");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Description = "Description for Module 1",
-                            Name = "Module 1",
+                            Description = "Description for Semester Item 1",
+                            Name = "Semester Item 1",
                             Semester = 1,
-                            Year = 2013
+                            YearJson = "[1]"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Description for Module 2",
-                            Name = "Module 2",
+                            Description = "Description for Semester Item 2",
+                            Name = "Semester Item 2",
                             Semester = 2,
-                            Year = 2014
+                            YearJson = "[1]"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Description for Module 3",
-                            Name = "Module 3",
+                            Description = "Description for Semester Item 3",
+                            Name = "Semester Item 3",
                             Semester = 1,
-                            Year = 2015
+                            YearJson = "[2]"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Description for Module 4",
-                            Name = "Module 4",
+                            Description = "Description for Semester Item 4",
+                            Name = "Semester Item 4",
                             Semester = 2,
-                            Year = 2016
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Description for Module 5",
-                            Name = "Module 5",
-                            Semester = 1,
-                            Year = 2017
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Description for Module 6",
-                            Name = "Module 6",
-                            Semester = 2,
-                            Year = 2018
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Description for Module 7",
-                            Name = "Module 7",
-                            Semester = 1,
-                            Year = 2019
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Description for Module 8",
-                            Name = "Module 8",
-                            Semester = 2,
-                            Year = 2020
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Description = "Description for Module 9",
-                            Name = "Module 9",
-                            Semester = 1,
-                            Year = 2021
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Description = "Description for Module 10",
-                            Name = "Module 10",
-                            Semester = 2,
-                            Year = 2022
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Description = "Description for Module 11",
-                            Name = "Module 11",
-                            Semester = 2,
-                            Year = 2023
+                            YearJson = "[2]"
                         });
                 });
 
@@ -302,10 +298,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ModuleId")
+                    b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("Semester")
+                    b.Property<int>("SemesterItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("StudyRouteId")
@@ -316,7 +312,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModuleId");
+                    b.HasIndex("SemesterItemId");
 
                     b.HasIndex("StudyRouteId");
 
@@ -326,80 +322,32 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         new
                         {
                             Id = 1,
-                            ModuleId = 1,
                             Semester = 1,
+                            SemesterItemId = 1,
                             StudyRouteId = 1,
                             Year = 2023
                         },
                         new
                         {
                             Id = 2,
-                            ModuleId = 2,
                             Semester = 1,
+                            SemesterItemId = 2,
                             StudyRouteId = 1,
                             Year = 2023
                         },
                         new
                         {
                             Id = 3,
-                            ModuleId = 3,
                             Semester = 1,
+                            SemesterItemId = 3,
                             StudyRouteId = 1,
                             Year = 2023
                         },
                         new
                         {
                             Id = 4,
-                            ModuleId = 4,
                             Semester = 1,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ModuleId = 5,
-                            Semester = 1,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ModuleId = 6,
-                            Semester = 1,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ModuleId = 7,
-                            Semester = 1,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ModuleId = 8,
-                            Semester = 1,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ModuleId = 9,
-                            Semester = 2,
-                            StudyRouteId = 1,
-                            Year = 2023
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ModuleId = 10,
-                            Semester = 2,
+                            SemesterItemId = 4,
                             StudyRouteId = 1,
                             Year = 2023
                         });
@@ -486,14 +434,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8f1c0471-21da-4ce7-afd9-3c45f772b670",
+                            ConcurrencyStamp = "659ecaa9-06a5-457f-876c-cd9f23e68711",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAENextsNiz4T+5/w2dF6BwyJCo2JnqoC6bUmpu5NsyR3h+uDF8vHhwFNkADZJmN1WWg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -502,14 +450,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d23031c-e838-47e7-9fa8-4a908b03ae33",
+                            ConcurrencyStamp = "0e88427f-126c-4885-9405-7db71b168af1",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL1jLISit2HaeEXJqIaUxTIQSJK0ZBQBmFnEp7JCDPD233OsD/GzDNSgs8Q4Uwl0dQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"
@@ -714,44 +662,44 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ModuleModule", b =>
+            modelBuilder.Entity("SemesterItemSemesterItem", b =>
                 {
-                    b.Property<int>("DependentModulesId")
+                    b.Property<int>("DependentSemesterItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RequiredModulesId")
+                    b.Property<int>("RequiredSemesterItemId")
                         .HasColumnType("int");
 
-                    b.HasKey("DependentModulesId", "RequiredModulesId");
+                    b.HasKey("DependentSemesterItemId", "RequiredSemesterItemId");
 
-                    b.HasIndex("RequiredModulesId");
+                    b.HasIndex("RequiredSemesterItemId");
 
-                    b.ToTable("ModuleRelationships", (string)null);
+                    b.ToTable("SemesterItemRelationships", (string)null);
 
                     b.HasData(
                         new
                         {
-                            DependentModulesId = 2,
-                            RequiredModulesId = 1
+                            DependentSemesterItemId = 2,
+                            RequiredSemesterItemId = 1
                         },
                         new
                         {
-                            DependentModulesId = 3,
-                            RequiredModulesId = 2
+                            DependentSemesterItemId = 3,
+                            RequiredSemesterItemId = 2
                         },
                         new
                         {
-                            DependentModulesId = 4,
-                            RequiredModulesId = 3
+                            DependentSemesterItemId = 4,
+                            RequiredSemesterItemId = 3
                         },
                         new
                         {
-                            DependentModulesId = 4,
-                            RequiredModulesId = 1
+                            DependentSemesterItemId = 4,
+                            RequiredSemesterItemId = 1
                         });
                 });
 
-            modelBuilder.Entity("CohortModule", b =>
+            modelBuilder.Entity("CohortSemesterItem", b =>
                 {
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", null)
                         .WithMany()
@@ -759,28 +707,39 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", null)
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", null)
                         .WithMany()
-                        .HasForeignKey("ModulesId")
+                        .HasForeignKey("SemesterItemsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
+                        .WithMany("Modules")
+                        .HasForeignKey("SemesterItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SemesterItem");
+                });
+
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
                 {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", "Modules")
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
                         .WithMany()
-                        .HasForeignKey("ModuleId")
+                        .HasForeignKey("SemesterItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
-                        .WithMany()
+                        .WithMany("StudyRouteItems")
                         .HasForeignKey("StudyRouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Modules");
+                    b.Navigation("SemesterItem");
 
                     b.Navigation("StudyRoute");
                 });
@@ -851,19 +810,29 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ModuleModule", b =>
+            modelBuilder.Entity("SemesterItemSemesterItem", b =>
                 {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", null)
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", null)
                         .WithMany()
-                        .HasForeignKey("DependentModulesId")
+                        .HasForeignKey("DependentSemesterItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", null)
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", null)
                         .WithMany()
-                        .HasForeignKey("RequiredModulesId")
+                        .HasForeignKey("RequiredSemesterItemId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", b =>
+                {
+                    b.Navigation("Modules");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.Navigation("StudyRouteItems");
                 });
 #pragma warning restore 612, 618
         }

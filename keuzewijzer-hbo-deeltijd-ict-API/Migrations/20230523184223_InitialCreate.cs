@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    public partial class Database : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,7 +64,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Modules",
+                name: "SemesterItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -72,11 +72,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Semester = table.Column<int>(type: "int", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false)
+                    YearJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Modules", x => x.Id);
+                    table.PrimaryKey("PK_SemesterItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,49 +205,70 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CohortModules",
+                name: "CohortSemesterItems",
                 columns: table => new
                 {
                     CohortsId = table.Column<int>(type: "int", nullable: false),
-                    ModulesId = table.Column<int>(type: "int", nullable: false)
+                    SemesterItemsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CohortModules", x => new { x.CohortsId, x.ModulesId });
+                    table.PrimaryKey("PK_CohortSemesterItems", x => new { x.CohortsId, x.SemesterItemsId });
                     table.ForeignKey(
-                        name: "FK_CohortModules_Cohorts_CohortsId",
+                        name: "FK_CohortSemesterItems_Cohorts_CohortsId",
                         column: x => x.CohortsId,
                         principalTable: "Cohorts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CohortModules_Modules_ModulesId",
-                        column: x => x.ModulesId,
-                        principalTable: "Modules",
+                        name: "FK_CohortSemesterItems_SemesterItems_SemesterItemsId",
+                        column: x => x.SemesterItemsId,
+                        principalTable: "SemesterItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModuleRelationships",
+                name: "Modules",
                 columns: table => new
                 {
-                    DependentModulesId = table.Column<int>(type: "int", nullable: false),
-                    RequiredModulesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModuleLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SemesterItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleRelationships", x => new { x.DependentModulesId, x.RequiredModulesId });
+                    table.PrimaryKey("PK_Modules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ModuleRelationships_Modules_DependentModulesId",
-                        column: x => x.DependentModulesId,
-                        principalTable: "Modules",
+                        name: "FK_Modules_SemesterItems_SemesterItemId",
+                        column: x => x.SemesterItemId,
+                        principalTable: "SemesterItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SemesterItemRelationships",
+                columns: table => new
+                {
+                    DependentSemesterItemId = table.Column<int>(type: "int", nullable: false),
+                    RequiredSemesterItemId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SemesterItemRelationships", x => new { x.DependentSemesterItemId, x.RequiredSemesterItemId });
+                    table.ForeignKey(
+                        name: "FK_SemesterItemRelationships_SemesterItems_DependentSemesterItemId",
+                        column: x => x.DependentSemesterItemId,
+                        principalTable: "SemesterItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ModuleRelationships_Modules_RequiredModulesId",
-                        column: x => x.RequiredModulesId,
-                        principalTable: "Modules",
+                        name: "FK_SemesterItemRelationships_SemesterItems_RequiredSemesterItemId",
+                        column: x => x.RequiredSemesterItemId,
+                        principalTable: "SemesterItems",
                         principalColumn: "Id");
                 });
 
@@ -260,15 +281,15 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     Year = table.Column<int>(type: "int", nullable: false),
                     Semester = table.Column<int>(type: "int", nullable: false),
                     StudyRouteId = table.Column<int>(type: "int", nullable: false),
-                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                    SemesterItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudyRouteItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudyRouteItems_Modules_ModuleId",
-                        column: x => x.ModuleId,
-                        principalTable: "Modules",
+                        name: "FK_StudyRouteItems_SemesterItems_SemesterItemId",
+                        column: x => x.SemesterItemId,
+                        principalTable: "SemesterItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -325,28 +346,21 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "Name", "UserId", "Year" },
                 values: new object[,]
                 {
-                    { 1, "Cohort 1", null, 1 },
-                    { 2, "Cohort 2", null, 1 },
-                    { 3, "Cohort 3", null, 2 },
-                    { 4, "Cohort 4", null, 2 }
+                    { 1, "Cohort 1", null, 2020 },
+                    { 2, "Cohort 2", null, 2021 },
+                    { 3, "Cohort 3", null, 2022 },
+                    { 4, "Cohort 4", null, 2023 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Modules",
-                columns: new[] { "Id", "Description", "Name", "Semester", "Year" },
+                table: "SemesterItems",
+                columns: new[] { "Id", "Description", "Name", "Semester", "YearJson" },
                 values: new object[,]
                 {
-                    { 1, "Description for Module 1", "Module 1", 1, 2013 },
-                    { 2, "Description for Module 2", "Module 2", 2, 2014 },
-                    { 3, "Description for Module 3", "Module 3", 1, 2015 },
-                    { 4, "Description for Module 4", "Module 4", 2, 2016 },
-                    { 5, "Description for Module 5", "Module 5", 1, 2017 },
-                    { 6, "Description for Module 6", "Module 6", 2, 2018 },
-                    { 7, "Description for Module 7", "Module 7", 1, 2019 },
-                    { 8, "Description for Module 8", "Module 8", 2, 2020 },
-                    { 9, "Description for Module 9", "Module 9", 1, 2021 },
-                    { 10, "Description for Module 10", "Module 10", 2, 2022 },
-                    { 11, "Description for Module 11", "Module 11", 2, 2023 }
+                    { 1, "Description for Semester Item 1", "Semester Item 1", 1, "[1]" },
+                    { 2, "Description for Semester Item 2", "Semester Item 2", 2, "[1]" },
+                    { 3, "Description for Semester Item 3", "Semester Item 3", 1, "[2]" },
+                    { 4, "Description for Semester Item 4", "Semester Item 4", 2, "[2]" }
                 });
 
             migrationBuilder.InsertData(
@@ -359,13 +373,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StudyRouteId", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "8f1c0471-21da-4ce7-afd9-3c45f772b670", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAENextsNiz4T+5/w2dF6BwyJCo2JnqoC6bUmpu5NsyR3h+uDF8vHhwFNkADZJmN1WWg==", null, false, null, null, null, false, "john@example.com" },
-                    { "2", 0, null, "9d23031c-e838-47e7-9fa8-4a908b03ae33", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEL1jLISit2HaeEXJqIaUxTIQSJK0ZBQBmFnEp7JCDPD233OsD/GzDNSgs8Q4Uwl0dQ==", null, false, null, null, null, false, "jane@example.com" }
+                    { "1", 0, null, "659ecaa9-06a5-457f-876c-cd9f23e68711", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==", null, false, null, null, null, false, "john@example.com" },
+                    { "2", 0, null, "0e88427f-126c-4885-9405-7db71b168af1", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==", null, false, null, null, null, false, "jane@example.com" }
                 });
 
             migrationBuilder.InsertData(
-                table: "CohortModules",
-                columns: new[] { "CohortsId", "ModulesId" },
+                table: "CohortSemesterItems",
+                columns: new[] { "CohortsId", "SemesterItemsId" },
                 values: new object[,]
                 {
                     { 1, 1 },
@@ -379,8 +393,19 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ModuleRelationships",
-                columns: new[] { "DependentModulesId", "RequiredModulesId" },
+                table: "Modules",
+                columns: new[] { "Id", "ModuleLink", "Name", "SemesterItemId" },
+                values: new object[,]
+                {
+                    { 1, null, "Module 1", 1 },
+                    { 2, null, "Module 2", 2 },
+                    { 3, null, "Module 3", 3 },
+                    { 4, null, "Module 4", 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SemesterItemRelationships",
+                columns: new[] { "DependentSemesterItemId", "RequiredSemesterItemId" },
                 values: new object[,]
                 {
                     { 2, 1 },
@@ -391,19 +416,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             migrationBuilder.InsertData(
                 table: "StudyRouteItems",
-                columns: new[] { "Id", "ModuleId", "Semester", "StudyRouteId", "Year" },
+                columns: new[] { "Id", "Semester", "SemesterItemId", "StudyRouteId", "Year" },
                 values: new object[,]
                 {
                     { 1, 1, 1, 1, 2023 },
-                    { 2, 2, 1, 1, 2023 },
-                    { 3, 3, 1, 1, 2023 },
-                    { 4, 4, 1, 1, 2023 },
-                    { 5, 5, 1, 1, 2023 },
-                    { 6, 6, 1, 1, 2023 },
-                    { 7, 7, 1, 1, 2023 },
-                    { 8, 8, 1, 1, 2023 },
-                    { 9, 9, 2, 1, 2023 },
-                    { 10, 10, 2, 1, 2023 }
+                    { 2, 1, 2, 1, 2023 },
+                    { 3, 1, 3, 1, 2023 },
+                    { 4, 1, 4, 1, 2023 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -446,19 +465,24 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CohortModules_ModulesId",
-                table: "CohortModules",
-                column: "ModulesId");
+                name: "IX_CohortSemesterItems_SemesterItemsId",
+                table: "CohortSemesterItems",
+                column: "SemesterItemsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModuleRelationships_RequiredModulesId",
-                table: "ModuleRelationships",
-                column: "RequiredModulesId");
+                name: "IX_Modules_SemesterItemId",
+                table: "Modules",
+                column: "SemesterItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudyRouteItems_ModuleId",
+                name: "IX_SemesterItemRelationships_RequiredSemesterItemId",
+                table: "SemesterItemRelationships",
+                column: "RequiredSemesterItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudyRouteItems_SemesterItemId",
                 table: "StudyRouteItems",
-                column: "ModuleId");
+                column: "SemesterItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudyRouteItems_StudyRouteId",
@@ -494,10 +518,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CohortModules");
+                name: "CohortSemesterItems");
 
             migrationBuilder.DropTable(
-                name: "ModuleRelationships");
+                name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "SemesterItemRelationships");
 
             migrationBuilder.DropTable(
                 name: "StudyRouteItems");
@@ -512,7 +539,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Modules");
+                name: "SemesterItems");
 
             migrationBuilder.DropTable(
                 name: "Cohorts");
