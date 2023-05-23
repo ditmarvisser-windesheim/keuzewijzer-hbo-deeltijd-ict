@@ -36,7 +36,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
             Year = year;
             Semester = semester;
             Cohorts = cohorts;
-            RequiredSemesterItem = new List<SemesterItem>();;
+            RequiredSemesterItem = new List<SemesterItem>();
             DependentSemesterItem = new List<SemesterItem>();
         }
     }

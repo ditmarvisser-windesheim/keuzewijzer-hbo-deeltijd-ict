@@ -77,45 +77,53 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                   Id = 1,
                   Name = "Semester Item 1",
                   Description = "Description for Semester Item 1",
-                  Year = 2023,
+                  Year = 1,
                   Semester = 1,
-                  StudyRouteId = 1
-              },
+                  StudyRouteId = 1,
+                  RequiredSemesterItem = new List<SemesterItem>(),
+                  DependentSemesterItem = new List<SemesterItem>()
+        },
               new SemesterItem
               {
                   Id = 2,
                   Name = "Semester Item 2",
                   Description = "Description for Semester Item 2",
-                  Year = 2023,
+                  Year = 1,
                   Semester = 2,
-                  StudyRouteId = 1
+                  StudyRouteId = 1,
+                  RequiredSemesterItem = new List<SemesterItem>(),
+                  DependentSemesterItem = new List<SemesterItem>()
               },
               new SemesterItem
               {
                   Id = 3,
                   Name = "Semester Item 3",
                   Description = "Description for Semester Item 3",
-                  Year = 2024,
+                  Year = 2,
                   Semester = 1,
-                  StudyRouteId = 1
+                  StudyRouteId = 1,
+                  RequiredSemesterItem = new List<SemesterItem>(),
+                  DependentSemesterItem = new List<SemesterItem>()
               },
               new SemesterItem
               {
                   Id = 4,
                   Name = "Semester Item 4",
                   Description = "Description for Semester Item 4",
-                  Year = 2024,
+                  Year = 2,
                   Semester = 2,
-                  StudyRouteId = 1
+                  StudyRouteId = 1,
+                  RequiredSemesterItem = new List<SemesterItem>(),
+                  DependentSemesterItem = new List<SemesterItem>()
               }
           );
 
             var cohorts = new List<Cohort>
             {
-                new Cohort(1, "Cohort 1", 1),
-                new Cohort(2, "Cohort 2", 1),
-                new Cohort(3, "Cohort 3", 2),
-                new Cohort(4, "Cohort 4", 2),
+                new Cohort(1, "Cohort 1", 2020),
+                new Cohort(2, "Cohort 2", 2021),
+                new Cohort(3, "Cohort 3", 2022),
+                new Cohort(4, "Cohort 4", 2023),
             };
 
             modelBuilder.Entity<Cohort>().HasData(cohorts);
@@ -163,26 +171,26 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("SemesterItemRelationships");
                     j.HasData(
-                        new { RequiredSemesterItem = 1, DependentSemesterItem = 2 },
-                        new { RequiredSemesterItem = 2, DependentSemesterItem = 3 },
-                        new { RequiredSemesterItem = 3, DependentSemesterItem = 4 },
-                        new { RequiredSemesterItem = 1, DependentSemesterItem = 4 }
+                        new { RequiredSemesterItemId = 1, DependentSemesterItemId = 2 },
+                        new { RequiredSemesterItemId = 2, DependentSemesterItemId = 3 },
+                        new { RequiredSemesterItemId = 3, DependentSemesterItemId = 4 },
+                        new { RequiredSemesterItemId = 1, DependentSemesterItemId = 4 }
                     );
                 });
 
 
 
             modelBuilder.Entity<StudyRouteItem>().HasData(
-                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 1 },
-                new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 2 },
-                new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 3 },
-                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 4 },
-                new StudyRouteItem { Id = 5, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 5 },
-                new StudyRouteItem { Id = 6, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 6 },
-                new StudyRouteItem { Id = 7, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 7 },
-                new StudyRouteItem { Id = 8, Year = 2023, Semester = 1, StudyRouteId = 1, ModuleId = 8 },
-                new StudyRouteItem { Id = 9, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 9 },
-                new StudyRouteItem { Id = 10, Year = 2023, Semester = 2, StudyRouteId = 1, ModuleId = 10 }
+                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 5, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 6, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 7, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 8, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 9, Year = 2023, Semester = 2, StudyRouteId = 1, SemesterItemId = 9 },
+                new StudyRouteItem { Id = 10, Year = 2023, Semester = 2, StudyRouteId = 1, SemesterItemId = 10 }
                 );
 
         }
