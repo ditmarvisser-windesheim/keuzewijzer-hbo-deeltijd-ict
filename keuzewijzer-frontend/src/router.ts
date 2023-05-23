@@ -41,6 +41,7 @@ export class Router {
 
     // Render the view
     const html = template(view.data);
+
     const app = document.getElementById('app');
 
     if (app) {
