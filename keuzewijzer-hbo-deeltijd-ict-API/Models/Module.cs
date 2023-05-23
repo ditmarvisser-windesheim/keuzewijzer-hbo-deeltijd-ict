@@ -10,6 +10,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
 
         [Required]
         public string Name { get; set; }
+        public string? ModuleLink { get; set; }
         public int SemesterItemId { get; set; }
         public SemesterItem SemesterItem { get; set; } = null!;
 

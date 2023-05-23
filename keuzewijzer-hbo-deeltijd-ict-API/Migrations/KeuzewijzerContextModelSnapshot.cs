@@ -136,6 +136,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ModuleLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -195,8 +198,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                    b.Property<string>("YearJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -209,7 +213,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 1",
                             Name = "Semester Item 1",
                             Semester = 1,
-                            Year = 1
+                            YearJson = "[1]"
                         },
                         new
                         {
@@ -217,7 +221,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 2",
                             Name = "Semester Item 2",
                             Semester = 2,
-                            Year = 1
+                            YearJson = "[1]"
                         },
                         new
                         {
@@ -225,7 +229,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 3",
                             Name = "Semester Item 3",
                             Semester = 1,
-                            Year = 2
+                            YearJson = "[2]"
                         },
                         new
                         {
@@ -233,7 +237,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Description = "Description for Semester Item 4",
                             Name = "Semester Item 4",
                             Semester = 2,
-                            Year = 2
+                            YearJson = "[2]"
                         });
                 });
 
@@ -430,14 +434,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1dba70b0-93e7-4464-ad4c-66c835b98e9e",
+                            ConcurrencyStamp = "659ecaa9-06a5-457f-876c-cd9f23e68711",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEANbIdeASb/faOOpedRlec31o1FCcTByPztUi2+ieuRJLJNJ4xbPcl3kyRmQ4rr6aw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -446,14 +450,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ee15037-1878-4918-821a-e48aefb9605f",
+                            ConcurrencyStamp = "0e88427f-126c-4885-9405-7db71b168af1",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAMioTvw1rEWVzKR4RPgZ4Qv4N5gE76FfAWin1gsaaGJWDTuDZ8ecetioOe+edoKtA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"

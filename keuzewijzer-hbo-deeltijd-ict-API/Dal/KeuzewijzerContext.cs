@@ -72,47 +72,48 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
     );
 
             modelBuilder.Entity<SemesterItem>().HasData(
-              new SemesterItem
-              {
-                  Id = 1,
-                  Name = "Semester Item 1",
-                  Description = "Description for Semester Item 1",
-                  Year = 1,
-                  Semester = 1,
-                  RequiredSemesterItem = new List<SemesterItem>(),
-                  DependentSemesterItem = new List<SemesterItem>()
-        },
-              new SemesterItem
-              {
-                  Id = 2,
-                  Name = "Semester Item 2",
-                  Description = "Description for Semester Item 2",
-                  Year = 1,
-                  Semester = 2,
-                  RequiredSemesterItem = new List<SemesterItem>(),
-                  DependentSemesterItem = new List<SemesterItem>()
-              },
-              new SemesterItem
-              {
-                  Id = 3,
-                  Name = "Semester Item 3",
-                  Description = "Description for Semester Item 3",
-                  Year = 2,
-                  Semester = 1,
-                  RequiredSemesterItem = new List<SemesterItem>(),
-                  DependentSemesterItem = new List<SemesterItem>()
-              },
-              new SemesterItem
-              {
-                  Id = 4,
-                  Name = "Semester Item 4",
-                  Description = "Description for Semester Item 4",
-                  Year = 2,
-                  Semester = 2,
-                  RequiredSemesterItem = new List<SemesterItem>(),
-                  DependentSemesterItem = new List<SemesterItem>()
-              }
-          );
+                 new SemesterItem
+                 {
+                     Id = 1,
+                     Name = "Semester Item 1",
+                     Description = "Description for Semester Item 1",
+                     Year = new List<int> { 1 },
+                     Semester = 1,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 2,
+                     Name = "Semester Item 2",
+                     Description = "Description for Semester Item 2",
+                     Year = new List<int> { 1 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 3,
+                     Name = "Semester Item 3",
+                     Description = "Description for Semester Item 3",
+                     Year = new List<int> { 2 },
+                     Semester = 1,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 4,
+                     Name = "Semester Item 4",
+                     Description = "Description for Semester Item 4",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 }
+             );
+
 
             var cohorts = new List<Cohort>
             {

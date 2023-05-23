@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    public partial class Database : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,8 +71,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    Semester = table.Column<int>(type: "int", nullable: false)
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    YearJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -235,6 +235,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModuleLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SemesterItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -353,13 +354,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             migrationBuilder.InsertData(
                 table: "SemesterItems",
-                columns: new[] { "Id", "Description", "Name", "Semester", "Year" },
+                columns: new[] { "Id", "Description", "Name", "Semester", "YearJson" },
                 values: new object[,]
                 {
-                    { 1, "Description for Semester Item 1", "Semester Item 1", 1, 1 },
-                    { 2, "Description for Semester Item 2", "Semester Item 2", 2, 1 },
-                    { 3, "Description for Semester Item 3", "Semester Item 3", 1, 2 },
-                    { 4, "Description for Semester Item 4", "Semester Item 4", 2, 2 }
+                    { 1, "Description for Semester Item 1", "Semester Item 1", 1, "[1]" },
+                    { 2, "Description for Semester Item 2", "Semester Item 2", 2, "[1]" },
+                    { 3, "Description for Semester Item 3", "Semester Item 3", 1, "[2]" },
+                    { 4, "Description for Semester Item 4", "Semester Item 4", 2, "[2]" }
                 });
 
             migrationBuilder.InsertData(
@@ -372,8 +373,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StudyRouteId", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "1dba70b0-93e7-4464-ad4c-66c835b98e9e", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEANbIdeASb/faOOpedRlec31o1FCcTByPztUi2+ieuRJLJNJ4xbPcl3kyRmQ4rr6aw==", null, false, null, null, null, false, "john@example.com" },
-                    { "2", 0, null, "2ee15037-1878-4918-821a-e48aefb9605f", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEAMioTvw1rEWVzKR4RPgZ4Qv4N5gE76FfAWin1gsaaGJWDTuDZ8ecetioOe+edoKtA==", null, false, null, null, null, false, "jane@example.com" }
+                    { "1", 0, null, "659ecaa9-06a5-457f-876c-cd9f23e68711", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==", null, false, null, null, null, false, "john@example.com" },
+                    { "2", 0, null, "0e88427f-126c-4885-9405-7db71b168af1", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==", null, false, null, null, null, false, "jane@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -393,13 +394,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Modules",
-                columns: new[] { "Id", "Name", "SemesterItemId" },
+                columns: new[] { "Id", "ModuleLink", "Name", "SemesterItemId" },
                 values: new object[,]
                 {
-                    { 1, "Module 1", 1 },
-                    { 2, "Module 2", 2 },
-                    { 3, "Module 3", 3 },
-                    { 4, "Module 4", 4 }
+                    { 1, null, "Module 1", 1 },
+                    { 2, null, "Module 2", 2 },
+                    { 3, null, "Module 3", 3 },
+                    { 4, null, "Module 4", 4 }
                 });
 
             migrationBuilder.InsertData(
