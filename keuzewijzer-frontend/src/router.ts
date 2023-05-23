@@ -24,7 +24,7 @@ export class Router {
     this.handleUrlChange(window.location.pathname);
   }
 
-  private handleUrlChange(path: string): void {
+  private async handleUrlChange(path: string): Promise<void> {
     const view = this.routes.get(path);
 
     if (!view) {
@@ -32,6 +32,9 @@ export class Router {
       this.show404();
       return;
     }
+
+    // Load the partials dynamically
+    await this.loadPartials();
 
     // Compile the view's template
     const template = Handlebars.compile(view.template);
@@ -42,6 +45,11 @@ export class Router {
 
     if (app) {
       app.innerHTML = html;
+
+      // Call the setup method of the view 
+      if (typeof view.setup === 'function') { 
+        view.setup(); 
+      } 
     }
 
     // Update the current view
@@ -49,6 +57,25 @@ export class Router {
 
     // Update the browser's history
     history.pushState({}, '', path);
+  }
+
+  private async loadPartials(): Promise<void> {
+    const partialsDir = '/templates/partials/'; // Adjust the path based on your server setup
+    const partials = ['sidebar']; // Add the names of your partial files here
+  
+    for (const partial of partials) {
+      const partialPath = `${partialsDir}${partial}.handlebars`;
+      const response = await fetch(partialPath);
+  
+      if (response.ok) {
+        const partialContent = await response.text();
+        const partialName = partial;
+  
+        Handlebars.registerPartial(partialName, partialContent);
+      } else {
+        console.error(`Failed to load partial: ${partial}`);
+      }
+    }
   }
 
   private show404(): void {
