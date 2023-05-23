@@ -6,9 +6,9 @@
         public int Year { get; set; }
         public int Semester { get; set; }
         public int StudyRouteId { get; set; }
-        public int ModuleId { get; set; }
-        public StudyRoute StudyRoute { get; set; } = null!;
-        public virtual Module Modules { get; set; } = null!;
+        public int SemesterItemId { get; set; }
+        public StudyRoute StudyRoute { get; set; }
+        public SemesterItem SemesterItem { get; set; }
 
         public StudyRouteItem(int id, int year, int semester, int studyRouteId, StudyRoute studyRoute)
         {
