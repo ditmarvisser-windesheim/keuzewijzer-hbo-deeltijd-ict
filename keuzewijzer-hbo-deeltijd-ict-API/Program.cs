@@ -43,6 +43,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+//TODO: add safe cors
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthentication(); // Enable authentication
 app.UseAuthorization();
