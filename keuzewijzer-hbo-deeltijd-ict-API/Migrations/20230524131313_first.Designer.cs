@@ -12,8 +12,8 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    [Migration("20230523184223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230524131313_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -436,14 +436,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "659ecaa9-06a5-457f-876c-cd9f23e68711",
+                            ConcurrencyStamp = "8312979c-8042-418b-9e10-0ab5927ebd0d",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBCJj2eCgrwilHibr2ag2d3FbM82tC9mUr/002fA6jMLWVHfzqazHIDHYSb7ebW4lw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -452,14 +452,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e88427f-126c-4885-9405-7db71b168af1",
+                            ConcurrencyStamp = "25a54afa-4f69-4033-98cb-e39cbe749b95",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOx74P8anDqON40Ik7Jug4v2K4qB6d1XuX1e+aQiw/q2NfEIKZ2wuaP5a97jNPnGwQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"

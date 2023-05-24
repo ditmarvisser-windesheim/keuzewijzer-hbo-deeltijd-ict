@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -373,8 +373,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "StudyRouteId", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "659ecaa9-06a5-457f-876c-cd9f23e68711", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==", null, false, null, null, null, false, "john@example.com" },
-                    { "2", 0, null, "0e88427f-126c-4885-9405-7db71b168af1", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==", null, false, null, null, null, false, "jane@example.com" }
+                    { "1", 0, null, "8312979c-8042-418b-9e10-0ab5927ebd0d", "john@example.com", false, "John", "Doe", false, null, "John Doe", null, null, "AQAAAAEAACcQAAAAEBCJj2eCgrwilHibr2ag2d3FbM82tC9mUr/002fA6jMLWVHfzqazHIDHYSb7ebW4lw==", null, false, null, null, null, false, "john@example.com" },
+                    { "2", 0, null, "25a54afa-4f69-4033-98cb-e39cbe749b95", "jane@example.com", false, "Jane", "Smith", false, null, "Jane Smith", null, null, "AQAAAAEAACcQAAAAEOx74P8anDqON40Ik7Jug4v2K4qB6d1XuX1e+aQiw/q2NfEIKZ2wuaP5a97jNPnGwQ==", null, false, null, null, null, false, "jane@example.com" }
                 });
 
             migrationBuilder.InsertData(
