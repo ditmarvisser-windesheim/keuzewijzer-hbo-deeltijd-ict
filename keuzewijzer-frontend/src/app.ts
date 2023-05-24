@@ -9,6 +9,7 @@ export class App {
 
     // Add routes to the router
     this.router.addRoute('/', new HomeView());
+    this.router.addRoute('/test/test', new HomeView());
     
     // Start the router
     this.router.start();

@@ -1,6 +1,21 @@
+import Api from '../js/api/api';
 import { View } from './View';
 
 export class HomeView implements View {
+    public cohorts = Api.get('https://localhost:7298/api/Cohort');
+    public modules: any;
+
+    public constructor() {
+        console.log('HomeView.constructor()');
+        this.modules = this.getModules();
+        console.log(this.cohorts);
+        console.log(this.modules);
+    }
+
+    private async getModules() {
+        const modules = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2021');
+        return modules;
+    }
 
     public template = `<div class="container">
     <div class="row">
@@ -58,6 +73,7 @@ export class HomeView implements View {
 `;
 
     public data = {
+        cohorts: this.cohorts,
         years: [
             { year: 1 },
             { year: 2 },
@@ -81,29 +97,36 @@ export class HomeView implements View {
                     ui.helper.css('width', w).css('height', h);
                 }
             });
-
+            
             $(".landing-box").droppable({
                 accept: ".box",
                 drop: function (event, ui) {
                     const droppedBox = $(ui.draggable);
-                    const targetBox = $(this);
-
+                    const targetBox: JQuery<Element> = $(event.target);
+            
                     const boxClone = droppedBox.clone();
-
+                    boxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+            
                     // Add an "x" button to the dropped box
                     const closeButton = $('<button class="remove-box">x</button>');
                     closeButton.click(function () {
-                        // Remove the box from the landing box
-                        $(this).parent().remove();
-
-                        // Find the original box in the list and show it
+                        const boxToRemove = $(this).parent();
+            
+                        // Find the original landing box
+                        const originalLandingBox = targetBox.clone();
+            
+                        // Replace the dropped box with the original landing box
+                        boxToRemove.replaceWith(originalLandingBox);
+                        originalLandingBox.addClass("ui-droppable");
+            
+                        // Show the original box in the list
                         const originalBox = $('.box[data-id="' + droppedBox.data('id') + '"]');
                         originalBox.show();
                     });
-
+            
                     boxClone.append(closeButton);
-                    // Append the dropped box to the target landing box
-                    targetBox.append(boxClone);
+                    // Replace the landing box with the dropped box
+                    targetBox.replaceWith(boxClone);
                     // Hide the original box in the list
                     droppedBox.hide();
                 }

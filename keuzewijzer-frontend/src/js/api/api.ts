@@ -1,8 +1,7 @@
 class Api {
-    static async get(url: string): Promise<object> {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
+    static async get(url: string) {
+        const response = await fetch(url).then((response) => response.json());
+        return response;
     }
 
     static async post(url: string, payload: any) {
