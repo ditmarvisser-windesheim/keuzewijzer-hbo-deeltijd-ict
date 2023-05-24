@@ -1,5 +1,7 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
+import { Semester } from 'Models/Semester';
+import Api from '../../js/api/api';
 
 export class SemesterCreateView implements View {
   public template = `
@@ -43,7 +45,7 @@ export class SemesterCreateView implements View {
     semesterForm.addEventListener('submit', this.handleSemesterCreate.bind(this));
   }
 
-  private handleSemesterCreate(event: Event): void {
+  private async handleSemesterCreate(event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = document.getElementById('name') as HTMLInputElement;
     const descriptionInput = document.getElementById('description') as HTMLTextAreaElement;
@@ -74,30 +76,43 @@ export class SemesterCreateView implements View {
       return;
     }
 
-    // Perform the semester item creation logic here
-    console.log('Semester item aanmaken...');
-    console.log('Naam:', name);
-    console.log('Beschrijving:', description);
-    console.log('Semester:', semester);
+    const semesterItem = {
+      name: name,
+      description: description,
+      semester: semester,
+      Year: [], // Add the required Year field
+      Cohorts: [], // Add the required Cohorts field
+      RequiredSemesterItem: [], // Add the required RequiredSemesterItem field
+      DependentSemesterItem: [] // Add the required DependentSemesterItem field
+    };
 
-    // Show a success message
-    Swal.fire('Semester Item Aangemaakt!', 'Het semester item is aangemaakt.', 'success');
+    try {
+      // Make the POST request to the server
+      const response = await Api.post('/api/semesterItem', semesterItem);
 
-    // 
+      if (response.ok) {
+        // Show a success message
+        Swal.fire('Semester Item Aangemaakt!', 'Het semester item is aangemaakt.', 'success');
 
-    // Reset the form inputs
-    nameInput.value = '';
-    descriptionInput.value = '';
-    semesterInput.value = '';
+        // Reset the form inputs
+        nameInput.value = '';
+        descriptionInput.value = '';
+        semesterInput.value = '';
 
-    // Clear error messages
-    nameError.textContent = '';
-    descriptionError.textContent = '';
-    semesterError.textContent = '';
+        // Clear error messages
+        nameError.textContent = '';
+        descriptionError.textContent = '';
+        semesterError.textContent = '';
 
-    // Hide error messages
-    nameError.classList.remove('d-block');
-    descriptionError.classList.remove('d-block');
-    semesterError.classList.remove('d-block');
+        // Hide error messages
+        nameError.classList.remove('d-block');
+        descriptionError.classList.remove('d-block');
+        semesterError.classList.remove('d-block');
+      } else {
+        Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
+      }
+    } catch (error) {
+      Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
+    }
   }
 }
