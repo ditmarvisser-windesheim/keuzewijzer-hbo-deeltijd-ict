@@ -22,6 +22,10 @@ module.exports = {
                     'less-loader'
                 ]
             },
+            {
+                test: /\.hbs$/,
+                loader: 'raw-loader',
+            },
         ],
     },
     resolve: {
