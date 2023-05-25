@@ -10,7 +10,7 @@ export class SemesterIndexView implements View {
           <h1>Semesters</h1>
         </div>
         <div class="col-3 d-flex justify-content-end">
-          <a href="/semesterCreate" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Semester updaten</a>
+          <a href="/semesterCreate" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Semester aanmaken</a>
         </div>
       </div>  
 
