@@ -16,9 +16,7 @@ export class App {
     //SemesterItem
     this.router.addRoute('/semester', new SemesterIndexView());
     this.router.addRoute('/semesterCreate', new SemesterCreateView());
-    this.router.addRoute('/semester/:id', new SemesterUpdateView());
-
-
+    this.router.addRoute('/semesterUpdate', new SemesterUpdateView());
 
     // Start the router
     this.router.start();

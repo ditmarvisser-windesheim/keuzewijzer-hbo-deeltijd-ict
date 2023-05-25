@@ -61,7 +61,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/SemesterItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SemesterItem>> GetGetSemesterItems(int id)
+        public async Task<ActionResult<SemesterItem>> GetSemesterItems(int id)
         {
             if (_context.SemesterItems == null)
             {
@@ -105,7 +105,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetSemesterItems", new { id = @semesterItems.Id }, @semesterItems);
         }
 
         // POST: api/SemesterItem
@@ -120,7 +120,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             _context.SemesterItems.Add(@semesterItems);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModule", new { id = @semesterItems.Id }, @semesterItems);
+            return CreatedAtAction("GetSemesterItems", new { id = @semesterItems.Id }, @semesterItems);
         }
 
         // DELETE: api/SemesterItem/5

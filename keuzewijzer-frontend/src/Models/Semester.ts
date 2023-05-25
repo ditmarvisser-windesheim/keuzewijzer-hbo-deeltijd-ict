@@ -1,20 +1,20 @@
 export class Semester {
-    public Id: number;
-    public Name: string;
-    public Description: string;
-    public Year: number[];
-    public Semester: number;
-    public RequiredSemesterItem: Semester[];
-    public DependentSemesterItem: Semester[];
+    public id: number;
+    public name: string;
+    public description: string;
+    public year: number[];
+    public semester: number;
+    public requiredSemesterItem: Semester[];
+    public dependentSemesterItem: Semester[];
 
     constructor() {
-        this.Id = 0;
-        this.Name = '';
-        this.Description = '';
-        this.Year = [];
-        this.Semester = 0;
-        this.RequiredSemesterItem = [];
-        this.DependentSemesterItem = [];
+        this.id = 0;
+        this.name = '';
+        this.description = '';
+        this.year = [];
+        this.semester = 0;
+        this.requiredSemesterItem = [];
+        this.dependentSemesterItem = [];
     }
 
 

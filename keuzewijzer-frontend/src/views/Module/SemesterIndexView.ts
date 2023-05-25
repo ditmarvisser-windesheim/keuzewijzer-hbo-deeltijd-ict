@@ -10,7 +10,7 @@ export class SemesterIndexView implements View {
           <h1>Semesters</h1>
         </div>
         <div class="col-3 d-flex justify-content-end">
-          <a href="/semesterCreate" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Semester toevoegen</a>
+          <a href="/semesterCreate" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Semester updaten</a>
         </div>
       </div>  
 
@@ -23,7 +23,11 @@ export class SemesterIndexView implements View {
           </tr>
         </thead>
         <tbody id="semesterItems">
-       
+          <div id="loading" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only"></span>
+            </div>
+          </div>        
         </tbody>
       </table>
     </div>
@@ -38,30 +42,28 @@ export class SemesterIndexView implements View {
       var study_semesters = await Api.get('/api/SemesterItem');
       console.log(study_semesters);
 
+      $('#loading').remove();
+
       if (Array.isArray(study_semesters)) {
         study_semesters.forEach((semester) => {
           console.log(semester);
           var tableBody = document.getElementById('semesterItems');
           if (tableBody) {
-            var row = document.createElement('tr');
-
-            var nameCell = document.createElement('td');
-            nameCell.textContent = semester.name;
-            row.appendChild(nameCell);
-
-            var descriptionCell = document.createElement('td');
-            descriptionCell.textContent = semester.description;
-            row.appendChild(descriptionCell);
-
-            var actionsCell = document.createElement('td');
-            var deleteButton = document.createElement('button');
-            deleteButton.className = 'btn btn-danger delete-button';
-            deleteButton.setAttribute('data-id', semester.id);
-            deleteButton.textContent = 'Verwijder';
-            actionsCell.appendChild(deleteButton);
-            row.appendChild(actionsCell);
-
-            tableBody.appendChild(row);
+            var row = $('<tr>').append(
+              $('<td>').text(semester.name),
+              $('<td>').text(semester.description),
+              $('<td>').append(
+                $('<a>').attr('href', '/semesterUpdate?id=' + semester.id)
+                  .addClass('btn btn-primary btn-sm active')
+                  .attr('role', 'button')
+                  .attr('aria-pressed', 'true')
+                  .text('Bewerken'),
+                $('<button>').addClass('btn btn-danger btn-sm active delete-button')
+                  .attr('data-id', semester.id)
+                  .text('Verwijderen')
+              )
+            );
+            row.appendTo(tableBody);
           }
         });
       } else {
@@ -91,7 +93,6 @@ export class SemesterIndexView implements View {
           cancelButtonText: 'Annuleren',
         });
         if (result.isConfirmed) {
-          console.log(`Module met ID ${moduleId} wordt verwijderd`);
           // Make the API call to delete the module
           const response = await Api.delete(`/api/SemesterItem/${moduleId}`);
           if (response.status === 204) {
@@ -108,7 +109,6 @@ export class SemesterIndexView implements View {
         }
       }
     } catch (error) {
-      // Error occurred while handling the button click
       console.error('Error handling delete button click:', error);
       Swal.fire('Fout!', 'Er is een fout opgetreden.', 'error');
     }
