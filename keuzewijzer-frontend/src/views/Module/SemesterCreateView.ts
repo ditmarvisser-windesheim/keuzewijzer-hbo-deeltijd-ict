@@ -1,6 +1,7 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
+import { Cohort } from 'Models/Cohort';
 import Api from '../../js/api/api';
 
 export class SemesterCreateView implements View {
@@ -41,7 +42,19 @@ export class SemesterCreateView implements View {
         </select>
         <div id="yearError" class="invalid-feedback"></div>
       </div>
-      <button type="submit" class="btn btn-primary">Aanmaken</button>
+      <div class="form-group">
+      <label for="year">Cohorts:</label>
+        <select class="form-select" id="cohorts" multiple>
+        </select>
+        <div id="yearError" class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+      <label for="year">Benodigde semester:</label>
+      <select class="form-select" id="requiredSemesterItem" multiple>
+      </select>
+      <div id="yearError" class="invalid-feedback"></div>
+    </div>
+      <button type="submit" id="submit" class="btn btn-primary">Aanmaken</button>
     </form>
   </div>
 `;
@@ -49,13 +62,34 @@ export class SemesterCreateView implements View {
   public data = {};
 
   public setup(): void {
+    this.updateRequiredSemesterItem();
+    this.updateCohorts();
+
+
     const semesterForm = $('#semester-form');
     semesterForm.on('submit', this.handleSemesterCreate.bind(this));
   }
 
+  private async updateCohorts(): Promise<void> {
+    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
+    const cohorts = await Api.get('/api/cohort') as Cohort[];
+
+    cohorts.forEach((cohort: Cohort) => {
+      cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
+    });
+  }
+
+  private async updateRequiredSemesterItem(): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
+    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+
+    requiredSemesterItem.forEach((semesterItem: Semester) => {
+      requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+    });
+  }
+
   private async handleSemesterCreate(event: Event): Promise<void> {
     event.preventDefault();
-
     const nameInput = $('#name');
     const descriptionInput = $('#description');
     const semesterInput = $('#semester');
@@ -64,7 +98,10 @@ export class SemesterCreateView implements View {
     const description = descriptionInput.val() as string;
     const semester = parseInt(semesterInput.val() as string);
     const year = yearSelect.val() as string[];
-
+    const requiredSemesterItem = $('#requiredSemesterItem').val() as string[];
+    const cohort = $('#cohorts').val() as string[];
+    const cohortInt = cohort.map(Number);
+    const requiredSemesterItemInt = requiredSemesterItem.map(Number);
     const nameError = $('#nameError');
     const descriptionError = $('#descriptionError');
     const semesterError = $('#semesterError');
@@ -116,14 +153,18 @@ export class SemesterCreateView implements View {
       }
     }
 
+    $('#submit').attr('disabled', 'disabled');
+
     const semesterItem = {
       name: name,
       description: description,
       semester: semester,
       Year: year,
-      Cohorts: [], // Add the required Cohorts field
-      RequiredSemesterItem: [], // Add the required RequiredSemesterItem field
-      DependentSemesterItem: [] // Add the required DependentSemesterItem field
+      Cohorts: [],
+      CohortsId: cohortInt,
+      RequiredSemesterItemId: requiredSemesterItemInt,
+      RequiredSemesterItem: [],
+      DependentSemesterItem: []
     };
 
     try {
@@ -134,16 +175,16 @@ export class SemesterCreateView implements View {
         return;
       }
 
-      // Show a success message
       Swal.fire('Semester ' + response.name + ' Aangemaakt!', '', 'success');
-      console.log(response);
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
+        $('#submit').attr('disabled', 'disabled');
         window.location.href = '/semester';
       }, 2000);
 
     } catch (error) {
+      $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }

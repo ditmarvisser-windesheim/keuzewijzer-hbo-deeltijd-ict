@@ -25,6 +25,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         [NotMapped]
         public List<int> Year { get; set; } // Mark as not mapped to avoid primary key requirement
 
+        [NotMapped]
+        public List<int> CohortsId { get; set; }
+        [NotMapped]
+        public List<int> RequiredSemesterItemId { get; set; }
+
         public string YearJson
         {
             get => JsonConvert.SerializeObject(Year);

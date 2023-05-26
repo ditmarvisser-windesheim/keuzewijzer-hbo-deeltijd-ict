@@ -16,6 +16,4 @@ export class Semester {
         this.requiredSemesterItem = [];
         this.dependentSemesterItem = [];
     }
-
-
 }
