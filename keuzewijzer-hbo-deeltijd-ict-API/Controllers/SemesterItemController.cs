@@ -174,21 +174,32 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            if (_context.SemesterItems == null)
-            {
-                return NotFound();
-            }
-            var @semesterItems = await _context.SemesterItems.FindAsync(id);
-            if (@semesterItems == null)
+            var semesterItem = await _context.SemesterItems
+                .Include(si => si.Cohorts)
+                .Include(si => si.RequiredSemesterItem)
+                .Include(si => si.DependentSemesterItem)
+                .FirstOrDefaultAsync(si => si.Id == id);
+
+            if (semesterItem == null)
             {
                 return NotFound();
             }
 
-            _context.SemesterItems.Remove(@semesterItems);
+            // Clear the cohorts and required semester items
+            semesterItem.Cohorts.Clear();
+            semesterItem.RequiredSemesterItem.Clear();
+            semesterItem.DependentSemesterItem.Clear();
+
+            // Detach the existing semester item from the context
+            _context.Entry(semesterItem).State = EntityState.Detached;
+
+            // Delete the semester item
+            _context.SemesterItems.Remove(semesterItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         private bool SemesterItemExists(int id)
         {
