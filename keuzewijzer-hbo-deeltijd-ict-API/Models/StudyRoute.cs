@@ -19,7 +19,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         [NotMapped]
         public User? User { get; set; }
 
-        [NotMapped]
         public ICollection<StudyRouteItem> StudyRouteItems { get; set; }
 
         public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> studyRouteItems)

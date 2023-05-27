@@ -1,4 +1,5 @@
 export interface View {
-  template: string;
+  template: any;
   data: Record<string, any>;
+  setup?(): void;
 }
