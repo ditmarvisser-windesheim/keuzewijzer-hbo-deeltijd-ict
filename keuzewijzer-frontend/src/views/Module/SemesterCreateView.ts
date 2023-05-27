@@ -46,13 +46,11 @@ export class SemesterCreateView implements View {
       <label for="year">Cohorts:</label>
         <select class="form-select" id="cohorts" multiple>
         </select>
-        <div id="yearError" class="invalid-feedback"></div>
       </div>
       <div class="form-group">
       <label for="year">Benodigde semester:</label>
       <select class="form-select" id="requiredSemesterItem" multiple>
       </select>
-      <div id="yearError" class="invalid-feedback"></div>
     </div>
       <button type="submit" id="submit" class="btn btn-primary">Aanmaken</button>
     </form>

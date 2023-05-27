@@ -2,8 +2,12 @@ import { View } from '../View';
 import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
 import Api from '../../js/api/api';
+import { Cohort } from 'Models/Cohort';
 
 export class SemesterUpdateView implements View {
+
+  private Id = 1050; //TODO: get the id form the url
+
   public template = `
   <div class="container mt-2 mb-2">
     <div class="row">
@@ -42,6 +46,16 @@ export class SemesterUpdateView implements View {
         </select>
         <div id="yearError" class="invalid-feedback"></div>
       </div>
+      <div class="form-group">
+      <label for="year">Cohorts:</label>
+        <select class="form-select" id="cohorts" multiple>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="year">Benodigde semester:</label>
+        <select class="form-select" id="requiredSemesterItem" multiple>
+        </select>
+      </div>
       <button type="submit" class="btn btn-primary">Aanmaken</button>
     </form>
   </div>
@@ -49,7 +63,9 @@ export class SemesterUpdateView implements View {
 
   public data = {};
 
-  public setup(): void {
+  public async setup(): Promise<void> {
+    await this.updateRequiredSemesterItem();
+    await this.updateCohorts();
 
     this.setForm();
 
@@ -57,24 +73,62 @@ export class SemesterUpdateView implements View {
     semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
   }
 
+  private async updateCohorts(): Promise<void> {
+    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
+    const cohorts = await Api.get('/api/cohort') as Cohort[];
+
+    cohorts.forEach((cohort: Cohort) => {
+      cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
+    });
+  }
+
+  private async updateRequiredSemesterItem(): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
+    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+
+    requiredSemesterItem.forEach((semesterItem: Semester) => {
+      if (semesterItem.id === this.Id) return;
+      requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+    });
+  }
+
   private async setForm(): Promise<void> {
     //TODO: get the id from the url
-    const id = 41;
+    const id = this.Id;
 
     //Search for the semester item with the id
-    const semester = await Api.get(`/api/SemesterItem/${id}`) as Semester;
-    console.log(semester);
+    var response = await Api.get(`/api/SemesterItem/${id}`);
+    var updateSemester = response as Semester;
 
     //set the values of the form
-    $('#name').val(semester.name);
-    $('#description').val(semester.description);
-    $('#semester').val(semester.semester);
+    $('#name').val(updateSemester.name);
+    $('#description').val(updateSemester.description);
+    $('#semester').val(updateSemester.semester);
+    $('#id').val(updateSemester.id);
+
     const yearSelect = $('#year');
-    const selectedYearValues = semester.year.map(String); // Convert numbers to strings
+    const selectedYearValues = updateSemester.year.map(String); // Convert numbers to strings
     yearSelect.val(selectedYearValues);
 
+    //Set the required semester items
+    const requiredSemesterItemSelect = $('#requiredSemesterItem');
+    var selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
 
-    $('#id').val(semester.id);
+    updateSemester.requiredSemesterItem.forEach((semesterItem: Semester) => {
+      selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
+    });
+
+    requiredSemesterItemSelect.val(selectedRequiredSemesterItemValues);
+
+    //Set the cohorts
+    const cohortSelect = $('#cohorts');
+    var selectedCohortValues: string[] = []; // Initialize as an empty array
+
+    updateSemester.cohorts.forEach((cohort: Cohort) => {
+      selectedCohortValues.push(cohort.id.toString());
+    });
+
+    cohortSelect.val(selectedCohortValues);
   }
 
 
@@ -90,6 +144,11 @@ export class SemesterUpdateView implements View {
     const semester = parseInt(semesterInput.val() as string);
     const year = yearSelect.val() as string[];
     const id = parseInt($('#id').val() as string);
+
+    const cohort = $('#cohorts').val() as string[];
+    const cohortInt = cohort.map(Number);
+    const requiredSemesterItem = $('#requiredSemesterItem').val() as string[];
+    const requiredSemesterItemInt = requiredSemesterItem.map(Number);
 
     const nameError = $('#nameError');
     const descriptionError = $('#descriptionError');
@@ -148,9 +207,11 @@ export class SemesterUpdateView implements View {
       description: description,
       semester: semester,
       Year: year,
-      Cohorts: [], // Add the required Cohorts field
-      RequiredSemesterItem: [], // Add the required RequiredSemesterItem field
-      DependentSemesterItem: [] // Add the required DependentSemesterItem field
+      Cohorts: [],
+      CohortsId: cohortInt,
+      RequiredSemesterItemId: requiredSemesterItemInt,
+      RequiredSemesterItem: [],
+      DependentSemesterItem: []
     };
 
     try {

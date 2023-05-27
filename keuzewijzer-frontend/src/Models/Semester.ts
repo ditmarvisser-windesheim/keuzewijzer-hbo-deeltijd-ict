@@ -1,3 +1,5 @@
+import { Cohort } from "./Cohort";
+
 export class Semester {
     public id: number;
     public name: string;
@@ -6,6 +8,7 @@ export class Semester {
     public semester: number;
     public requiredSemesterItem: Semester[];
     public dependentSemesterItem: Semester[];
+    public cohorts: Cohort[];
 
     constructor() {
         this.id = 0;
@@ -15,5 +18,6 @@ export class Semester {
         this.semester = 0;
         this.requiredSemesterItem = [];
         this.dependentSemesterItem = [];
+        this.cohorts = [];
     }
 }
