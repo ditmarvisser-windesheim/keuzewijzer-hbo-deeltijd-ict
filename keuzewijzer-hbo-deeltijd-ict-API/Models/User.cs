@@ -11,7 +11,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Role> Roles { get; set; }
+        public ICollection<Role> Roles { get; set; }
         public StudyRoute? StudyRoute { get; set; }
         public Cohort? Cohort { get; set; }
         public DateTime? TimedOut { get; set; }

@@ -31,7 +31,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             {
                 return NotFound();
             }
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u => u.Roles).ToListAsync();
         }
 
         // GET: api/User/5
