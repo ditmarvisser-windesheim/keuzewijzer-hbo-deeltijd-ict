@@ -36,13 +36,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(u => u.Roles).FirstOrDefaultAsync(p => p.Id == id);
 
             if (user == null)
             {
