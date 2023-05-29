@@ -5,6 +5,7 @@ import { SemesterUpdateView } from './views/Module/SemesterUpdateView';
 import { SemesterIndexView } from './views/Module/SemesterIndexView';
 import { CohortIndexView } from './views/Cohort/CohortIndexView';
 import { CohortCreateView } from './views/Cohort/CohortCreateView';
+import { UserIndexView } from './views/User.ts/UserIndex';
 
 export class App {
   private router: Router;
@@ -23,6 +24,9 @@ export class App {
     //Cohort
     this.router.addRoute('/cohort', new CohortIndexView());
     this.router.addRoute('/cohortCreate', new CohortCreateView());
+
+    //Users
+    this.router.addRoute('/user', new UserIndexView());
 
     // Start the router
     this.router.start();
