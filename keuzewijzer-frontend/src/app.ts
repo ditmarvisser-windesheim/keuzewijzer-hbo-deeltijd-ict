@@ -3,6 +3,8 @@ import { HomeView } from './views/HomeView';
 import { SemesterCreateView } from './views/Module/SemesterCreateView';
 import { SemesterUpdateView } from './views/Module/SemesterUpdateView';
 import { SemesterIndexView } from './views/Module/SemesterIndexView';
+import { CohortIndexView } from './views/Cohort/CohortIndexView';
+import { CohortCreateView } from './views/Cohort/CohortCreateView';
 
 export class App {
   private router: Router;
@@ -17,6 +19,10 @@ export class App {
     this.router.addRoute('/semester', new SemesterIndexView());
     this.router.addRoute('/semesterCreate', new SemesterCreateView());
     this.router.addRoute('/semesterUpdate', new SemesterUpdateView());
+
+    //Cohort
+    this.router.addRoute('/cohort', new CohortIndexView());
+    this.router.addRoute('/cohortCreate', new CohortCreateView());
 
     // Start the router
     this.router.start();

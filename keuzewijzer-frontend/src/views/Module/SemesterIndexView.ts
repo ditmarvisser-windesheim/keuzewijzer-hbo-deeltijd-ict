@@ -36,11 +36,9 @@ export class SemesterIndexView implements View {
   public data = {};
 
   public async setup(): Promise<void> {
-    console.log('Module.setup()');
 
     try {
       var study_semesters = await Api.get('/api/SemesterItem');
-      console.log(study_semesters);
 
       $('#loading').remove();
 
