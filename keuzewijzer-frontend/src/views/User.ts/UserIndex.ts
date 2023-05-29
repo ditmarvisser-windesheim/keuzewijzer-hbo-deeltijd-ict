@@ -3,7 +3,7 @@ import Api from '../../js/api/api';
 import Swal from 'sweetalert2';
 
 export class UserIndexView implements View {
-    public template = `
+  public template = `
     <div class="container mt-2">
       <div class="row">
         <div class="col-9">
@@ -32,39 +32,39 @@ export class UserIndexView implements View {
     </div>
   `;
 
-    public data = {};
+  public data = {};
 
-    public async setup(): Promise<void> {
-        try {
-            var users = await Api.get('/api/User');
-            $('#loading').remove();
+  public async setup(): Promise<void> {
+    try {
+      var users = await Api.get('/api/User');
+      $('#loading').remove();
 
-            if (Array.isArray(users)) {
-                users.forEach((user) => {
-                    console.log(user);
-                    var tableBody = document.getElementById('semesterItems');
-                    if (tableBody) {
-                        var row = $('<tr>').append(
-                            $('<td>').text(user.name),
-                            $('<td>').append(
-                                $('<a>').attr('href', '/userSemesterItems?id=' + user.id)
-                                    .addClass('btn btn-primary btn-sm active')
-                                    .attr('role', 'button')
-                                    .attr('aria-pressed', 'true')
-                                    .text('Semester toewijzen'),
-                            )
+      if (Array.isArray(users)) {
+        users.forEach((user) => {
+          console.log(user);
+          var tableBody = document.getElementById('semesterItems');
+          if (tableBody) {
+            var row = $('<tr>').append(
+              $('<td>').text(user.name),
+              $('<td>').append(
+                $('<a>').attr('href', '/userUpdateSemester?id=' + user.id)
+                  .addClass('btn btn-primary btn-sm active')
+                  .attr('role', 'button')
+                  .attr('aria-pressed', 'true')
+                  .text('Semester toewijzen'),
+              )
 
-                        );
-                        row.appendTo(tableBody);
-                    }
-                });
-            } else {
-                console.error('Users is not an array');
-            }
-        } catch (error) {
-            console.error('Error fetching users:', error);
-        }
-
-
+            );
+            row.appendTo(tableBody);
+          }
+        });
+      } else {
+        console.error('Users is not an array');
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
     }
+
+
+  }
 }

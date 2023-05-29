@@ -40,6 +40,15 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     j.ToTable("CohortSemesterItems");
                 });
 
+
+            modelBuilder.Entity<User>()
+                           .HasMany(u => u.SemesterItems)
+                           .WithMany(s => s.Users)
+                           .UsingEntity(join => join.ToTable("UserSemesterItems"));
+
+
+
+
             // Your other configurations...
             base.OnModelCreating(modelBuilder);
 

@@ -17,6 +17,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public int Semester { get; set; }
         public ICollection<Cohort> Cohorts { get; set; }
 
+        public List<User>? Users { get; set; }
+
         // Navigation property for the many-to-many relationship
         public List<SemesterItem> RequiredSemesterItem { get; set; }
         public List<SemesterItem> DependentSemesterItem { get; set; }
