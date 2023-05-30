@@ -11,7 +11,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public int? UserId { get; set; }
 
         [NotMapped]
-        public User User { get; set; } = null!;
+        public User? User { get; set; } = null!;
 
         public Cohort(int id, string name, int year, int userId)
         {
