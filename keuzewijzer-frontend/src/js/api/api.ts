@@ -3,9 +3,8 @@ class Api {
     private static readonly baseUrl = 'https://localhost:7298';
 
     static async get(url: string): Promise<object> {
-        const response = await fetch(this.baseUrl + url);
-        const data = await response.json();
-        return data;
+        const response = await fetch(this.baseUrl + url).then((response) => { return response.json() });
+        return response;
     }
 
     static async post(url: string, payload: any) {

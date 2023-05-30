@@ -16,7 +16,7 @@ export class HomeView implements View {
 
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
-        this.data.modules = await this.getModules();
+        this.modules = await this.getModules();
     }
 
     public template = `<div class="container">
