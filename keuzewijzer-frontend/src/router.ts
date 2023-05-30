@@ -1,5 +1,6 @@
 import { View } from './views/View';
 import * as Handlebars from 'handlebars';
+import { registerHelpers } from './helpers/handlebars';
 
 export class Router {
   private routes: Map<string, View>;
@@ -10,11 +11,13 @@ export class Router {
     this.currentView = null;
   }
 
+  // Add route to the router
   public addRoute(path: string, view: View): void {
     this.routes.set(path, view);
   }
 
   public start(): void {
+    registerHelpers();
     // Listen for changes to the URL
     window.addEventListener('popstate', () => {
       this.handleUrlChange(window.location.pathname);
@@ -25,58 +28,53 @@ export class Router {
   }
 
   private async handleUrlChange(path: string): Promise<void> {
-    const view = this.routes.get(path);
+    let view: View | undefined;
+    const app = document.getElementById('app');
 
+    // Iterate over the routes and find a match
+    for (const [route, routeView] of this.routes) {
+      const routeRegex = new RegExp(`^${route}$`); // Create a regular expression for the route
+      
+      if (routeRegex.test(path)) {
+        view = routeView;
+        break;
+      }
+    }
+  
     if (!view) {
       // If there is no matching view, show a 404 error
       this.show404();
       return;
     }
 
-    // Load the partials dynamically
-    await this.loadPartials();
+    // Fetch the view's data from API project
+    if (view.fetchAsyncData) {
+      if (app) { // TODO: change if app
+        app.innerHTML = '<h1>Loading...</h1>';
+      }
+      await view.fetchAsyncData();
+    }
 
     // Compile the view's template
     const template = Handlebars.compile(view.template);
-
+  
     // Render the view
     const html = template(view.data);
-
-    const app = document.getElementById('app');
-
+  
     if (app) {
       app.innerHTML = html;
-
+  
       // Call the setup method of the view 
       if (typeof view.setup === 'function') { 
         view.setup(); 
       } 
     }
-
+  
     // Update the current view
     this.currentView = view;
-
+  
     // Update the browser's history
     history.pushState({}, '', path);
-  }
-
-  private async loadPartials(): Promise<void> {
-    const partialsDir = '/templates/partials/'; // Adjust the path based on your server setup
-    const partials = ['sidebar']; // Add the names of your partial files here
-  
-    for (const partial of partials) {
-      const partialPath = `${partialsDir}${partial}.handlebars`;
-      const response = await fetch(partialPath);
-  
-      if (response.ok) {
-        const partialContent = await response.text();
-        const partialName = partial;
-  
-        Handlebars.registerPartial(partialName, partialContent);
-      } else {
-        console.error(`Failed to load partial: ${partial}`);
-      }
-    }
   }
 
   private show404(): void {
