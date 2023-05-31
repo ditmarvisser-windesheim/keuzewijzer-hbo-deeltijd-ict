@@ -1,10 +1,8 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
-// import { Semester } from 'Models/Semester';
 import Api from '../../js/api/api';
 import { User } from '../../../Models/User';
 import { Role } from '../../../Models/Role';
-// import { Cohort } from 'Models/Cohort';
 
 export class UserUpdateView implements View {
 
@@ -21,7 +19,7 @@ export class UserUpdateView implements View {
       </div>
     </div>
     
-    <form id="semester-form">
+    <form id="user-form">
       <input type="hidden" id="id">
       <div class="form-group">
         <label for="name">Naam:</label>
@@ -30,7 +28,7 @@ export class UserUpdateView implements View {
       </div>
       <div class="form-group">
         <label for="year">Rollen:</label>
-        <div class="checkBoxContainer"></div>
+        <div class="checkBoxContainer", id="roles"></div>
       </div>
       <button type="submit" class="btn btn-primary">Aanpassen</button>
     </form>
@@ -42,8 +40,8 @@ export class UserUpdateView implements View {
   public async setup(): Promise<void> {
     this.setForm();
 
-    const semesterForm = $('#semester-form');
-    semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
+    const userForm = $('#user-form');
+    userForm.on('submit', this.handleUserUpdate.bind(this));
   }
 
   private async setForm(): Promise<void> {
@@ -53,110 +51,98 @@ export class UserUpdateView implements View {
     //Search for the user item with the id
     var response = await Api.get(`/api/user/${id}`);
     var updateUser = response as User;
-    console.log(updateUser);
-    
+    var rolesArray = updateUser.roles.map(r => r.id)
 
     var roles = await Api.get(`/api/role`) as Role[];
 
     $.each(roles,function(index, role){
-        console.log(role.name)
-        var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.id}" name="role-${role.id}"><label for="role-${role.id}">${role.name}</label><br>`
-        $(".checkBoxContainer").append($(checkbox));
+      var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.id}" name="role-${role.id}"`;
+      
+      if (rolesArray.includes(role.id)) {
+        checkbox += " checked";
+      }
+      
+      checkbox += `><label for="role-${role.id}">${role.name}</label><br>`;
+      $(".checkBoxContainer").append($(checkbox));
     })
 
     //set the values of the form
     $('#name').val(updateUser.name);
-    
-
-    
+    $('#id').val(updateUser.id);
   }
 
 
-  private async handleSemesterUpdate(event: Event): Promise<void> {
+  private async handleUserUpdate(event: Event): Promise<void> {
     event.preventDefault();
 
     const nameInput = $('#name');
-    const descriptionInput = $('#description');
-    const semesterInput = $('#semester');
-    const yearSelect = $('#year');
+    console.log(nameInput);
+
+    const rolesInput = $('#roles')
+    console.log(rolesInput);
+    
     const name = nameInput.val() as string;
-    const description = descriptionInput.val() as string;
-    const semester = parseInt(semesterInput.val() as string);
-    const year = yearSelect.val() as string[];
+    console.log(name);
+
+    const roles: (string | undefined)[] = [];
+    $('#roles input:checked').each(function() {
+      roles.push($(this).attr('value'));
+    });
+    
+
     const id = parseInt($('#id').val() as string);
 
-    const cohort = $('#cohorts').val() as string[];
-    const cohortInt = cohort.map(Number);
-    const requiredSemesterItem = $('#requiredSemesterItem').val() as string[];
-    const requiredSemesterItemInt = requiredSemesterItem.map(Number);
+    // const cohort = $('#cohorts').val() as string[];
+    // const cohortInt = cohort.map(Number);
+    // const requiredSemesterItem = $('#requiredSemesterItem').val() as string[];
+    // const requiredSemesterItemInt = requiredSemesterItem.map(Number);
 
-    const nameError = $('#nameError');
-    const descriptionError = $('#descriptionError');
-    const semesterError = $('#semesterError');
-    const yearError = $('#yearError');
+    // const nameError = $('#nameError');
+    // const descriptionError = $('#descriptionError');
+    // const semesterError = $('#semesterError');
+    // const yearError = $('#yearError');
 
-    if (name.length < 4 || name.length > 100) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
-      nameError.addClass('d-block');
-      return;
+    // if (name.length < 4 || name.length > 100) {
+    //   nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+    //   nameError.addClass('d-block');
+    //   return;
+    // }
+
+    const userItem = {
+      "id": "string",
+      "userName": "string",
+      "normalizedUserName": "string",
+      "email": "string",
+      "normalizedEmail": "string",
+      "emailConfirmed": true,
+      "passwordHash": "string",
+      "securityStamp": "string",
+      "concurrencyStamp": "string",
+      "phoneNumber": "string",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": true,
+      "lockoutEnd": "2023-05-31T18:56:28.108Z",
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "name": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "roles": [
+        {
+          "id": 0,
+          "name": "string",
+          "users": [
+            "string"
+          ]
+        }
+      ],
+      "timedOut": "2023-05-31T18:56:28.108Z",
+      "cohortId": 0
     }
-
-    if (!description) {
-      descriptionError.text('Vul alle verplichte velden in.');
-      descriptionError.addClass('d-block');
-      return;
-    }
-
-    if (!semester) {
-      semesterError.text('Vul alle verplichte velden in.');
-      semesterError.addClass('d-block');
-      return;
-    }
-
-    if (semester < 1 || semester > 2) {
-      semesterError.text('Semester moet een waarde tussen 1 en 2 hebben.');
-      semesterError.addClass('d-block');
-      return;
-    }
-
-    if (year.length === 0) {
-      yearError.text('Selecteer minimaal 1 jaar.');
-      yearError.addClass('d-block');
-      return;
-    }
-
-    //check if the year in the year array are unique and between 1 and 4
-    const uniqueYear = [...new Set(year)];
-    if (uniqueYear.length !== year.length) {
-      yearError.text('Selecteer unieke jaren.');
-      yearError.addClass('d-block');
-      return;
-    }
-
-    for (let i = 0; i < year.length; i++) {
-      if (parseInt(year[i]) < 1 || parseInt(year[i]) > 4) {
-        yearError.text('Selecteer jaren tussen 1 en 4.');
-        yearError.addClass('d-block');
-        return;
-      }
-    }
-
-    const semesterItem = {
-      id: id,
-      name: name,
-      description: description,
-      semester: semester,
-      Year: year,
-      Cohorts: [],
-      CohortsId: cohortInt,
-      RequiredSemesterItemId: requiredSemesterItemInt,
-      RequiredSemesterItem: [],
-      DependentSemesterItem: []
-    };
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/semesterItem/' + id, semesterItem);
+      const response = await Api.put('/api/user/' + id, userItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
