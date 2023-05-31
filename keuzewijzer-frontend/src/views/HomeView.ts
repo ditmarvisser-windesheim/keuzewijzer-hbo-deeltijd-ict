@@ -3,20 +3,20 @@ import { View } from './View';
 
 export class HomeView implements View {
     public cohorts = Api.get('https://localhost:7298/api/Cohort');
-    public modules: any;
+    public semesterItems!: SemesterItem[];
 
     public constructor() {
         console.log('HomeView.constructor()');
     }
 
-    private async getModules() {
-        const modules = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2021');
-        return modules;
+    private async getSemesterItem() {
+        const semesterItems = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2021');
+        return semesterItems;
     }
 
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
-        this.data.modules = await this.getModules();
+        this.data.semesterItems = await this.getSemesterItem();
     }
 
     public template = `<div class="container">
@@ -68,7 +68,7 @@ export class HomeView implements View {
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
-                                    {{#each modules}}
+                                    {{#each semesterItems}}
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">{{name}}</div>
                                     {{/each}}
                                 </div>
@@ -83,7 +83,7 @@ export class HomeView implements View {
 
     public data = {
         cohorts: this.cohorts,
-        modules: [],
+        semesterItems: this.semesterItems,
         years: [
             { year: 1 },
             { year: 2 },
@@ -93,6 +93,28 @@ export class HomeView implements View {
     };
 
     public setup(): void {
+        const self = this;
+
+        $(".box").click(function () {
+            var semesterItemId = $(this).data("id");
+            var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
+                return semesterItem.id === semesterItemId;
+            });
+
+            if (clickedSemesterItem) {
+                var semesterItemName = clickedSemesterItem.name;
+                var semesterItemDescription = clickedSemesterItem.description;
+
+                $(".modal h1").text(semesterItemName);
+                $(".modal p").text(semesterItemDescription);
+                $(".modal").show();
+            }
+        });
+
+        $(".close-button").click(function () {
+            $(".modal").hide();
+        });
+
         console.log('HomeView.setup()');
     
         $(() => {
@@ -130,6 +152,8 @@ export class HomeView implements View {
                     drop: (event, ui) => {
                         const droppedBox: JQuery<HTMLElement> = $(ui.draggable);
                         const targetBox = $(event.target);
+                        console.log(droppedBox.data('id'))
+
     
                         if (droppedBox.data('id') === 'reperatiesemester') {
                             dropCount++;
@@ -214,6 +238,39 @@ export class HomeView implements View {
                 });
             }
 
+            // Standaard positie
+            // Test box id
+            const boxId = '1';
+
+            // Dit is om een nieuwe box te clone en de oude te hide
+            const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+            const originalBoxClone = originalBoxTest.clone();
+            originalBoxTest.hide();
+
+            // Denk dat dit is voor styling
+            originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+
+            // Year 1 column 1
+            const targetBox = $('.year-1 .col-md-4').first();
+            targetBox.replaceWith(originalBoxClone);
+
+            const closeButton = $('<button class="remove-box">x</button>');
+            closeButton.click(function () {
+                const boxToRemove = $(this).parent();
+
+                // Find the original landing box
+                const originalLandingBox = targetBox.clone();
+
+                // Replace the dropped box with the original landing box
+                boxToRemove.replaceWith(originalLandingBox);
+                originalLandingBox.addClass("ui-droppable");
+
+                // Show the original box in the list
+                const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
+                originalBox.show();
+            });
+
+            originalBoxClone.append(closeButton);
             setupDroppable($(".box")); // Set up droppable behavior for existing boxes
 
         });
