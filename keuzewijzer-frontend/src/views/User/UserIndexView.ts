@@ -47,7 +47,7 @@ export class UserIndexView implements View {
             var row = $('<tr>').append(
               $('<td>').text(user.name),
               $('<td>').append(
-                $('<a>').attr('href', '/userUpdateSemester?id=' + user.id)
+                $('<a>').attr('href', '/user/update/semester/' + user.id)
                   .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')

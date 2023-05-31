@@ -8,6 +8,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
     public class User : IdentityUser<string>
     {
         // TODO: remove this and edit the user controller if needed
+        public int Id { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,7 +25,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         [NotMapped]
         public int? CohortId { get; set; }
 
-        public User(string id, string name, string firstName, string lastName, List<Role> roles)
+        public User(int id, string name, string firstName, string lastName, List<Role> roles)
         {
             Id = id;
             Name = name;

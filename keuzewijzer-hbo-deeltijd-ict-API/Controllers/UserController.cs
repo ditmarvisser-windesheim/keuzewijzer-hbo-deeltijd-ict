@@ -42,7 +42,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
+
+            var user = await _context.Users.Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -55,7 +56,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, User user)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.Id)
             {
@@ -118,54 +119,46 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return NoContent();
         }
 
-        //TODO: remove the old ones
-        // PUT: api/User/UpdateSemesters/5
+
         [HttpPut("UpdateSemesters/{id}")]
-        public async Task<IActionResult> UpdateUserSemesters(string id, int[] semesterIds)
+        public async Task<IActionResult> UpdateUserSemesters(int id, int[] semesterIds)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.SemesterItems = null;
-            // Detach the existing semester item from the context
-            _context.Entry(user).State = EntityState.Detached;
-
-            // Update the modified semester item
-            _context.Entry(user).State = EntityState.Modified;
-
-            // Retrieve semesters from the database based on the provided IDs
-            var semesters = await _context.SemesterItems
-                .Where(s => semesterIds.Contains(s.Id))
-                .ToListAsync();
-
-            // Assign the new list of SemesterItem objects to the user's SemesterItems property
-            user.SemesterItems = semesters;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
+                var user = await _context.Users.Where(u => u.Id == id).Include(u => u.SemesterItems).FirstOrDefaultAsync();
+                if (user == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                if (user.SemesterItems == null)
+                {
+                    user.SemesterItems = new List<SemesterItem>();
+                }
+                user.SemesterItems.Clear();
+                // Save the changes to clear existing semester items
+                await _context.SaveChangesAsync();
+
+                // Get the semester items based on the provided IDs
+                var semesterItems = await _context.SemesterItems.Where(si => semesterIds.Contains(si.Id)).ToListAsync();
+
+                // Add the semester items to the user
+                user.SemesterItems.AddRange(semesterItems);
+
+                // Save the changes to update the user's semester items
+                await _context.SaveChangesAsync();
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception appropriately (e.g., log the error, return an error response)
+                return StatusCode(500, "An error occurred while updating user semesters.");
+            }
         }
 
 
-
-        private bool UserExists(string id)
+        private bool UserExists(int id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }

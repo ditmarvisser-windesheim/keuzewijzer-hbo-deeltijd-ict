@@ -1,4 +1,5 @@
 import { Cohort } from "./Cohort";
+import { Semester } from "./Semester";
 
 export class User {
     id: string;
@@ -8,6 +9,7 @@ export class User {
     cohort: Cohort | null;
     timedOut: Date | null;
     cohortId: number | null;
+    semesterItems: Semester[] | null;
 
     constructor(id: string, name: string, firstName: string, lastName: string) {
         this.id = id;
@@ -17,5 +19,6 @@ export class User {
         this.cohort = null;
         this.timedOut = null;
         this.cohortId = null;
+        this.semesterItems = null;
     }
 }

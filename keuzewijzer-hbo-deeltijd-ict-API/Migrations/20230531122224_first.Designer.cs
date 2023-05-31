@@ -12,7 +12,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    [Migration("20230531114014_first")]
+    [Migration("20230531122224_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Cohorts");
 
@@ -315,6 +319,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
                     b.ToTable("StudyRoutes");
 
                     b.HasData(
@@ -396,13 +404,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CohortId1")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -450,9 +458,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StudyRouteId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("TimedOut")
                         .HasColumnType("datetime2");
 
@@ -464,697 +469,693 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CohortId1");
-
-                    b.HasIndex("StudyRouteId");
-
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ad0257f-c101-4a91-a03e-38c8f4aec201",
+                            ConcurrencyStamp = "d80d7bed-0397-44f8-b96b-8c43f0b2802a",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Arnold",
                             LastName = "Min",
                             LockoutEnabled = false,
                             Name = "Arnold Dirk Min",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGeZhDlAbhcdgw5GultAT9scMk9uY79w3eWlAYeqVVUT+wpHquBlluCDQClxGIgBtg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPg2mFrR/oATEXDQS6SCH8r2KiioLnYgRfSe033gewsfNfS9V220+A44MX/EbWFyow==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9fc673d1-eff4-450d-b270-e99ab52751d2",
+                            ConcurrencyStamp = "c2f3b2be-5496-4a79-83d5-3a7d7c7d4cc5",
                             Email = "eugenevanroden@example.com",
                             EmailConfirmed = false,
                             FirstName = "Eugene",
                             LastName = "Van Roden",
                             LockoutEnabled = false,
                             Name = "Eugene Van Roden",
-                            PasswordHash = "AQAAAAEAACcQAAAAELY9Zed3pR4krk576n1VsdkAIrRZr3s6J1a6CPR36p7yvWHIeMqIMW9VWg8UEfUukA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKshQUYk9YGvj/hnEhuOSDmMSWDvXy+YySUmtCxqRvhNPhFj11mYn+jP42t3ez8N2g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "eugenevanroden@example.com"
                         },
                         new
                         {
-                            Id = "3",
+                            Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3fb2d1eb-b06e-4a02-ae86-5032fd9e334e",
+                            ConcurrencyStamp = "80d9abac-1a4f-4f35-bbed-764c0710b0b1",
                             Email = "theotan@example.com",
                             EmailConfirmed = false,
                             FirstName = "Theo",
                             LastName = "Tan",
                             LockoutEnabled = false,
                             Name = "Theo Tan",
-                            PasswordHash = "AQAAAAEAACcQAAAAENareyxKJ8SoYG+RagrOOZW97skzns5w0oNwTLLZOy/lq5gZSc9Z2+ENn59OfgFo5w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMFzvkLwTozmgqbpFxWz1JAgURjpAOWygtU5+SkAi7N1OsmY6WY1S/VVG1OJpnn6nw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "theotan@example.com"
                         },
                         new
                         {
-                            Id = "4",
+                            Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40600586-ec40-4bce-9d34-bd5ef20b869b",
+                            ConcurrencyStamp = "e396899f-4571-4943-accc-5f27f4aa2bb0",
                             Email = "cloekras@example.com",
                             EmailConfirmed = false,
                             FirstName = "Cloé",
                             LastName = "Kras",
                             LockoutEnabled = false,
                             Name = "Cloé Kras",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPtZjVkMxdcTt5tlCMy/McHoldnGqSKk39sIbWao56Z9UwReszoIqEdv+keenYWlAw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGgtlEnoi1tyiCgRE8Et9GSK+kAFv3qTCutBbctN/fsRDZIKe77HfjnvAUzi3e7/Gw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "cloekras@example.com"
                         },
                         new
                         {
-                            Id = "5",
+                            Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c8e2bc4-3a0b-4971-9988-d3b582608d92",
+                            ConcurrencyStamp = "8782c05e-8985-4f63-9af6-21947951d90c",
                             Email = "maurivannuland@example.com",
                             EmailConfirmed = false,
                             FirstName = "Mauri",
                             LastName = "Van Nuland",
                             LockoutEnabled = false,
                             Name = "Mauri Van Nuland",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE11cENu6PmDpZ1AAWnUfq5jnxrbtdv8P/4msDQ9kDbkkR3rF5G+SFHPESXM7bk0+w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKqr6pV8WoJ4TfcdlNUUwW33vldxu1t3/JsgXvW5tRW468YHex68r4qetJ5PHi7Ubg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "maurivannuland@example.com"
                         },
                         new
                         {
-                            Id = "6",
+                            Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b3375715-f2b3-43ec-a555-2b8d79ad75bd",
+                            ConcurrencyStamp = "192ee017-3b13-4ff7-a3bc-ada65538b0e4",
                             Email = "jeromeheerink@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jerome",
                             LastName = "Heerink",
                             LockoutEnabled = false,
                             Name = "Jerome Heerink",
-                            PasswordHash = "AQAAAAEAACcQAAAAECQGbYSrrdFtuHGk/CoktpSbJQvlq6AX7qd+oeZXPkN2m6JnzwsV7Cxa6EbgX73DKA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKECcBpbSlZsVf9UHUx8ngcwKPMLxu+WxYjrqHC2dBaw/wKsKttGKNrcAVtMQsPREg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jeromeheerink@example.com"
                         },
                         new
                         {
-                            Id = "7",
+                            Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "efed9382-ad95-4799-b612-6552eb55e240",
+                            ConcurrencyStamp = "6c56fac3-35bb-4156-ae90-9f10c9a99ee1",
                             Email = "semihvanburken@example.com",
                             EmailConfirmed = false,
                             FirstName = "Semih",
                             LastName = "Van Burken",
                             LockoutEnabled = false,
                             Name = "Semih Van Burken",
-                            PasswordHash = "AQAAAAEAACcQAAAAELCWuZwG1ys1Iv+SB/6mHNHmuxjODXrKnI27Rbvtl3dDdhr5FmkHds1zc2MxPhX4QQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENrYwL9ZIlf5ZlMmSajxxHkQQ7mV/54XvmjIlD7ADdNJLIAtU8E8dwg13VjLUn9hFg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "semihvanburken@example.com"
                         },
                         new
                         {
-                            Id = "8",
+                            Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bfb1aa71-e336-4249-8845-5e6cda3e11d7",
+                            ConcurrencyStamp = "6a7a019d-07bb-4279-afd3-c0e28ab376ce",
                             Email = "jacomijntjemoraal@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jacomijntje",
                             LastName = "Moraal",
                             LockoutEnabled = false,
                             Name = "Jacomijntje Moraal",
-                            PasswordHash = "AQAAAAEAACcQAAAAELxzs4OyXuMH7D+p8YRN9zEMOyBpOolQhJ8Hz6NCBE/V18n//c8TOhK31lL1yhcU3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMb2/ji9ila6EMFr4bfzbo3Ik3abGOgtMImasagoPyr1pVMsG5C/XZy09jWsaaHP5g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jacomijntjemoraal@example.com"
                         },
                         new
                         {
-                            Id = "9",
+                            Id = 9,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "44c1ae38-7c7c-4ed6-8307-e751e18d0e8f",
+                            ConcurrencyStamp = "0d38ddb6-9f09-45c3-b705-4745acbb1205",
                             Email = "sjuulalma@example.com",
                             EmailConfirmed = false,
                             FirstName = "Sjuul",
                             LastName = "Alma",
                             LockoutEnabled = false,
                             Name = "Sjuul Alma",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB1gn76XvU8j/DXIMyge04zk68PMoyPbW3rooD8uXEoM3X+xGlPHWB/R0GAQmX52cg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOdZ4+bSaE+XEnTaj++LFYNPJH21s5wByGnmYZ/ECueUqd5xXZ4hZTwIVEsT21IXBQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "sjuulalma@example.com"
                         },
                         new
                         {
-                            Id = "10",
+                            Id = 10,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1784103d-fd50-4341-9359-9783c850872d",
+                            ConcurrencyStamp = "042d23f6-e244-4b00-9cca-6ee5f86f1b27",
                             Email = "sharonapouw@example.com",
                             EmailConfirmed = false,
                             FirstName = "Sharona",
                             LastName = "Pouw",
                             LockoutEnabled = false,
                             Name = "Sharona Pouw",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGoyKOous3OFOT7u8w+J+0Q+LcoLv6W3mB3JnhpBkFeVHeAMwq+nRI9MfkxDgCui4Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAlbYaL9rsdUSA4MBALh54vUXcVVm2YbnLDoYVXNBtbeM0kue9SS/ouo1GvqRIGS3g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "sharonapouw@example.com"
                         },
                         new
                         {
-                            Id = "11",
+                            Id = 11,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2bec9d79-5024-4311-9215-8472ee58d110",
+                            ConcurrencyStamp = "4aa87ce8-cd23-4509-8c8f-8fe4ba225266",
                             Email = "ashwienabbenhuis@example.com",
                             EmailConfirmed = false,
                             FirstName = "Ashwien",
                             LastName = "Abbenhuis",
                             LockoutEnabled = false,
                             Name = "Ashwien Abbenhuis",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ2YGt3cQg/xa2RlMZH9oPYTvP+C1dOMWMnjrSSegPt72TH8DuA5BPfuMgOjd/UOzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED+VIevxbpH6ogx6HK3iOBDAvITIePgmHBGKla7EujGRLJCzmM1FW7gRPEcXxdvWmw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "ashwienabbenhuis@example.com"
                         },
                         new
                         {
-                            Id = "12",
+                            Id = 12,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12396af2-d2cc-4cca-acba-6e3e6088114c",
+                            ConcurrencyStamp = "10f397d3-eb06-450f-872a-b4ef4d71d2bb",
                             Email = "raulverdaasdonk@example.com",
                             EmailConfirmed = false,
                             FirstName = "Raul",
                             LastName = "Verdaasdonk",
                             LockoutEnabled = false,
                             Name = "Raul Verdaasdonk",
-                            PasswordHash = "AQAAAAEAACcQAAAAELr7k8eIIQi8mvAhh5H4kECVED/a7XmBX039DyN/7tF3GYi8WPxqs54voMYorvlDPA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ0d67Vs1PNtjzwX+hJP3N/MpbYgoHxmebIo3fwUQ2djoc7vNOjoIaN4/ksDgGV7IA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "raulverdaasdonk@example.com"
                         },
                         new
                         {
-                            Id = "13",
+                            Id = 13,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5b3b1a32-c524-4b39-8f5c-34fd9cfa2026",
+                            ConcurrencyStamp = "b9e8422a-542b-4ddc-8001-b2d879986a6c",
                             Email = "majellawessels@example.com",
                             EmailConfirmed = false,
                             FirstName = "Majella",
                             LastName = "Wessels",
                             LockoutEnabled = false,
                             Name = "Majella Wessels",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIBOgN/VARTrUJknr4D5hSdx23eZ/Bs1RerE1R0JTVx/30wX6HH/1mz5sK19ivHsOw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEfr1rnkqcvJF+43bvHdqU8DIXRNW99koKjHYxlcDIKAqnvj1dWrKFndDpd7cGodlw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "majellawessels@example.com"
                         },
                         new
                         {
-                            Id = "14",
+                            Id = 14,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "697ab588-0110-4914-9d03-0ab827ea2f53",
+                            ConcurrencyStamp = "626927b3-7c03-47d2-865a-1a4cf9774a1a",
                             Email = "kwintlogtenberg@example.com",
                             EmailConfirmed = false,
                             FirstName = "Kwint",
                             LastName = "Logtenberg",
                             LockoutEnabled = false,
                             Name = "Kwint Logtenberg",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMSiUf/V5XORXHQRbohsVQAzgGNGabbEPEp4BZawudld3mUGHMjzbDC5VqGwtlE63A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELrfGBxNP2xOGreBgNBhbr9hJUK1Fi+aqqVYXjLG5+wqkdrdLjl0KwjIVQ0xSIT04w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "kwintlogtenberg@example.com"
                         },
                         new
                         {
-                            Id = "15",
+                            Id = 15,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c74f3a5d-dcbe-413c-959c-8095dc355feb",
+                            ConcurrencyStamp = "fd2a1e43-0077-4046-af02-b01f3f55adf4",
                             Email = "mikhaillebbink@example.com",
                             EmailConfirmed = false,
                             FirstName = "Mikhail",
                             LastName = "Lebbink",
                             LockoutEnabled = false,
                             Name = "Mikhail Lebbink",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHGhhht+6ae4rbbZNwc8apPlGNS1eU0eRx8HWFeYWD9GwRqpH1nPMpdKHV67Dv0HIQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJmDxVekfPcGafuQGOclXhWrQtyRT8bvzUWlYVK6C1IzhZxdAZeTi4GUh+p8sEKgSw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "mikhaillebbink@example.com"
                         },
                         new
                         {
-                            Id = "16",
+                            Id = 16,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2dd4ba0-5aea-42b6-8815-5f165fee502c",
+                            ConcurrencyStamp = "c4ae505c-3acc-4c46-bb7c-ff40d8b4e6c2",
                             Email = "claylier@example.com",
                             EmailConfirmed = false,
                             FirstName = "Clay",
                             LastName = "Lier",
                             LockoutEnabled = false,
                             Name = "Clay Lier",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGvbnwLpP6X0S4EQCGTrMwCjnEcy5MxT8XCn+TBiM+b156axksJUj/U+XCHskDh1Aw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKZAQK8kWIdqMQ6pLIG25fiIvMA/moM7G1sJl1cAu7CSrM16KabFmlQTNzF+c+XBYQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "claylier@example.com"
                         },
                         new
                         {
-                            Id = "17",
+                            Id = 17,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69275918-1652-4456-bc3f-cd0a4ab16198",
+                            ConcurrencyStamp = "276f2eb2-ee58-4a48-ac6b-5b76e32cea64",
                             Email = "rubinavanderhout@example.com",
                             EmailConfirmed = false,
                             FirstName = "Rubina",
                             LastName = "Van der Hout",
                             LockoutEnabled = false,
                             Name = "Rubina Van der Hout",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIiggoElNqOCod79uDBrz0XTqF+fAjDLUOpJjo+CA9TrUcljcO/IsBMp4sIsQAasYA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGrSquMWEk852XDn8NeWmebwdv8klOUwnIqi3AQFPAl+c5ZdhGKbcxA0PaVOlLv18w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "rubinavanderhout@example.com"
                         },
                         new
                         {
-                            Id = "18",
+                            Id = 18,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9f02fc34-be97-4156-b182-b83b5cd40802",
+                            ConcurrencyStamp = "da0f9e04-a7d2-4c08-9086-0a5861b0b99d",
                             Email = "abderrazakblaauwbroek@example.com",
                             EmailConfirmed = false,
                             FirstName = "Abderrazak",
                             LastName = "Blaauwbroek",
                             LockoutEnabled = false,
                             Name = "Abderrazak Blaauwbroek",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE/Q1yepV2EDBJlqw5ftf8QywvLp7E+lfGThIfCE1T7aw6orFi2NaVeBHmTZ/TGjKQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ4oq23H28j+4eb7QCvuFpVs22FqVHGlVaNOW6BNHj+5SwSA4x90/EJV3wyJYsrkng==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "abderrazakblaauwbroek@example.com"
                         },
                         new
                         {
-                            Id = "19",
+                            Id = 19,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "76cf2737-1b6f-4b6b-b7d6-28199d2b6098",
+                            ConcurrencyStamp = "357c3644-6ae9-4909-8039-642371fccbe9",
                             Email = "yannikconsten@example.com",
                             EmailConfirmed = false,
                             FirstName = "Yannik",
                             LastName = "Consten",
                             LockoutEnabled = false,
                             Name = "Yannik Consten",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA6sGw8w9/9gOgvmRiIYDV318w4mbwE7RjqI/WUZEh2ZJsXt2ZyyD+4x/JcF3/P5VA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED0FEF+MRnPMvAZpMWh8/ZNmSFgw8TJ/72rjjoBPBinOLQY6oYrqBuFtwCBjYJmmOw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "yannikconsten@example.com"
                         },
                         new
                         {
-                            Id = "20",
+                            Id = 20,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "00d7f750-d5c6-45f0-8d9b-c39e45411872",
+                            ConcurrencyStamp = "20f900b5-ecf2-4bb9-b40d-46ea2a408716",
                             Email = "niniboekhoudt@example.com",
                             EmailConfirmed = false,
                             FirstName = "Nini",
                             LastName = "Boekhoudt",
                             LockoutEnabled = false,
                             Name = "Nini Boekhoudt",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEhHel+xJMQVaWReXgEGm2yZG+L7ooUyOwHwZLmy3UQU7N3i+YCh8+CaZBfot4v5CQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGYv2VjatR4l4g4csPYckyf4vFcxobe/M0URxK3YRudPey+Ao5umgGTtLVC2NTRieA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "niniboekhoudt@example.com"
                         },
                         new
                         {
-                            Id = "21",
+                            Id = 21,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28892a0d-f30e-44b1-a4f9-be7889820859",
+                            ConcurrencyStamp = "ab4ee01a-9403-4a86-9f05-2cb2b26d3df3",
                             Email = "mounssifborkent@example.com",
                             EmailConfirmed = false,
                             FirstName = "Mounssif",
                             LastName = "Borkent",
                             LockoutEnabled = false,
                             Name = "Mounssif Borkent",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKNDfCWHZNpyuVCbBOREU2CDl85hveNxq7FQnYOxt/Mxgca2MR+qs1/vPGXJ4pbsNw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIOw7rq/GLndUsJxrjVZRKyUzEtd8xeKvI2CJo/k6HpFFOtZqjIP+Dh+1Mx8iBuiHg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "mounssifborkent@example.com"
                         },
                         new
                         {
-                            Id = "22",
+                            Id = 22,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c9898e7-cd5a-4c92-b219-2be7f7aa9fe6",
+                            ConcurrencyStamp = "b3a9e976-5f1b-4428-b49b-2e56b7f3c8cf",
                             Email = "metjeknoef@example.com",
                             EmailConfirmed = false,
                             FirstName = "Metje",
                             LastName = "Knoef",
                             LockoutEnabled = false,
                             Name = "Metje Knoef",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE7Gev6Dk1ajfidHYyOX5xr0BDcAhb3xbUKMVXtjIAHwwottdOqKUcbsF17GCQEKPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPgLH4ueVC+rOaInebgVtLQnyLp7o8gv+0dYzxplgzN0jJXBJqbIZewh08vVNl5QbA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "metjeknoef@example.com"
                         },
                         new
                         {
-                            Id = "23",
+                            Id = 23,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac0f8b6d-874b-4c66-9714-1b8e6fd35031",
+                            ConcurrencyStamp = "492fe412-8108-4c39-a8c5-276af57da8b3",
                             Email = "lolkjehagoort@example.com",
                             EmailConfirmed = false,
                             FirstName = "Lolkje",
                             LastName = "Hagoort",
                             LockoutEnabled = false,
                             Name = "Lolkje Hagoort",
-                            PasswordHash = "AQAAAAEAACcQAAAAEClHkirWIocKm4xcynhbL4ellFh97n2uGh+hiVywy90pkXvVk0eAurBpgMYRgETgyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIDg0KN170SflZx1biA6DmQuv+BAneh6/9HI6ylpKKs5d9k6+3cm6XCvLaJ4QDN37w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "lolkjehagoort@example.com"
                         },
                         new
                         {
-                            Id = "24",
+                            Id = 24,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cadf381d-64cb-4307-8b7f-81f1f92acf53",
+                            ConcurrencyStamp = "73aa800a-6204-4e32-b36a-68dc3dc0d13c",
                             Email = "sabriadenissen@example.com",
                             EmailConfirmed = false,
                             FirstName = "Sabria",
                             LastName = "Denissen",
                             LockoutEnabled = false,
                             Name = "Sabria Denissen",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG9dV/ALsVjAktOwlkkHlZ1reG7ApbPqwGHbhb29DLI368YALMogvILWbFQHnAODMQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL5JFYoifh8Un8KQPypz4bdM337EAXTa4rPrHMqGs2kS59PuUmLb0RBAoJbhCbc3Hg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "sabriadenissen@example.com"
                         },
                         new
                         {
-                            Id = "25",
+                            Id = 25,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2731b313-0371-4395-b22a-1433e23089cf",
+                            ConcurrencyStamp = "2253faaf-255c-4034-880d-dc227962bef6",
                             Email = "farukvanschip@example.com",
                             EmailConfirmed = false,
                             FirstName = "Faruk",
                             LastName = "Van Schip",
                             LockoutEnabled = false,
                             Name = "Faruk Van Schip",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHnMBOS2CWOTL7k/bDczwBU2bHMVWJYBDK5B9i4qWY/OxyWYg/ilRE/tKqp/jiWyug==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFYAwV/rAkAOVigmcYbhXuiuoPpRczAOrVZ7qScuwYLTphAqiX4NVwZRnw2oaFLGtw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "farukvanschip@example.com"
                         },
                         new
                         {
-                            Id = "26",
+                            Id = 26,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c20d9966-04f6-4d0a-b940-45bd74a6c52b",
+                            ConcurrencyStamp = "193c5e44-9915-4ff4-8d71-aa79e132b3ba",
                             Email = "zakariadraaisma@example.com",
                             EmailConfirmed = false,
                             FirstName = "Zakaria",
                             LastName = "Draaisma",
                             LockoutEnabled = false,
                             Name = "Zakaria Draaisma",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDSsPG5tQURHdziSejxRErLliPgGU2uNs2tAPpOgkXfQgN0xtgtMha4rWLCb4rqsMg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ6I5VKCMxCGrn0KQmUfyRqSSreWevTYCGxt2D0Fb6XsOZUayj2FwzUhkxLmWisr6w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "zakariadraaisma@example.com"
                         },
                         new
                         {
-                            Id = "27",
+                            Id = 27,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29929c51-cc16-4f40-82eb-3bbf682347e7",
+                            ConcurrencyStamp = "55bea2c6-ec49-4dd2-9774-c755ad1c90c9",
                             Email = "oguzheessels@example.com",
                             EmailConfirmed = false,
                             FirstName = "Oguz",
                             LastName = "Heessels",
                             LockoutEnabled = false,
                             Name = "Oguz Heessels",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMXzgiQg+R6seYw6ouZEjqdj0f4W5Lx2OE3EaJ6dsWe9SatnIC++Ye0paorRnRwzAA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEZvDROZWy6nWiCAJ97+272vX0d8n3VZ4ehPBgH/eiftqBHDDHXu58HERUH0jVjnLQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "oguzheessels@example.com"
                         },
                         new
                         {
-                            Id = "28",
+                            Id = 28,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8121206b-19c0-484d-b2c2-b53285bad16b",
+                            ConcurrencyStamp = "e7d3e2f6-90f4-46df-85a5-583a08c45675",
                             Email = "mariaburggraaff@example.com",
                             EmailConfirmed = false,
                             FirstName = "Maria",
                             LastName = "Burggraaff",
                             LockoutEnabled = false,
                             Name = "Maria Burggraaff",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEnBG++goHo6STfIdBA6ESBTScWSCpIDJZFPhTA9RhMgxS5rz6FFVB88GsGf92MbFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGvWS2ckzm7KnfYWhC8DBvppPpqi/YgpcVLb+nJqXMAbPuk5LiQbfjvCATDsDDNbDQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "mariaburggraaff@example.com"
                         },
                         new
                         {
-                            Id = "29",
+                            Id = 29,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8d5d040a-5f98-4b39-9546-59673d3f24cb",
+                            ConcurrencyStamp = "5e420de3-de0d-43dd-b3c6-942d302f3ac3",
                             Email = "katelijnvandekoppel@example.com",
                             EmailConfirmed = false,
                             FirstName = "Katelijn",
                             LastName = "Van de Koppel",
                             LockoutEnabled = false,
                             Name = "Katelijn Van de Koppel",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDY1qSA2Px3/Bqz3OniazqYJvP3afuQL2ii/87LC0+QvoKLTKFhNPz6qQ/+nZ0NCjg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJjU4x8SigYMdI93E8OaPLVRO8808T6+GhK9FBAVaszs4HcMc4a2QFZfCJgp2Ac6SA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "katelijnvandekoppel@example.com"
                         },
                         new
                         {
-                            Id = "30",
+                            Id = 30,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f45f21ad-0d21-454e-a261-e4a3e0218d06",
+                            ConcurrencyStamp = "989e1eab-99af-41f6-9213-18d2dc3f5c5a",
                             Email = "desirescheeren@example.com",
                             EmailConfirmed = false,
                             FirstName = "Désiré",
                             LastName = "Scheeren",
                             LockoutEnabled = false,
                             Name = "Désiré Scheeren",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAVznLVtvoSryHiyv8XvAJt3hYoCBz1apH6+viAm7itm9gi2EIQjGy+TV72rAqRaKA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI5Sbn2roRO7M0JUQCIPCkUmaH2WnLftxtbAFs2nFQ8T0obY6hZU6C6PMoCfNv+j2g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "desirescheeren@example.com"
                         },
                         new
                         {
-                            Id = "31",
+                            Id = 31,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a4898afa-1250-4367-885a-e70deeff197a",
+                            ConcurrencyStamp = "fb5e5bb8-8c1e-4c23-bec9-3ce258ee04a6",
                             Email = "daxgabriel@example.com",
                             EmailConfirmed = false,
                             FirstName = "Dax",
                             LastName = "Gabriel",
                             LockoutEnabled = false,
                             Name = "Dax Gabriel",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBjuT3TmYJf5KM6r+tyT0ENBfEa44BgSAZT7R29NB8uRWGA1imn1G6QKW9N3C5jr/g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL4ZctmYjkokfHUknkdAm0/2wknDY2/tBpofVhNI4jxZRIH/YkbWsGq8b4b71LdfHw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "daxgabriel@example.com"
                         },
                         new
                         {
-                            Id = "32",
+                            Id = 32,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3887b870-7923-450d-b651-e70fb2e9d80b",
+                            ConcurrencyStamp = "a2a36922-134c-4037-b7ff-a22d43b10bda",
                             Email = "tommiestel@example.com",
                             EmailConfirmed = false,
                             FirstName = "Tommie",
                             LastName = "Stel",
                             LockoutEnabled = false,
                             Name = "Tommie Stel",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAJVRnjR6SpGfv4oBE07yijEb/8SgDf1iKqyItDX5a/BR3VSOL8leXO8x8B41+oplA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEILKbVjBgVmiqij2+xgDK3yWsqY4FanQ0eytS0Z1Eq8FFUFnuFvXG7frhVUf4AHMNA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "tommiestel@example.com"
                         },
                         new
                         {
-                            Id = "33",
+                            Id = 33,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "416b5ea2-4463-4d32-b490-9fb7b5fc419e",
+                            ConcurrencyStamp = "58d055b3-6c81-4cf4-8d0b-8960205a350e",
                             Email = "raphaelkoppe@example.com",
                             EmailConfirmed = false,
                             FirstName = "Raphaël",
                             LastName = "Koppe",
                             LockoutEnabled = false,
                             Name = "Raphaël Koppe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAXV4Ve6cs6nXS07Ld1dVtoBjYZ3Ai69bNrzZlQnyAIzoetjbHwYBSi0By4VxSPBlQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP3ivOlmCLKgh1ZW8eY2Qqlrcb7gqg3t0Je1FBniO/YnoCRxMK+yVAtB3EFDrhTljg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "raphaelkoppe@example.com"
                         },
                         new
                         {
-                            Id = "34",
+                            Id = 34,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2de1ab60-c03e-4a2a-8d7a-8bba8ecc381a",
+                            ConcurrencyStamp = "ea02bba9-7e04-45bd-ad99-a2d01be1c846",
                             Email = "demyjongen@example.com",
                             EmailConfirmed = false,
                             FirstName = "Demy",
                             LastName = "Jongen",
                             LockoutEnabled = false,
                             Name = "Demy Jongen",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPVVQc7Rbst5w5Xq3KVJXY6W8DJ7pY2gbbc1LeNZmUESl+sOFZz/5CTdmz9STo62VA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJo266a/6m8Pc5w8ffAGmiQR8oWjHicXfXLtlWky2+qTaKR1YTdyY0V3ZUiM9944ug==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "demyjongen@example.com"
                         },
                         new
                         {
-                            Id = "35",
+                            Id = 35,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a61743ce-3a20-4223-bcce-119f0667c41a",
+                            ConcurrencyStamp = "7d0a5c34-399c-4510-a632-4acef02ce778",
                             Email = "leahharreman@example.com",
                             EmailConfirmed = false,
                             FirstName = "Leah",
                             LastName = "Harreman",
                             LockoutEnabled = false,
                             Name = "Leah Harreman",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFjn7CWIhkOe5FTPDvHpA7yceEQ9KG0Ju9kah/SC/oBrU4DXc9QEDkutU+F1KjF9Hw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBOJoCYt9M41e+Ja8zqwgUC/XUAITdoZda+nf+pi5Bh/Lul39OnHFuJS1T/SfaI1pg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "leahharreman@example.com"
                         },
                         new
                         {
-                            Id = "36",
+                            Id = 36,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aa7b82fd-5c5b-4292-b495-edc60b1725e2",
+                            ConcurrencyStamp = "e53114d3-4ed2-493c-92cb-30f17881bf1b",
                             Email = "idrisskorpershoek@example.com",
                             EmailConfirmed = false,
                             FirstName = "Idriss",
                             LastName = "Korpershoek",
                             LockoutEnabled = false,
                             Name = "Idriss Korpershoek",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAWMHRwHgDc7cwrGuCd6idlHqltvf5mLGGTGk8r3EEZ+wSScw27naKLzkl2U2Oxyzg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPG1SzTZ094y/3FnN5fGXQSapXaV6/l7yp+F0j4g+xIRbG3c61j072BMBe/LxjJVYw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "idrisskorpershoek@example.com"
                         },
                         new
                         {
-                            Id = "37",
+                            Id = 37,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "705a5423-ad55-4f5a-88b3-f4a3033e1436",
+                            ConcurrencyStamp = "2e3ddce6-05f3-43f2-80c6-a6b613bd8ea3",
                             Email = "rashiedbleumink@example.com",
                             EmailConfirmed = false,
                             FirstName = "Rashied",
                             LastName = "Bleumink",
                             LockoutEnabled = false,
                             Name = "Rashied Bleumink",
-                            PasswordHash = "AQAAAAEAACcQAAAAED+cE4T7vRW1BOp1EXYAjz5fjmN2xd9eW6SLSEgC4Hcvr1LoKmmdlDE/SZjuvNxF9A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI1xP2UDS4/NZc1Wllb97drqZL8avZ3yKVS1b9cyA8KRgF3NhavYol78ljMlw+nmiw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "rashiedbleumink@example.com"
                         },
                         new
                         {
-                            Id = "38",
+                            Id = 38,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10649cc7-6ae5-496d-a47e-cbcef62bedea",
+                            ConcurrencyStamp = "9a444547-2837-4f6d-afbb-791cb8002d65",
                             Email = "siay@example.com",
                             EmailConfirmed = false,
                             FirstName = "Si",
                             LastName = "Ay",
                             LockoutEnabled = false,
                             Name = "Si Ay",
-                            PasswordHash = "AQAAAAEAACcQAAAAECydV1JJ5OcnIKpBbqH3WlVaGJCiA171ctfJEBluflaiTqZiateSSZeDoSMWYiGNnQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECTRNpqtWZ4KpOgWIhStt+ZGNTvqoBNRTFGyVgCTtj63GOg/M589ibfP8T0WHTI4Cw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "siay@example.com"
                         },
                         new
                         {
-                            Id = "39",
+                            Id = 39,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f30ee01f-7cc9-4bd4-89f9-bab146640d82",
+                            ConcurrencyStamp = "d008e0d0-858c-4f40-acb6-9aa1d49b8ac5",
                             Email = "manolyalebens@example.com",
                             EmailConfirmed = false,
                             FirstName = "Manolya",
                             LastName = "Lebens",
                             LockoutEnabled = false,
                             Name = "Manolya Lebens",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE7tNRut3EJvrj7xEysLhupFDKIQO5ePflFIG/9uACd8sCtK3czlcGkFJM939qGUhg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEYkUFxv9hvdXixIzCnEtvsE9rfjLF9e4qdQ82XfgBVvpKHUZ+P2S2j7oEaTsJ6/Wg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "manolyalebens@example.com"
                         },
                         new
                         {
-                            Id = "40",
+                            Id = 40,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d018a0c-9b7c-4fae-a353-eef64698214b",
+                            ConcurrencyStamp = "394350e4-d61f-4a32-9aa8-f34a805ded3a",
                             Email = "mateuszmachielsen@example.com",
                             EmailConfirmed = false,
                             FirstName = "Mateusz",
                             LastName = "Machielsen",
                             LockoutEnabled = false,
                             Name = "Mateusz Machielsen",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDPMT96cyyoiBgdGTz35CDRPs/czL+jHBMJzRbxomHKsr0FDelRUJdWsthqH7UEdIA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI6VWEIAeEgToauUOaRYX/ltPD4UyxD3EKfhJemJiH/XR1eFjdqLGpWK4oLWMnPbHQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "mateuszmachielsen@example.com"
                         },
                         new
                         {
-                            Id = "41",
+                            Id = 41,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f8cc0db-6d95-4060-9b87-cdbf941204db",
+                            ConcurrencyStamp = "7442b259-1bea-4b95-a16b-ad56de397a82",
                             Email = "douaavandepavert@example.com",
                             EmailConfirmed = false,
                             FirstName = "Douaa",
                             LastName = "Van de Pavert",
                             LockoutEnabled = false,
                             Name = "Douaa Van de Pavert",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAgu49CIVkpP8UzhJeFq/fv/MtVkE/DMlVBDj7zNQ+HB7iWoBufjujzyT6eD7NNvxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBQryB4QYnkjlJdud5Lnb1pnYzJyyhpFkPwdAiZxDNIoMPGVbqMD5PgXjHOLwntQ4g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "douaavandepavert@example.com"
                         },
                         new
                         {
-                            Id = "42",
+                            Id = 42,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6455860e-4a44-403f-ba2c-0cc6c36f42ba",
+                            ConcurrencyStamp = "58779afc-c1c2-4cc9-91ce-7299b0a9528d",
                             Email = "kishanhoogkamp@example.com",
                             EmailConfirmed = false,
                             FirstName = "Kishan",
                             LastName = "Hoogkamp",
                             LockoutEnabled = false,
                             Name = "Kishan Hoogkamp",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE6dU43XG1oy6pAOmMcUG2J1c6Qf52pT7RMEsqZY6j0B7jWVt9E1Y7v7UWlyLs2RXg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPId9lVi0Jy4RSqi8k6IAUwr4XA0G8mFh/u17vm9NxLVG/2lYiKRoWMcacmDdJDhMA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "kishanhoogkamp@example.com"
                         },
                         new
                         {
-                            Id = "43",
+                            Id = 43,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a50a45bf-bf5e-4e61-a7e2-2094e53fdb7d",
+                            ConcurrencyStamp = "b756cf89-5574-4792-b961-edd49bc7457b",
                             Email = "harmjanversendaal@example.com",
                             EmailConfirmed = false,
                             FirstName = "Harmjan",
                             LastName = "Versendaal",
                             LockoutEnabled = false,
                             Name = "Harmjan Versendaal",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE0SBxSAX6jOC+zThojwol6hSzrKnZuNa2DBzGo2wgm0gZEDcszH5EGKfW4cHmHARQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC4WlbVowtewJIaeELaYkRd92K3rWkRdDVT2M5aV6D7sLU8Q2cL8Gl+lWp9DYI/Veg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "harmjanversendaal@example.com"
@@ -1364,8 +1365,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("RolesId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
 
                     b.HasKey("RolesId", "UsersId");
 
@@ -1377,227 +1378,227 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         new
                         {
                             RolesId = 1,
-                            UsersId = "1"
+                            UsersId = 1
                         },
                         new
                         {
                             RolesId = 3,
-                            UsersId = "2"
+                            UsersId = 2
                         },
                         new
                         {
                             RolesId = 4,
-                            UsersId = "2"
+                            UsersId = 2
                         },
                         new
                         {
                             RolesId = 3,
-                            UsersId = "3"
+                            UsersId = 3
                         },
                         new
                         {
                             RolesId = 4,
-                            UsersId = "3"
+                            UsersId = 3
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "4"
+                            UsersId = 4
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "5"
+                            UsersId = 5
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "6"
+                            UsersId = 6
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "7"
+                            UsersId = 7
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "8"
+                            UsersId = 8
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "9"
+                            UsersId = 9
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "10"
+                            UsersId = 10
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "11"
+                            UsersId = 11
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "12"
+                            UsersId = 12
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "13"
+                            UsersId = 13
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "14"
+                            UsersId = 14
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "15"
+                            UsersId = 15
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "16"
+                            UsersId = 16
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "17"
+                            UsersId = 17
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "18"
+                            UsersId = 18
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "19"
+                            UsersId = 19
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "20"
+                            UsersId = 20
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "21"
+                            UsersId = 21
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "22"
+                            UsersId = 22
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "23"
+                            UsersId = 23
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "24"
+                            UsersId = 24
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "25"
+                            UsersId = 25
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "26"
+                            UsersId = 26
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "27"
+                            UsersId = 27
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "28"
+                            UsersId = 28
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "29"
+                            UsersId = 29
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "30"
+                            UsersId = 30
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "31"
+                            UsersId = 31
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "32"
+                            UsersId = 32
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "33"
+                            UsersId = 33
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "34"
+                            UsersId = 34
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "35"
+                            UsersId = 35
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "36"
+                            UsersId = 36
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "37"
+                            UsersId = 37
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "38"
+                            UsersId = 38
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "39"
+                            UsersId = 39
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "40"
+                            UsersId = 40
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "41"
+                            UsersId = 41
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "42"
+                            UsersId = 42
                         },
                         new
                         {
                             RolesId = 2,
-                            UsersId = "43"
+                            UsersId = 43
                         });
                 });
 
@@ -1643,8 +1644,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("SemesterItemsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
 
                     b.HasKey("SemesterItemsId", "UsersId");
 
@@ -1668,6 +1669,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                        .WithOne("Cohort")
+                        .HasForeignKey("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", "UserId");
+                });
+
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.Module", b =>
                 {
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
@@ -1677,6 +1685,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .IsRequired();
 
                     b.Navigation("SemesterItem");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
+                {
+                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                        .WithOne("StudyRoute")
+                        .HasForeignKey("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "UserId");
                 });
 
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRouteItem", b =>
@@ -1694,21 +1709,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .IsRequired();
 
                     b.Navigation("SemesterItem");
-
-                    b.Navigation("StudyRoute");
-                });
-
-            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
-                {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.Cohort", "Cohort")
-                        .WithMany()
-                        .HasForeignKey("CohortId1");
-
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
-                        .WithMany()
-                        .HasForeignKey("StudyRouteId");
-
-                    b.Navigation("Cohort");
 
                     b.Navigation("StudyRoute");
                 });
@@ -1817,6 +1817,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
             modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", b =>
                 {
                     b.Navigation("StudyRouteItems");
+                });
+
+            modelBuilder.Entity("keuzewijzer_hbo_deeltijd_ict_API.Models.User", b =>
+                {
+                    b.Navigation("Cohort");
+
+                    b.Navigation("StudyRoute");
                 });
 #pragma warning restore 612, 618
         }

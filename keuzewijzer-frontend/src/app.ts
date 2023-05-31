@@ -29,7 +29,7 @@ export class App {
 
     //Users
     this.router.addRoute('/user', new UserIndexView());
-    this.router.addRoute('/userUpdateSemester', new UserUpdateSemesterView());
+    this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     // Start the router
     this.router.start();
