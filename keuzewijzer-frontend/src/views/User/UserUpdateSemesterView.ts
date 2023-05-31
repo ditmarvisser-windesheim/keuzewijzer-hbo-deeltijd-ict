@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
 import { User } from 'Models/User';
 
-export class UserUpdateSemester implements View {
+export class UserUpdateSemesterView implements View {
 
   private Id = 1; //TODO: get the id form the url
   private user: User | null = null;
@@ -32,7 +32,6 @@ export class UserUpdateSemester implements View {
       </form>
     </div>
   `;
-
   public data = {};
 
   public async setup(): Promise<void> {

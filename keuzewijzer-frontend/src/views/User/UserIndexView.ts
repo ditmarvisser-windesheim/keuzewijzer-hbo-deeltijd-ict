@@ -21,7 +21,7 @@ export class UserIndexView implements View {
             <th scope="col">Acties</th>
           </tr>
         </thead>
-        <tbody id="semesterItems">
+        <tbody id="users">
           <div id="loading" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
               <span class="sr-only"></span>
@@ -42,7 +42,7 @@ export class UserIndexView implements View {
       if (Array.isArray(users)) {
         users.forEach((user) => {
           console.log(user);
-          var tableBody = document.getElementById('semesterItems');
+          var tableBody = document.getElementById('users');
           if (tableBody) {
             var row = $('<tr>').append(
               $('<td>').text(user.name),
