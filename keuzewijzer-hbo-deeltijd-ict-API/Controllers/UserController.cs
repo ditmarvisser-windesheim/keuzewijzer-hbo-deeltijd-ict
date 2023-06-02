@@ -118,6 +118,53 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return NoContent();
         }
 
+        //TODO: remove the old ones
+        // PUT: api/User/UpdateSemesters/5
+        [HttpPut("UpdateSemesters/{id}")]
+        public async Task<IActionResult> UpdateUserSemesters(string id, int[] semesterIds)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.SemesterItems = null;
+            // Detach the existing semester item from the context
+            _context.Entry(user).State = EntityState.Detached;
+
+            // Update the modified semester item
+            _context.Entry(user).State = EntityState.Modified;
+
+            // Retrieve semesters from the database based on the provided IDs
+            var semesters = await _context.SemesterItems
+                .Where(s => semesterIds.Contains(s.Id))
+                .ToListAsync();
+
+            // Assign the new list of SemesterItem objects to the user's SemesterItems property
+            user.SemesterItems = semesters;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+
         private bool UserExists(string id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
