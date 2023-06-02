@@ -111,6 +111,46 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
+                 }, 
+                 new SemesterItem
+                 {
+                     Id = 5,
+                     Name = "Semester Item 5",
+                     Description = "Description for Semester Item 5",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 6,
+                     Name = "Semester Item 6",
+                     Description = "Description for Semester Item 6",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },  
+                 new SemesterItem
+                 {
+                     Id = 7,
+                     Name = "Semester Item 7",
+                     Description = "Description for Semester Item 7",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },   
+                 new SemesterItem
+                 {
+                     Id = 8,
+                     Name = "Semester Item 8",
+                     Description = "Description for Semester Item 8",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
                  }
              );
 
@@ -143,14 +183,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("CohortSemesterItems");
                     j.HasData(
-                        new { CohortsId = 1, SemesterItemsId = 1 },
-                        new { CohortsId = 1, SemesterItemsId = 2 },
-                        new { CohortsId = 2, SemesterItemsId = 1 },
-                        new { CohortsId = 2, SemesterItemsId = 2 },
-                        new { CohortsId = 3, SemesterItemsId = 3 },
-                        new { CohortsId = 3, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 1 },
+                        new { CohortsId = 4, SemesterItemsId = 2 },
                         new { CohortsId = 4, SemesterItemsId = 3 },
-                        new { CohortsId = 4, SemesterItemsId = 4 }
+                        new { CohortsId = 4, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 5 },
+                        new { CohortsId = 4, SemesterItemsId = 6 },
+                        new { CohortsId = 4, SemesterItemsId = 7 },
+                        new { CohortsId = 4, SemesterItemsId = 8 }
                     );
                 });
 

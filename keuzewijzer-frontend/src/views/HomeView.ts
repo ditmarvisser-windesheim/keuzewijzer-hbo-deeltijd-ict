@@ -1,22 +1,46 @@
+import { StudyRoute } from '../class/StudyRoute';
+import { StudyRouteItem } from '../class/StudyRouteItem';
 import Api from '../js/api/api';
 import { View } from './View';
 
 export class HomeView implements View {
     public cohorts = Api.get('https://localhost:7298/api/Cohort');
     public semesterItems!: SemesterItem[];
+    public studyRouteItems: StudyRouteItem[] = [];
+
 
     public constructor() {
         console.log('HomeView.constructor()');
     }
 
     private async getSemesterItem() {
-        const semesterItems = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2021');
+        const semesterItems = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2023');
         return semesterItems;
+    }
+
+    private async getStudyRouteItem() {
+        const response = await Api.get('https://localhost:7298/api/StudyRoute/user/1');
+
+        // Tijdelijke oplossing
+        const studyRouteItemList: StudyRouteItem[] = [];
+
+        response.forEach((response: { year: number; semester: number; semesterItemId: number; }) => {
+            const year = response.year;
+            const semester = response.semester;
+            const semesterItemId = response.semesterItemId;
+
+            const studyRouteItem = new StudyRouteItem(year, semester, semesterItemId);
+            studyRouteItemList.push(studyRouteItem);
+        });
+
+        console.log(studyRouteItemList)
+        return studyRouteItemList;
     }
 
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
         this.data.semesterItems = await this.getSemesterItem();
+        this.data.studyRouteItems = await this.getStudyRouteItem();
     }
 
     public template = `<div class="container">
@@ -77,6 +101,7 @@ export class HomeView implements View {
                     </div>
                 </div>
             </div>
+            <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
         </div>
     </div>
     `;
@@ -84,12 +109,13 @@ export class HomeView implements View {
     public data = {
         cohorts: this.cohorts,
         semesterItems: this.semesterItems,
+        studyRouteItems: this.studyRouteItems,
         years: [
             { year: 1 },
             { year: 2 },
             { year: 3 },
             { year: 4 }
-        ]
+        ],
     };
 
     public setup(): void {
@@ -237,42 +263,63 @@ export class HomeView implements View {
                     }
                 });
             }
-
             // Standaard positie
             // Test box id
-            const boxId = '1';
+            self.data.studyRouteItems.forEach(function (studyRouteItem) {
 
-            // Dit is om een nieuwe box te clone en de oude te hide
-            const originalBoxTest = $('.box[data-id="' + boxId + '"]');
-            const originalBoxClone = originalBoxTest.clone();
-            originalBoxTest.hide();
+                const boxId = studyRouteItem.semesterItemId
 
-            // Denk dat dit is voor styling
-            originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+                // Dit is om een nieuwe box te clone en de oude te hide
+                const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+                const originalBoxClone = originalBoxTest.clone();
+                originalBoxTest.hide();
 
-            // Year 1 column 1
-            const targetBox = $('.year-1 .col-md-4').first();
-            targetBox.replaceWith(originalBoxClone);
+                // Denk dat dit is voor styling
+                originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
 
-            const closeButton = $('<button class="remove-box">x</button>');
-            closeButton.click(function () {
-                const boxToRemove = $(this).parent();
+                const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                targetBox.replaceWith(originalBoxClone);
 
-                // Find the original landing box
-                const originalLandingBox = targetBox.clone();
+                const closeButton = $('<button class="remove-box">x</button>');
+                closeButton.click(function () {
+                    const boxToRemove = $(this).parent();
 
-                // Replace the dropped box with the original landing box
-                boxToRemove.replaceWith(originalLandingBox);
-                originalLandingBox.addClass("ui-droppable");
+                    // Find the original landing box
+                    const originalLandingBox = targetBox.clone();
 
-                // Show the original box in the list
-                const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
-                originalBox.show();
+                    // Replace the dropped box with the original landing box
+                    boxToRemove.replaceWith(originalLandingBox);
+                    originalLandingBox.addClass("ui-droppable");
+
+                    // Show the original box in the list
+                    const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
+                    originalBox.show();
+                });
+
+                originalBoxClone.append(closeButton);
+                setupDroppable($(".box")); // Set up droppable behavior for existing boxes
+            }); 
+
+            $(".create").click(async function () {
+                let year = 1;
+                let studyRouteItemList: StudyRouteItem[] = [];
+                $("div[class^='year-']").each(function () {
+                    // SemesterId from semester 1 year x 
+                    const SemesterItem1Id = $(this).find('.box').eq(0).data('id') as number;
+                     // SemesterId from semester 2 year x  
+                    const SemesterItem2Id = $(this).find('.box').eq(1).data('id') as number;
+
+                    studyRouteItemList.push(new StudyRouteItem(year, 1, SemesterItem1Id));
+                    if (year != 4) {
+                        studyRouteItemList.push(new StudyRouteItem(year, 2, SemesterItem2Id));
+                    }
+                    year += 1;
+                });
+                studyRouteItemList.push(new StudyRouteItem(4, 2, 8))
+                let studyRoute = new StudyRoute(1, studyRouteItemList)
+                // this saves the studyroute of the user
+                const response = await Api.post('https://localhost:7298/api/StudyRoute', studyRoute)
             });
-
-            originalBoxClone.append(closeButton);
-            setupDroppable($(".box")); // Set up droppable behavior for existing boxes
-
         });
     }
 }

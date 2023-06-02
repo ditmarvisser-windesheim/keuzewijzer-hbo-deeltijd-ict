@@ -12,8 +12,8 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    [Migration("20230523184223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230602142525_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,33 +41,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasData(
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 1
                         },
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 1
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 3
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 4
                         },
                         new
                         {
@@ -78,6 +58,26 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             CohortsId = 4,
                             SemesterItemsId = 4
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 5
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 6
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 7
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 8
                         });
                 });
 
@@ -238,6 +238,38 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Id = 4,
                             Description = "Description for Semester Item 4",
                             Name = "Semester Item 4",
+                            Semester = 2,
+                            YearJson = "[2]"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Description for Semester Item 5",
+                            Name = "Semester Item 5",
+                            Semester = 2,
+                            YearJson = "[2]"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Description for Semester Item 6",
+                            Name = "Semester Item 6",
+                            Semester = 2,
+                            YearJson = "[2]"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Description for Semester Item 7",
+                            Name = "Semester Item 7",
+                            Semester = 2,
+                            YearJson = "[2]"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Description for Semester Item 8",
+                            Name = "Semester Item 8",
                             Semester = 2,
                             YearJson = "[2]"
                         });
@@ -436,14 +468,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "659ecaa9-06a5-457f-876c-cd9f23e68711",
+                            ConcurrencyStamp = "5a37e1e7-587b-4239-af89-b546eaf3f74c",
                             Email = "john@example.com",
                             EmailConfirmed = false,
                             FirstName = "John",
                             LastName = "Doe",
                             LockoutEnabled = false,
                             Name = "John Doe",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJmZrDGYjTgQXFSNF9s7Bd/DTOo1o9+mSLAYls0owsXm4vcY0eC1KeZsnbQV55Q5yw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELndlSaTM/wfJxql8mW7OcOkrCv8P3TD91Sxl/P1AgIMMsGcpyY9pv/b5ggqsP5X0Q==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "john@example.com"
@@ -452,14 +484,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e88427f-126c-4885-9405-7db71b168af1",
+                            ConcurrencyStamp = "45f18d09-1f25-41ac-a8be-e415a23f7fbf",
                             Email = "jane@example.com",
                             EmailConfirmed = false,
                             FirstName = "Jane",
                             LastName = "Smith",
                             LockoutEnabled = false,
                             Name = "Jane Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHOHQF4MVEv7Ju0Dg8WiIp0fXIXTGquDbjwpzWH++MmAfJ1194oDtw7Tg0He/e20Xg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHCdVSKqVEEezPMi6yBtZFGiG0lPEIUBvpkvMLOQpJA0s4VitQbqwVhYX3NHjsknCw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "jane@example.com"
