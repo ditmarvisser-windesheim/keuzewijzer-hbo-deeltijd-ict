@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
@@ -11,9 +12,10 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    partial class KeuzewijzerContextModelSnapshot : ModelSnapshot
+    [Migration("20230527151113_roles")]
+    partial class roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,13 +41,33 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasData(
                         new
                         {
-                            CohortsId = 4,
+                            CohortsId = 1,
                             SemesterItemsId = 1
                         },
                         new
                         {
-                            CohortsId = 4,
+                            CohortsId = 1,
                             SemesterItemsId = 2
+                        },
+                        new
+                        {
+                            CohortsId = 2,
+                            SemesterItemsId = 1
+                        },
+                        new
+                        {
+                            CohortsId = 2,
+                            SemesterItemsId = 2
+                        },
+                        new
+                        {
+                            CohortsId = 3,
+                            SemesterItemsId = 3
+                        },
+                        new
+                        {
+                            CohortsId = 3,
+                            SemesterItemsId = 4
                         },
                         new
                         {
@@ -56,26 +78,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             CohortsId = 4,
                             SemesterItemsId = 4
-                        },
-                        new
-                        {
-                            CohortsId = 4,
-                            SemesterItemsId = 5
-                        },
-                        new
-                        {
-                            CohortsId = 4,
-                            SemesterItemsId = 6
-                        },
-                        new
-                        {
-                            CohortsId = 4,
-                            SemesterItemsId = 7
-                        },
-                        new
-                        {
-                            CohortsId = 4,
-                            SemesterItemsId = 8
                         });
                 });
 
@@ -275,38 +277,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Id = 4,
                             Description = "Description for Semester Item 4",
                             Name = "Semester Item 4",
-                            Semester = 2,
-                            YearJson = "[2]"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Description for Semester Item 5",
-                            Name = "Semester Item 5",
-                            Semester = 2,
-                            YearJson = "[2]"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Description for Semester Item 6",
-                            Name = "Semester Item 6",
-                            Semester = 2,
-                            YearJson = "[2]"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Description for Semester Item 7",
-                            Name = "Semester Item 7",
-                            Semester = 2,
-                            YearJson = "[2]"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Description for Semester Item 8",
-                            Name = "Semester Item 8",
                             Semester = 2,
                             YearJson = "[2]"
                         });
