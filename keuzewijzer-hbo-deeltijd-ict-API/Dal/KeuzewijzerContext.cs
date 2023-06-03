@@ -72,7 +72,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = "1",
+                    Id = 1,
                     UserName = "admin@example.com",
                     Email = "admin@example.com",
                     Name = "Arnold Dirk Min",
@@ -82,7 +82,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 },
                 new User
                 {
-                    Id = "2",
+                    Id = 2,
                     UserName = "eugenevanroden@example.com",
                     Email = "eugenevanroden@example.com",
                     Name = "Eugene Van Roden",
@@ -92,7 +92,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 },
                 new User
                 {
-                    Id = "3",
+                    Id = 3,
                     UserName = "theotan@example.com",
                     Email = "theotan@example.com",
                     Name = "Theo Tan",
@@ -101,7 +101,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "4",
+                    Id = 4,
                     UserName = "cloekras@example.com",
                     Email = "cloekras@example.com",
                     Name = "Cloé Kras",
@@ -110,7 +110,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "5",
+                    Id = 5,
                     UserName = "maurivannuland@example.com",
                     Email = "maurivannuland@example.com",
                     Name = "Mauri Van Nuland",
@@ -119,7 +119,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "6",
+                    Id = 6,
                     UserName = "jeromeheerink@example.com",
                     Email = "jeromeheerink@example.com",
                     Name = "Jerome Heerink",
@@ -128,7 +128,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "7",
+                    Id = 7,
                     UserName = "semihvanburken@example.com",
                     Email = "semihvanburken@example.com",
                     Name = "Semih Van Burken",
@@ -137,7 +137,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "8",
+                    Id = 8,
                     UserName = "jacomijntjemoraal@example.com",
                     Email = "jacomijntjemoraal@example.com",
                     Name = "Jacomijntje Moraal",
@@ -146,7 +146,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "9",
+                    Id = 9,
                     UserName = "sjuulalma@example.com",
                     Email = "sjuulalma@example.com",
                     Name = "Sjuul Alma",
@@ -155,7 +155,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "10",
+                    Id = 10,
                     UserName = "sharonapouw@example.com",
                     Email = "sharonapouw@example.com",
                     Name = "Sharona Pouw",
@@ -164,7 +164,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "11",
+                    Id = 11,
                     UserName = "ashwienabbenhuis@example.com",
                     Email = "ashwienabbenhuis@example.com",
                     Name = "Ashwien Abbenhuis",
@@ -173,7 +173,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "12",
+                    Id = 12,
                     UserName = "raulverdaasdonk@example.com",
                     Email = "raulverdaasdonk@example.com",
                     Name = "Raul Verdaasdonk",
@@ -182,7 +182,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "13",
+                    Id = 13,
                     UserName = "majellawessels@example.com",
                     Email = "majellawessels@example.com",
                     Name = "Majella Wessels",
@@ -191,7 +191,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "14",
+                    Id = 14,
                     UserName = "kwintlogtenberg@example.com",
                     Email = "kwintlogtenberg@example.com",
                     Name = "Kwint Logtenberg",
@@ -200,7 +200,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "15",
+                    Id = 15,
                     UserName = "mikhaillebbink@example.com",
                     Email = "mikhaillebbink@example.com",
                     Name = "Mikhail Lebbink",
@@ -209,7 +209,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "16",
+                    Id = 16,
                     UserName = "claylier@example.com",
                     Email = "claylier@example.com",
                     Name = "Clay Lier",
@@ -218,7 +218,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "17",
+                    Id = 17,
                     UserName = "rubinavanderhout@example.com",
                     Email = "rubinavanderhout@example.com",
                     Name = "Rubina Van der Hout",
@@ -227,7 +227,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "18",
+                    Id = 18,
                     UserName = "abderrazakblaauwbroek@example.com",
                     Email = "abderrazakblaauwbroek@example.com",
                     Name = "Abderrazak Blaauwbroek",
@@ -236,7 +236,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "19",
+                    Id = 19,
                     UserName = "yannikconsten@example.com",
                     Email = "yannikconsten@example.com",
                     Name = "Yannik Consten",
@@ -245,7 +245,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "20",
+                    Id = 20,
                     UserName = "niniboekhoudt@example.com",
                     Email = "niniboekhoudt@example.com",
                     Name = "Nini Boekhoudt",
@@ -254,7 +254,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "21",
+                    Id = 21,
                     UserName = "mounssifborkent@example.com",
                     Email = "mounssifborkent@example.com",
                     Name = "Mounssif Borkent",
@@ -263,7 +263,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "22",
+                    Id = 22,
                     UserName = "metjeknoef@example.com",
                     Email = "metjeknoef@example.com",
                     Name = "Metje Knoef",
@@ -272,7 +272,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "23",
+                    Id = 23,
                     UserName = "lolkjehagoort@example.com",
                     Email = "lolkjehagoort@example.com",
                     Name = "Lolkje Hagoort",
@@ -281,7 +281,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "24",
+                    Id = 24,
                     UserName = "sabriadenissen@example.com",
                     Email = "sabriadenissen@example.com",
                     Name = "Sabria Denissen",
@@ -290,7 +290,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "25",
+                    Id = 25,
                     UserName = "farukvanschip@example.com",
                     Email = "farukvanschip@example.com",
                     Name = "Faruk Van Schip",
@@ -299,7 +299,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "26",
+                    Id = 26,
                     UserName = "zakariadraaisma@example.com",
                     Email = "zakariadraaisma@example.com",
                     Name = "Zakaria Draaisma",
@@ -308,7 +308,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "27",
+                    Id = 27,
                     UserName = "oguzheessels@example.com",
                     Email = "oguzheessels@example.com",
                     Name = "Oguz Heessels",
@@ -317,7 +317,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "28",
+                    Id = 28,
                     UserName = "mariaburggraaff@example.com",
                     Email = "mariaburggraaff@example.com",
                     Name = "Maria Burggraaff",
@@ -326,7 +326,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "29",
+                    Id = 29,
                     UserName = "katelijnvandekoppel@example.com",
                     Email = "katelijnvandekoppel@example.com",
                     Name = "Katelijn Van de Koppel",
@@ -335,7 +335,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "30",
+                    Id = 30,
                     UserName = "desirescheeren@example.com",
                     Email = "desirescheeren@example.com",
                     Name = "Désiré Scheeren",
@@ -344,7 +344,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "31",
+                    Id = 31,
                     UserName = "daxgabriel@example.com",
                     Email = "daxgabriel@example.com",
                     Name = "Dax Gabriel",
@@ -353,7 +353,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "32",
+                    Id = 32,
                     UserName = "tommiestel@example.com",
                     Email = "tommiestel@example.com",
                     Name = "Tommie Stel",
@@ -362,7 +362,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "33",
+                    Id = 33,
                     UserName = "raphaelkoppe@example.com",
                     Email = "raphaelkoppe@example.com",
                     Name = "Raphaël Koppe",
@@ -371,7 +371,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "34",
+                    Id = 34,
                     UserName = "demyjongen@example.com",
                     Email = "demyjongen@example.com",
                     Name = "Demy Jongen",
@@ -380,7 +380,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "35",
+                    Id = 35,
                     UserName = "leahharreman@example.com",
                     Email = "leahharreman@example.com",
                     Name = "Leah Harreman",
@@ -389,7 +389,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "36",
+                    Id = 36,
                     UserName = "idrisskorpershoek@example.com",
                     Email = "idrisskorpershoek@example.com",
                     Name = "Idriss Korpershoek",
@@ -398,7 +398,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "37",
+                    Id = 37,
                     UserName = "rashiedbleumink@example.com",
                     Email = "rashiedbleumink@example.com",
                     Name = "Rashied Bleumink",
@@ -407,7 +407,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "38",
+                    Id = 38,
                     UserName = "siay@example.com",
                     Email = "siay@example.com",
                     Name = "Si Ay",
@@ -416,7 +416,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "39",
+                    Id = 39,
                     UserName = "manolyalebens@example.com",
                     Email = "manolyalebens@example.com",
                     Name = "Manolya Lebens",
@@ -425,7 +425,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "40",
+                    Id = 40,
                     UserName = "mateuszmachielsen@example.com",
                     Email = "mateuszmachielsen@example.com",
                     Name = "Mateusz Machielsen",
@@ -434,7 +434,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "41",
+                    Id = 41,
                     UserName = "douaavandepavert@example.com",
                     Email = "douaavandepavert@example.com",
                     Name = "Douaa Van de Pavert",
@@ -443,7 +443,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "42",
+                    Id = 42,
                     UserName = "kishanhoogkamp@example.com",
                     Email = "kishanhoogkamp@example.com",
                     Name = "Kishan Hoogkamp",
@@ -452,7 +452,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
                 {
-                    Id = "43",
+                    Id = 43,
                     UserName = "harmjanversendaal@example.com",
                     Email = "harmjanversendaal@example.com",
                     Name = "Harmjan Versendaal",
@@ -516,51 +516,51 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("UserRoles");
                     j.HasData(
-                        new { UsersId = "1", RolesId = 1 },
-                        new { UsersId = "2", RolesId = 3 },
-                        new { UsersId = "2", RolesId = 4 },
-                        new { UsersId = "3", RolesId = 3 },
-                        new { UsersId = "3", RolesId = 4 },
-                        new { UsersId = "4", RolesId = 2 },
-                        new { UsersId = "5", RolesId = 2 },
-                        new { UsersId = "6", RolesId = 2 },
-                        new { UsersId = "7", RolesId = 2 },
-                        new { UsersId = "8", RolesId = 2 },
-                        new { UsersId = "9", RolesId = 2 },
-                        new { UsersId = "10", RolesId = 2 },
-                        new { UsersId = "11", RolesId = 2 },
-                        new { UsersId = "12", RolesId = 2 },
-                        new { UsersId = "13", RolesId = 2 },
-                        new { UsersId = "14", RolesId = 2 },
-                        new { UsersId = "15", RolesId = 2 },
-                        new { UsersId = "16", RolesId = 2 },
-                        new { UsersId = "17", RolesId = 2 },
-                        new { UsersId = "18", RolesId = 2 },
-                        new { UsersId = "19", RolesId = 2 },
-                        new { UsersId = "20", RolesId = 2 },
-                        new { UsersId = "21", RolesId = 2 },
-                        new { UsersId = "22", RolesId = 2 },
-                        new { UsersId = "23", RolesId = 2 },
-                        new { UsersId = "24", RolesId = 2 },
-                        new { UsersId = "25", RolesId = 2 },
-                        new { UsersId = "26", RolesId = 2 },
-                        new { UsersId = "27", RolesId = 2 },
-                        new { UsersId = "28", RolesId = 2 },
-                        new { UsersId = "29", RolesId = 2 },
-                        new { UsersId = "30", RolesId = 2 },
-                        new { UsersId = "31", RolesId = 2 },
-                        new { UsersId = "32", RolesId = 2 },
-                        new { UsersId = "33", RolesId = 2 },
-                        new { UsersId = "34", RolesId = 2 },
-                        new { UsersId = "35", RolesId = 2 },
-                        new { UsersId = "36", RolesId = 2 },
-                        new { UsersId = "37", RolesId = 2 },
-                        new { UsersId = "38", RolesId = 2 },
-                        new { UsersId = "39", RolesId = 2 },
-                        new { UsersId = "40", RolesId = 2 },
-                        new { UsersId = "41", RolesId = 2 },
-                        new { UsersId = "42", RolesId = 2 },
-                        new { UsersId = "43", RolesId = 2 }
+                        new { UsersId = 1, RolesId = 1 },
+                        new { UsersId = 2, RolesId = 3 },
+                        new { UsersId = 2, RolesId = 4 },
+                        new { UsersId = 3, RolesId = 3 },
+                        new { UsersId = 3, RolesId = 4 },
+                        new { UsersId = 4, RolesId = 2 },
+                        new { UsersId = 5, RolesId = 2 },
+                        new { UsersId = 6, RolesId = 2 },
+                        new { UsersId = 7, RolesId = 2 },
+                        new { UsersId = 8, RolesId = 2 },
+                        new { UsersId = 9, RolesId = 2 },
+                        new { UsersId = 10, RolesId = 2 },
+                        new { UsersId = 11, RolesId = 2 },
+                        new { UsersId = 12, RolesId = 2 },
+                        new { UsersId = 13, RolesId = 2 },
+                        new { UsersId = 14, RolesId = 2 },
+                        new { UsersId = 15, RolesId = 2 },
+                        new { UsersId = 16, RolesId = 2 },
+                        new { UsersId = 17, RolesId = 2 },
+                        new { UsersId = 18, RolesId = 2 },
+                        new { UsersId = 19, RolesId = 2 },
+                        new { UsersId = 20, RolesId = 2 },
+                        new { UsersId = 21, RolesId = 2 },
+                        new { UsersId = 22, RolesId = 2 },
+                        new { UsersId = 23, RolesId = 2 },
+                        new { UsersId = 24, RolesId = 2 },
+                        new { UsersId = 25, RolesId = 2 },
+                        new { UsersId = 26, RolesId = 2 },
+                        new { UsersId = 27, RolesId = 2 },
+                        new { UsersId = 28, RolesId = 2 },
+                        new { UsersId = 29, RolesId = 2 },
+                        new { UsersId = 30, RolesId = 2 },
+                        new { UsersId = 31, RolesId = 2 },
+                        new { UsersId = 32, RolesId = 2 },
+                        new { UsersId = 33, RolesId = 2 },
+                        new { UsersId = 34, RolesId = 2 },
+                        new { UsersId = 35, RolesId = 2 },
+                        new { UsersId = 36, RolesId = 2 },
+                        new { UsersId = 37, RolesId = 2 },
+                        new { UsersId = 38, RolesId = 2 },
+                        new { UsersId = 39, RolesId = 2 },
+                        new { UsersId = 40, RolesId = 2 },
+                        new { UsersId = 41, RolesId = 2 },
+                        new { UsersId = 42, RolesId = 2 },
+                        new { UsersId = 43, RolesId = 2 }
                     );
                 });
 

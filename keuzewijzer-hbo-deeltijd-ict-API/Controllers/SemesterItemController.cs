@@ -28,7 +28,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             //3. if the cohort exists, get the modules from the cohort
             var semesterItems = await _context.SemesterItems
                 .Where(m => m.Cohorts.Contains(cohort))
-                //DIT GAAT NOG NIET HELEMAAL GOED
                 .Include(m => m.RequiredSemesterItem) // Load the required modules
                 .ToListAsync();
 
@@ -38,9 +37,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             //5. return the modules including the cohort and the required modules
 
             return semesterItems;
-
-
-            return NotFound();
         }
 
         public SemesterItemController(KeuzewijzerContext context)
