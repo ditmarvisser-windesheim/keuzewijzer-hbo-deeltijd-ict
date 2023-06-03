@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -17,6 +18,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudyRoute>>> GetStudyRoute()
         {
@@ -28,6 +30,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute/5
+        [Authorize(Roles = "Administrator,Studiebegeleider,Student")]
         [HttpGet("{id}")]
         public async Task<ActionResult<StudyRoute>> GetStudyRoute(int id)
         {

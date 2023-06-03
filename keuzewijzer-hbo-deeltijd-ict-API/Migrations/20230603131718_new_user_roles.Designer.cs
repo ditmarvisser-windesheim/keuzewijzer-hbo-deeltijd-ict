@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 
@@ -11,9 +12,10 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    partial class KeuzewijzerContextModelSnapshot : ModelSnapshot
+    [Migration("20230603131718_new_user_roles")]
+    partial class new_user_roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,12 +347,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -374,12 +374,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -400,29 +398,20 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CohortId1");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5712bc34-bc03-41ae-95de-71fd4f26e7bc",
+                            ConcurrencyStamp = "7622303f-3137-4b17-8c2c-aa5b29f7ba9f",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Arnold",
@@ -431,7 +420,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Arnold Dirk Min",
                             NormalizedEmail = "admin@example.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELWe4wMd2zNm6F7qHcroXPnCp8HW3ZGQxs73z9FiN6zezi1ksNcI4zMtKfEqpMJ+og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIQtHSFqKWuZwEKYvQtWnnMk/a5uW9TALvLql23HWc/M5lknLLCNBCWxGOkyIiFKGw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -440,7 +429,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a1d3cbf-0270-4acc-ad7e-1f187e422003",
+                            ConcurrencyStamp = "9f34a510-a48d-463f-9eff-6fd0bb03765e",
                             Email = "eugenevanroden@example.com",
                             EmailConfirmed = false,
                             FirstName = "Eugene",
@@ -449,7 +438,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Eugene Van Roden",
                             NormalizedEmail = "eugenevanroden@example.com",
                             NormalizedUserName = "eugenevanroden",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFlsO3ORsSSy5EpeK9uj+H+hULGbCjW+XRMvtVV+Tfr/TJmNR6YVWpYwd9kCGf0rTw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBEmKHdHznSDOzt84HRGfaKk2TZwQYfTt0FbexbWZrXhcrMET5BL1eSXxnn8G6ZXFw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "eugenevanroden"
@@ -486,28 +475,28 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "ff36f47d-bff2-4ade-8ca0-7e35c32c0511",
+                            ConcurrencyStamp = "8917f48d-c53f-4a9e-941b-80e6e1be0dae",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "55495650-8b81-4698-bc79-c26e98b96b46",
+                            ConcurrencyStamp = "e6f9d5ec-f0cb-4408-8b4b-818a93d18daa",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "e6dfc6f2-4e5d-404e-b0e0-103063a3d482",
+                            ConcurrencyStamp = "9003c939-a544-4eb1-a7e0-4e17ffc76a67",
                             Name = "Studiebegeleider",
                             NormalizedName = "STUDIEBEGELEIDER"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "04e2d1a4-79c3-49c8-8860-1cff0a63ca52",
+                            ConcurrencyStamp = "dff6f600-8fd3-4a0e-805c-dddf5f31fff0",
                             Name = "Moduleverantwoordelijke",
                             NormalizedName = "MODULEVERANTWOORDELIJKE"
                         });
@@ -536,6 +525,71 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -598,13 +652,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "1",
-                            RoleId = "1"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -750,7 +797,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -759,7 +806,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -774,7 +821,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -783,7 +830,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.User", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
