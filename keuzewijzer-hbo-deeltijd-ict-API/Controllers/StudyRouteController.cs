@@ -110,9 +110,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 return Problem("Entity set 'KeuzewijzerContext.StudyRoute' is null.");
             }
 
-            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 8)
+            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 7)
             {
-                return BadRequest("The 'Posts' collection must contain at least 8 items.");
+                return BadRequest("The 'Posts' collection must contain at least 7 items.");
             }
 
             _context.StudyRoutes.Add(@studyRoute);

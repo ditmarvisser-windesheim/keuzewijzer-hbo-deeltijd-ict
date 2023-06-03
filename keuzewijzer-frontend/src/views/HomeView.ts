@@ -20,20 +20,21 @@ export class HomeView implements View {
 
     private async getStudyRouteItem() {
         const response = await Api.get('https://localhost:7298/api/StudyRoute/user/1');
-
-        // Tijdelijke oplossing
         const studyRouteItemList: StudyRouteItem[] = [];
 
-        response.forEach((response: { year: number; semester: number; semesterItemId: number; }) => {
-            const year = response.year;
-            const semester = response.semester;
-            const semesterItemId = response.semesterItemId;
+        // User not found
+        if (response.status != 404) {
+            // Tijdelijke oplossing
+            response.forEach((response: { year: number; semester: number; semesterItemId: number; }) => {
+                const year = response.year;
+                const semester = response.semester;
+                const semesterItemId = response.semesterItemId;
 
-            const studyRouteItem = new StudyRouteItem(year, semester, semesterItemId);
-            studyRouteItemList.push(studyRouteItem);
-        });
+                const studyRouteItem = new StudyRouteItem(year, semester, semesterItemId);
+                studyRouteItemList.push(studyRouteItem);
+            });
+        }
 
-        console.log(studyRouteItemList)
         return studyRouteItemList;
     }
 
@@ -310,12 +311,12 @@ export class HomeView implements View {
                     const SemesterItem2Id = $(this).find('.box').eq(1).data('id') as number;
 
                     studyRouteItemList.push(new StudyRouteItem(year, 1, SemesterItem1Id));
+                    // Afstudeer SemesterItem is locked
                     if (year != 4) {
                         studyRouteItemList.push(new StudyRouteItem(year, 2, SemesterItem2Id));
                     }
                     year += 1;
                 });
-                studyRouteItemList.push(new StudyRouteItem(4, 2, 8))
                 let studyRoute = new StudyRoute(1, studyRouteItemList)
                 // this saves the studyroute of the user
                 const response = await Api.post('https://localhost:7298/api/StudyRoute', studyRoute)
