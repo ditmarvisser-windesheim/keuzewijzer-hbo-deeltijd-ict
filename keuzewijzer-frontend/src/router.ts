@@ -32,15 +32,33 @@ export class Router {
     const app = document.getElementById('app');
 
     // Iterate over the routes and find a match
+    const urlParts = path.split('/');
+
+    // Iterate over the routes and find a match
     for (const [route, routeView] of this.routes) {
-      const routeRegex = new RegExp(`^${route}$`); // Create a regular expression for the route
-      
-      if (routeRegex.test(path)) {
-        view = routeView;
-        break;
+      const routeParts = route.split('/');
+
+      if (routeParts.length === urlParts.length) {
+        let match = true;
+        const params: Record<string, string> = {};
+
+        for (let i = 0; i < routeParts.length; i++) {
+          if (routeParts[i].startsWith(':')) {
+            params[routeParts[i].slice(1)] = urlParts[i];
+          } else if (routeParts[i] !== urlParts[i]) {
+            match = false;
+            break;
+          }
+        }
+
+        if (match) {
+          view = routeView;
+          view.params = params;
+          break;
+        }
       }
     }
-  
+
     if (!view) {
       // If there is no matching view, show a 404 error
       this.show404();
@@ -57,22 +75,22 @@ export class Router {
 
     // Compile the view's template
     const template = Handlebars.compile(view.template);
-  
+
     // Render the view
     const html = template(view.data);
-  
+
     if (app) {
       app.innerHTML = html;
-  
+
       // Call the setup method of the view 
-      if (typeof view.setup === 'function') { 
-        view.setup(); 
-      } 
+      if (typeof view.setup === 'function') {
+        view.setup();
+      }
     }
-  
+
     // Update the current view
     this.currentView = view;
-  
+
     // Update the browser's history
     history.pushState({}, '', path);
   }

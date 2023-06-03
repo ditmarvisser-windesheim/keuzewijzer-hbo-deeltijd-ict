@@ -61,33 +61,66 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/SemesterItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SemesterItem>> GetGetSemesterItems(int id)
+        public async Task<ActionResult<SemesterItem>> GetSemesterItems(int id)
         {
             if (_context.SemesterItems == null)
             {
                 return NotFound();
             }
-            var @semesterItems = await _context.SemesterItems.FindAsync(id);
+            var semesterItem = await _context.SemesterItems
+                .Include(m => m.RequiredSemesterItem)
+                .Include(m => m.Cohorts)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (@semesterItems == null)
+            if (semesterItem == null)
             {
                 return NotFound();
             }
 
-            return @semesterItems;
+            return semesterItem;
         }
-
         // PUT: api/SemesterItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSemesterItem(int id, SemesterItem @semesterItems)
+        public async Task<IActionResult> PutSemesterItem(int id, SemesterItem semesterItem)
         {
-            if (id != @semesterItems.Id)
+            if (id != semesterItem.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@semesterItems).State = EntityState.Modified;
+            // Get the existing semester item from the database
+            var existingSemesterItem = await _context.SemesterItems
+                .Include(si => si.Cohorts)
+                .Include(si => si.RequiredSemesterItem)
+                .FirstOrDefaultAsync(si => si.Id == id);
+
+            if (existingSemesterItem == null)
+            {
+                return NotFound();
+            }
+
+            // Clear the cohorts and required semester items
+            existingSemesterItem.Cohorts.Clear();
+            existingSemesterItem.RequiredSemesterItem.Clear();
+
+            // Detach the existing semester item from the context
+            _context.Entry(existingSemesterItem).State = EntityState.Detached;
+
+            // Update the modified semester item
+            _context.Entry(semesterItem).State = EntityState.Modified;
+
+            // If CohortsId is provided in the request, fetch the corresponding cohorts
+            if (semesterItem.CohortsId != null)
+            {
+                semesterItem.Cohorts = await _context.Cohorts.Where(c => semesterItem.CohortsId.Contains(c.Id)).ToListAsync();
+            }
+
+            // If RequiredSemesterItemId is provided in the request, fetch the corresponding SemesterItems
+            if (semesterItem.RequiredSemesterItemId != null)
+            {
+                semesterItem.RequiredSemesterItem = await _context.SemesterItems.Where(c => semesterItem.RequiredSemesterItemId.Contains(c.Id)).ToListAsync();
+            }
 
             try
             {
@@ -105,43 +138,68 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetSemesterItems", new { id = semesterItem.Id }, semesterItem);
         }
+
 
         // POST: api/SemesterItem
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<SemesterItem>> PostSemesterItem(SemesterItem @semesterItems)
+        public async Task<ActionResult<SemesterItem>> PostSemesterItem(SemesterItem semesterItem)
         {
             if (_context.SemesterItems == null)
             {
-                return Problem("Entity set 'KeuzewijzerContext.Modules'  is null.");
+                return Problem("Entity set 'KeuzewijzerContext.Modules' is null.");
             }
-            _context.SemesterItems.Add(@semesterItems);
+
+            // If CohortsId is provided in the request, fetch the corresponding cohorts
+            if (semesterItem.CohortsId != null)
+            {
+                semesterItem.Cohorts = await _context.Cohorts.Where(c => semesterItem.CohortsId.Contains(c.Id)).ToListAsync();
+            }
+
+            // If RequiredSemesterItemId is provided in the request, fetch he corresopndign SemestItems
+            if (semesterItem.RequiredSemesterItemId != null)
+            {
+                semesterItem.RequiredSemesterItem = await _context.SemesterItems.Where(c => semesterItem.RequiredSemesterItemId.Contains(c.Id)).ToListAsync();
+            }
+
+            _context.SemesterItems.Add(semesterItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModule", new { id = @semesterItems.Id }, @semesterItems);
+            return CreatedAtAction("GetSemesterItems", new { id = semesterItem.Id }, semesterItem);
         }
 
         // DELETE: api/SemesterItem/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            if (_context.SemesterItems == null)
-            {
-                return NotFound();
-            }
-            var @semesterItems = await _context.SemesterItems.FindAsync(id);
-            if (@semesterItems == null)
+            var semesterItem = await _context.SemesterItems
+                .Include(si => si.Cohorts)
+                .Include(si => si.RequiredSemesterItem)
+                .Include(si => si.DependentSemesterItem)
+                .FirstOrDefaultAsync(si => si.Id == id);
+
+            if (semesterItem == null)
             {
                 return NotFound();
             }
 
-            _context.SemesterItems.Remove(@semesterItems);
+            // Clear the cohorts and required semester items
+            semesterItem.Cohorts.Clear();
+            semesterItem.RequiredSemesterItem.Clear();
+            semesterItem.DependentSemesterItem.Clear();
+
+            // Detach the existing semester item from the context
+            _context.Entry(semesterItem).State = EntityState.Detached;
+
+            // Delete the semester item
+            _context.SemesterItems.Remove(semesterItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         private bool SemesterItemExists(int id)
         {

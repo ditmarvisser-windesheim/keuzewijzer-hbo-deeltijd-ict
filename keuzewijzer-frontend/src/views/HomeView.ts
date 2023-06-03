@@ -2,12 +2,36 @@ import { StudyRoute } from '../class/StudyRoute';
 import { StudyRouteItem } from '../class/StudyRouteItem';
 import Api from '../js/api/api';
 import { View } from './View';
+import Swal from 'sweetalert2';
+
+interface Cohort {
+    id: number;
+    name: string;
+    semesterItems: any[] | null;
+    user: string | null;
+    userId: string | null;
+}[]; 
+
+interface Module {
+    id: number;
+    cohorts: Cohort[] | null;
+    dependentSemesterItem: any[] | null;
+    description: string;
+    modules: any[] | null;
+    name: string;
+    requiredSemesterItem: any[] | null;
+    requiredSemesterItemId: number | null;
+    semester: number;
+    users: any[] | null;
+    year: number[];
+    yearJson: string;
+}[];
 
 export class HomeView implements View {
-    public cohorts = Api.get('https://localhost:7298/api/Cohort');
+    public cohorts: any[] = [];
     public semesterItems!: SemesterItem[];
     public studyRouteItems: StudyRouteItem[] = [];
-
+    public modules: any[] = [];
 
     public constructor() {
         console.log('HomeView.constructor()');
@@ -37,11 +61,17 @@ export class HomeView implements View {
 
         return studyRouteItemList;
     }
+    private async getModules() {
+        const modules = await Api.get('/api/SemesterItem/cohort/2021');
+        return modules;
+    }
 
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
         this.data.semesterItems = await this.getSemesterItem();
         this.data.studyRouteItems = await this.getStudyRouteItem();
+        this.modules = await this.getModules();
+        this.cohorts = await Api.get('/api/Cohort');
     }
 
     public template = `<div class="container">
@@ -111,6 +141,7 @@ export class HomeView implements View {
         cohorts: this.cohorts,
         semesterItems: this.semesterItems,
         studyRouteItems: this.studyRouteItems,
+        modules: this.modules,
         years: [
             { year: 1 },
             { year: 2 },
@@ -143,11 +174,53 @@ export class HomeView implements View {
         });
 
         console.log('HomeView.setup()');
+        console.log(this.data);
     
-        $(() => {
+        $(async () => {
             let dropCount = 0;
             let yearCount = 4;
             let lastBox: JQuery<HTMLElement> | null = null;
+
+            const object: { [key: number]: any } = this.cohorts.reduce((acc, obj) => {
+                console.log(acc, obj);
+                // const { id, ...rest } = obj;
+                // acc[id] = rest;
+                return acc;
+              }, {});
+
+
+            const { value: fruit } = await Swal.fire({
+                icon: 'question',
+                title: 'Welk cohort ben jij begonnen?',
+                input: 'select',
+                inputOptions: {
+                  'Fruits': {
+                    apples: 'Apples',
+                    bananas: 'Bananas',
+                    grapes: 'Grapes',
+                    oranges: 'Oranges'
+                  },
+                  'Vegetables': {
+                    potato: 'Potato',
+                    broccoli: 'Broccoli',
+                    carrot: 'Carrot'
+                  },
+                  'icecream': 'Ice cream'
+                },
+                inputPlaceholder: 'Select a fruit',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                  return new Promise((resolve) => {
+                    if (value === 'oranges') {
+                    //   resolve()
+                    } else {
+                      resolve('You need to select oranges :)')
+                    }
+                  })
+                }
+              })
+
+
     
             $(".box").draggable({
                 zIndex: 100,
@@ -236,12 +309,6 @@ export class HomeView implements View {
                             if (droppedBox.data('id') === 'reperatiesemester') {
                                 const latestYear = $('.year-' + yearCount);
 
-                                console.log("remove test = ", latestYear.find('.col-md-4').length);
-
-                                if (latestYear.find('.col-md-4').length === 2) {
-                                    latestYear.find('.col-md-4').first().remove();
-                                }
-
                                 if (latestYear.find('.col-md-4').length === 1) {
                                     const yearBefore = $('.year-' + (yearCount - 1));
                                     const latestExtraColumn = yearBefore.find('.col-md-4').last();
@@ -251,6 +318,10 @@ export class HomeView implements View {
                                     latestExtraColumn.remove();
                                     latestYear.remove();
                                     yearCount--;
+                                }
+
+                                if (latestYear.find('.col-md-4').length === 2) {
+                                    latestYear.find('.col-md-4').first().remove();
                                 }
                             }
                         });

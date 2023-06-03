@@ -21,10 +21,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cohort>>> GetCohort()
         {
-          if (_context.Cohorts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Cohorts == null)
+            {
+                return NotFound();
+            }
             return await _context.Cohorts.ToListAsync();
         }
 
@@ -32,10 +32,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Cohort>> GetCohort(int id)
         {
-          if (_context.Cohorts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Cohorts == null)
+            {
+                return NotFound();
+            }
             var @cohort = await _context.Cohorts.FindAsync(id);
 
             if (@cohort == null)
@@ -80,16 +80,16 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // POST: api/cohort
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Cohort>> PostCohort(Cohort @cohort)
+        public async Task<ActionResult<Cohort>> PostCohort(Cohort cohort)
         {
-          if (_context.Cohorts == null)
-          {
-              return Problem("Entity set 'KeuzewijzerContext.Cohorts'  is null.");
-          }
-            _context.Cohorts.Add(@cohort);
+            if (_context.Cohorts == null)
+            {
+                return Problem("Entity set 'KeuzewijzerContext.Cohorts'  is null.");
+            }
+            _context.Cohorts.Add(cohort);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModule", new { id = @cohort.Id }, @cohort);
+            return CreatedAtAction("GetCohort", new { id = cohort.Id }, cohort);
         }
 
         // DELETE: api/cohort/5
