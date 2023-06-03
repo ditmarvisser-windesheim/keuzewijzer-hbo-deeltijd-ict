@@ -306,13 +306,19 @@ export class HomeView implements View {
                 let studyRouteItemList: StudyRouteItem[] = [];
                 $("div[class^='year-']").each(function () {
                     // SemesterId from semester 1 year x 
-                    const SemesterItem1Id = $(this).find('.box').eq(0).data('id') as number;
+                    const SemesterItem1Id = $(this).find('.box').eq(0).data('id');
                      // SemesterId from semester 2 year x  
-                    const SemesterItem2Id = $(this).find('.box').eq(1).data('id') as number;
+                    const SemesterItem2Id = $(this).find('.box').eq(1).data('id');
 
-                    studyRouteItemList.push(new StudyRouteItem(year, 1, SemesterItem1Id));
-                    // Afstudeer SemesterItem is locked
-                    if (year != 4) {
+                    // Check if semesterItem is not of type afstuderen
+                    const afstuderenId1 = $(this).find('.rounded-3').eq(1).data('id');
+                    const afstuderenId2 = $(this).find('.rounded-3').eq(2).data('id');
+
+                    if (afstuderenId1 != "afstuderen") {
+                        studyRouteItemList.push(new StudyRouteItem(year, 1, SemesterItem1Id));
+                    }
+                    console.log(afstuderenId2)
+                    if (afstuderenId2 != "afstuderen") {
                         studyRouteItemList.push(new StudyRouteItem(year, 2, SemesterItem2Id));
                     }
                     year += 1;
