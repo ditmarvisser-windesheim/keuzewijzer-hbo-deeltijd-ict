@@ -5,8 +5,8 @@ import { SemesterUpdateView } from './views/Module/SemesterUpdateView';
 import { SemesterIndexView } from './views/Module/SemesterIndexView';
 import { CohortIndexView } from './views/Cohort/CohortIndexView';
 import { CohortCreateView } from './views/Cohort/CohortCreateView';
-import { UserIndexView } from './views/User.ts/UserIndex';
-import { UserUpdateSemester } from './views/User.ts/UserUpdateSemester';
+import { UserIndexView } from './views/User/UserIndex';
+import { UserUpdateSemester } from './views/User/UserUpdateSemester';
 
 export class App {
   private router: Router;
