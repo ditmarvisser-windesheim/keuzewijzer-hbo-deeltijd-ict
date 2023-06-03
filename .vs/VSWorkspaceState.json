@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\keuzewijzer-hbo-deeltijd-ict-MVC"
+    "\\keuzewijzer-frontend",
+    "\\keuzewijzer-frontend\\obj",
+    "\\keuzewijzer-frontend\\src",
+    "\\keuzewijzer-frontend\\src\\class",
+    "\\keuzewijzer-frontend\\src\\views"
   ],
-  "SelectedNode": "\\keuzewijzer-hbo-deeltijd-ict-MVC",
   "PreviewInSolutionExplorer": false
 }
