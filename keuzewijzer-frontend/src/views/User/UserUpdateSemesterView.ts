@@ -6,7 +6,6 @@ import { User } from 'Models/User';
 
 export class UserUpdateSemesterView implements View {
 
-  private Id = 1; //TODO: get the id form the url
   private user: User | null = null;
 
   public template = `
@@ -33,27 +32,50 @@ export class UserUpdateSemesterView implements View {
     </div>
   `;
   public data = {};
+  public params: Record<string, string> = {};
 
   public async setup(): Promise<void> {
 
-    this.user = await Api.get('/api/User/' + this.Id.toString()) as User;
-    this.updateSemesters();
+    const response = await Api.get('/api/User/' + this.params?.id);
+    if ('status' in response && response.status === 404) {
+      Swal.fire({
+        title: 'Fout!',
+        text: 'Gebruiker niet gevonden!',
+        icon: 'error',
+        confirmButtonText: 'Oké'
+      });
 
+      setTimeout(() => {
+        window.location.href = '/user';
+      }, 2000);
+
+      return;
+    }
+    await this.updateSemesters();
+
+    const user = response as User;
+
+    await this.setForm(user);
 
     const userForm = $('#user-form');
     userForm.on('submit', this.handleUserSemesterUpdate.bind(this));
+  }
+
+  private async setForm(user: User): Promise<void> {
+    const semestersInput = $('#semesters');
+    const semesterError = $('#semesterError');
+
+    if (user.semesterItems != null) {
+      const semesters = user.semesterItems.map((semester) => semester.id.toString());
+      semestersInput.val(semesters);
+    };
   }
 
   private async updateSemesters(): Promise<void> {
     const SemesterSelect = $('#semesters') as JQuery<HTMLSelectElement>;
     const Semesters = await Api.get('/api/semesterItem') as Semester[];
 
-    //TODO: check which of the semester items are already selected
-
-    console.log(this.user);
-
     Semesters.forEach((semesterItem: Semester) => {
-      if (semesterItem.id === this.Id) return;
       SemesterSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
@@ -72,12 +94,9 @@ export class UserUpdateSemesterView implements View {
       return;
     }
 
-
-
-
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/User/UpdateSemesters/' + this.Id, semesterIds);
+      const response = await Api.put('/api/User/UpdateSemesters/' + this.params?.id, semesterIds);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
@@ -85,7 +104,6 @@ export class UserUpdateSemesterView implements View {
 
       // Show a success message
       Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
-      console.log(response);
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
