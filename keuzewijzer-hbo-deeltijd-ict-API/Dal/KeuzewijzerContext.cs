@@ -688,8 +688,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
 
             modelBuilder.Entity<StudyRouteItem>().HasData(
-                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 }
-                );
+                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 4 }
+            );
 
         }
     }
