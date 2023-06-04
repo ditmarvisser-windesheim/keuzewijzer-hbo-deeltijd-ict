@@ -1,7 +1,7 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
-import Api from '../../js/api/api';
+import Api from '../../api/api';
 import { Cohort } from 'Models/Cohort';
 
 export class SemesterUpdateView implements View {
