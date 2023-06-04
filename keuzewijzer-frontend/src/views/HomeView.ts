@@ -40,8 +40,7 @@ export class HomeView implements View {
 
     private async getStudyRouteItem() {
         const response : any = await Api.get('/api/StudyRoute/user/1');
-        const studyRouteItemList: IStudyRouteItem[] = response.studyRouteItems;
-
+        const studyRouteItemList: IStudyRouteItem[] = response;
         return studyRouteItemList
     }
     private async getModules() {
