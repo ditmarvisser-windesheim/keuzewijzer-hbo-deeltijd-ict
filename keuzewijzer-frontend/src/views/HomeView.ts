@@ -347,7 +347,8 @@ export class HomeView implements View {
             }); 
 
             $(".create").click(async function () {
-                let year = 1;
+                // oude code
+/*                let year = 1;
                 let studyRouteItemList: IStudyRouteItem[] = [];
                 $("div[class^='year-']").each(function () {
                     // SemesterId from semester 1 year x 
@@ -364,13 +365,39 @@ export class HomeView implements View {
                     }
                     console.log(afstuderenId2)
                     if (afstuderenId2 != "afstuderen") {
-                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem1Id });
+                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem2Id });
                     }
                     year += 1;
-                });
+                });*/
 
-                // bo fix dit ff
-                let studyRoute: IStudyRoute = new StudyRoute(1, studyRouteItemList)
+                // nieuwe code
+                let studyRouteItemList: IStudyRouteItem[] = [];
+                const years = $("div[class^='year-']");
+
+                years.each(function (index) {
+                    const boxes = $(this).find('.box');
+                    const afstuderenBoxes = $(this).find('.rounded-3[data-id!="afstuderen"]');
+
+                    boxes.each(function (semesterIndex) {
+                        const semesterItemId = $(this).data('id');
+
+                        if (semesterIndex < afstuderenBoxes.length) {
+                            studyRouteItemList.push({ year: index + 1, semester: semesterIndex + 1, semesterItemId });
+                        }
+                    });
+                });
+                 
+                let studyRoute: IStudyRoute = {
+                    userId: 1,
+                    studyRouteItems: studyRouteItemList,
+                    name: '',
+                    approved_sb: false,
+                    approved_eb: false,
+                    note: '',
+                    send_sb: false,
+                    send_eb: false
+                };
+
                 // this saves the studyroute of the user
                 const response = await Api.post('https://localhost:7298/api/StudyRoute', studyRoute)
             });
