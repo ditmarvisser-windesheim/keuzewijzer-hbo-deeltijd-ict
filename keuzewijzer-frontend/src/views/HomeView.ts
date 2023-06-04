@@ -3,6 +3,7 @@ import { View } from './View';
 import Swal from 'sweetalert2';
 import cohort from '../api/cohort';
 
+
 import { ICohort } from 'interfaces/iCohort';
 import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
 import { ISemesterItem } from 'interfaces/isSemesterItems';
@@ -106,7 +107,7 @@ export class HomeView implements View {
                                 <div class="row">
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
                                     {{#each semesterItems}}
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">{{name}}</div>
+                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}" data-toggle="modal" data-target="#semesterItemInfoModal">{{name}}</div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -114,7 +115,9 @@ export class HomeView implements View {
                     </div>
                 </div>
             </div>
-            <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
+            </div>
         </div>
     </div>
     `;
@@ -135,8 +138,9 @@ export class HomeView implements View {
     public setup(): void {
         const self = this;
 
-        $(".box").click(function () {
+        $(document).on("click", ".box", function () {
             var semesterItemId = $(this).data("id");
+            console.log(semesterItemId);
             var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
             });
@@ -145,14 +149,9 @@ export class HomeView implements View {
                 var semesterItemName = clickedSemesterItem.name;
                 var semesterItemDescription = clickedSemesterItem.description;
 
-                $(".modal h1").text(semesterItemName);
-                $(".modal p").text(semesterItemDescription);
-                $(".modal").show();
+                $("#semesterItemInfoModal .modal-title").text(semesterItemName);
+                $("#semesterItemInfoModal .modal-body").text(semesterItemDescription);
             }
-        });
-
-        $(".close-button").click(function () {
-            $(".modal").hide();
         });
 
         console.log('HomeView.setup()');
@@ -347,6 +346,7 @@ export class HomeView implements View {
                     setupDroppable($(".box")); // Set up droppable behavior for existing boxes
                 });
             }
+
             $(".create").click(async function () {
                 // nieuwe code
                 let studyRouteItemList: IStudyRouteItem[] = [];

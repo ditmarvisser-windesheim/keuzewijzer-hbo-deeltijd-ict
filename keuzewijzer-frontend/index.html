@@ -11,9 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./src/css/style.css"> 
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -48,17 +49,16 @@
                         </li>
                         <li>
                             <a href="/user" class="nav-link px-0 align-middle" data-link>
-                                <i class="fs-4 bi-file-text"></i> <span
-                                    class="ms-1 d-none d-sm-inline">Gebruikers</span>
+                                <i class="fs-4 bi-file-text"></i> <span class="ms-1 d-none d-sm-inline">Gebruikers</span>
                             </a>
                         </li>
                     </ul>
                     <hr>
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
-                                class="rounded-circle">
+                                 class="rounded-circle">
                             <span class="d-none d-sm-inline mx-1">loser</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -77,89 +77,31 @@
             <div class="col py-3">
                 <div class="container row">
 
-                    <div class="modal">
-                        <div class="modal-content">
-                            <span class="close-button">×</span>
-                            <h1>Title!</h1>
-                            <p>description</p>
+                    <div class="modal fade" id="semesterItemInfoModal" tabindex="-1" role="dialog" aria-labelledby="semesterItemInfoModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                        <main id="app"></main>
-                    </div>
+                    <main id="app"></main>
                 </div>
+            </div>
         </div>
-        <style>
-            .modal {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                padding: 1rem 3rem;
-                background: white;
-                max-width: 800px;
-                max-height: 600px;
-                padding-top: 2rem;
-                border-radius: 20px;
-                border: 0;
-                box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
-                animation: fadeIn 1s ease both;
-            }
-
-                .modal::backdrop {
-                    animation: fadeIn 1s ease both;
-                    background: rgb(255 255 255 / 40%);
-                    z-index: 2;
-                    backdrop-filter: blur(20px);
-                }
-
-            .close-button {
-                filter: grayscale(1);
-                border: none;
-                background: none;
-                position: absolute;
-                top: 15px;
-                right: 10px;
-                transition: ease filter, transform 0.3s;
-                cursor: pointer;
-                transform-origin: center;
-            }
-
-                .close-button:hover {
-                    filter: grayscale(0);
-                    transform: scale(1.1);
-                }
-
-            .modal h2 {
-                font-weight: 600;
-                font-size: 2rem;
-                padding-bottom: 1rem;
-            }
-
-            .modal p {
-                font-size: 1rem;
-                line-height: 1.3rem;
-                padding: 0.5rem 0;
-            }
-
-                .modal p a:visited {
-                    color: rgb(var(--vs-primary));
-                }
-
-            .accordion-body {
-                max-height: 350px;
-                overflow-y: auto;
-            }
-            .create {
-                max-width: 300px;
-                margin-left: auto;
-                margin-right: 0;
-            }
-        </style>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script type="module" src="/dist/js/bundle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
