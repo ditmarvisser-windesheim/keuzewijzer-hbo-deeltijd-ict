@@ -235,7 +235,6 @@ export class HomeView implements View {
                 if (droppedBox.data('id') === 'reperatiesemester') {
                     dropCount++;
                     // Add a new column and move the "afstuderen" box to the new column
-                    const currentYear = targetBox.closest('.year');
                     const latestYear = $('.year-' + yearCount);
 
                     const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
@@ -244,8 +243,11 @@ export class HomeView implements View {
                         '</div>');
 
                     setupDroppable(newColumn);
+                    console.log(latestYear.find('.col-md-4').length)
 
-                    if (latestYear.find('.col-md-4').length === 2) {
+
+                    if (latestYear.find('.col-md-4').length === 2 || latestYear.find('.col-md-4').length === 3) {
+                        
                         const afstuderenBoxClone = afstuderenBox.clone();
                         afstuderenBox.replaceWith(newColumn);
 
@@ -313,9 +315,9 @@ export class HomeView implements View {
 
             if (Array.isArray(self.data.studyRouteItems)) {
                 self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    // this will take the find the semesterItem
                     const boxId = studyRouteItem.semesterItemId
-                    // Dit is om een nieuwe box te clone en de oude te hide
-                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
                     let targetBox = null;
 
                     if (studyRouteItem.semester === 1) {
@@ -323,7 +325,7 @@ export class HomeView implements View {
                     } else {
                         targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
                     }
-                    handleDropBox(originalBoxTest, targetBox);
+                    handleDropBox(semesterItemBox, targetBox);
                 });
             }
 
@@ -359,6 +361,7 @@ export class HomeView implements View {
 
                 // this saves the studyroute of the user
                 const response = await Api.post('/api/StudyRoute', studyRoute)
+                console.log(response)
             });
         });
     }
