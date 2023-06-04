@@ -16,6 +16,30 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             _context = context;
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
+        {
+            //1. get the studyroute with the correct userid
+            var studyRoute = await _context.StudyRoutes.Where(c => c.UserId == userId).FirstOrDefaultAsync();
+            //2. check if the studyRoute exists
+            if (studyRoute == null) return NotFound();
+
+            //3. if the studyRouteItems exists, get the modules from the cohort
+            var studyRouteItems = await _context.StudyRouteItems
+                .Where(m => m.StudyRouteId == studyRoute.Id)
+                .ToListAsync();
+
+            //4. check if there are any studyRouteItems
+            if (studyRouteItems == null) return NotFound();
+
+            //5. return the studyRouteItems including the cohort and the required modules
+
+            return studyRouteItems;
+
+
+            return NotFound();
+        }
+
         // GET: api/StudyRoute
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudyRoute>>> GetStudyRoute()
@@ -86,9 +110,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 return Problem("Entity set 'KeuzewijzerContext.StudyRoute' is null.");
             }
 
-            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 8)
+            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 7)
             {
-                return BadRequest("The 'Posts' collection must contain at least 8 items.");
+                return BadRequest("The 'Posts' collection must contain at least 7 items.");
             }
 
             _context.StudyRoutes.Add(@studyRoute);

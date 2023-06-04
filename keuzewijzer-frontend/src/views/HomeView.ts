@@ -1,18 +1,16 @@
-import Api from '../js/api/api';
+import Api from '../api/api';
 import { View } from './View';
 import Swal from 'sweetalert2';
+import cohort from '../api/cohort';
 
-interface Cohort {
-    id: number;
-    name: string;
-    semesterItems: any[] | null;
-    user: string | null;
-    userId: string | null;
-}[]; 
+import { ICohort } from 'interfaces/iCohort';
+import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
+import { ISemesterItem } from 'interfaces/isSemesterItems';
+import { IStudyRoute } from 'interfaces/iStudyRoute';
 
 interface Module {
     id: number;
-    cohorts: Cohort[] | null;
+    cohorts: ICohort[] | null;
     dependentSemesterItem: any[] | null;
     description: string;
     modules: any[] | null;
@@ -23,16 +21,28 @@ interface Module {
     users: any[] | null;
     year: number[];
     yearJson: string;
-}[];
+};
 
 export class HomeView implements View {
-    public cohorts: any[] = [];
-    public modules: any[] = [];
+    public cohorts: ICohort[] = [];
+    public semesterItems!: ISemesterItem[];
+    public studyRouteItems:IStudyRouteItem[] = [];
+    public modules: Module[] = [];
 
     public constructor() {
         console.log('HomeView.constructor()');
     }
 
+    private async getSemesterItem() {
+        const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
+        return semesterItems;
+    }
+
+    private async getStudyRouteItem() {
+        const response : any = await Api.get('/api/StudyRoute/user/1');
+        const studyRouteItemList: IStudyRouteItem[] = response;
+        return studyRouteItemList
+    }
     private async getModules() {
         const modules = await Api.get('/api/SemesterItem/cohort/2021');
         return modules;
@@ -40,8 +50,10 @@ export class HomeView implements View {
 
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
+        this.data.semesterItems = await this.getSemesterItem();
+        this.data.studyRouteItems = await this.getStudyRouteItem();
         this.modules = await this.getModules();
-        this.cohorts = await Api.get('/api/Cohort');
+        this.cohorts = await cohort.getCohorts();
     }
 
     public template = `<div class="container">
@@ -93,7 +105,7 @@ export class HomeView implements View {
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
-                                    {{#each modules}}
+                                    {{#each semesterItems}}
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">{{name}}</div>
                                     {{/each}}
                                 </div>
@@ -102,22 +114,47 @@ export class HomeView implements View {
                     </div>
                 </div>
             </div>
+            <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
         </div>
     </div>
     `;
 
     public data = {
         cohorts: this.cohorts,
+        semesterItems: this.semesterItems,
+        studyRouteItems: this.studyRouteItems,
         modules: this.modules,
         years: [
             { year: 1 },
             { year: 2 },
             { year: 3 },
             { year: 4 }
-        ]
+        ],
     };
 
     public setup(): void {
+        const self = this;
+
+        $(".box").click(function () {
+            var semesterItemId = $(this).data("id");
+            var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
+                return semesterItem.id === semesterItemId;
+            });
+
+            if (clickedSemesterItem) {
+                var semesterItemName = clickedSemesterItem.name;
+                var semesterItemDescription = clickedSemesterItem.description;
+
+                $(".modal h1").text(semesterItemName);
+                $(".modal p").text(semesterItemDescription);
+                $(".modal").show();
+            }
+        });
+
+        $(".close-button").click(function () {
+            $(".modal").hide();
+        });
+
         console.log('HomeView.setup()');
         console.log(this.data);
     
@@ -125,14 +162,6 @@ export class HomeView implements View {
             let dropCount = 0;
             let yearCount = 4;
             let lastBox: JQuery<HTMLElement> | null = null;
-
-            const object: { [key: number]: any } = this.cohorts.reduce((acc, obj) => {
-                console.log(acc, obj);
-                // const { id, ...rest } = obj;
-                // acc[id] = rest;
-                return acc;
-              }, {});
-
 
             const { value: fruit } = await Swal.fire({
                 icon: 'question',
@@ -197,6 +226,8 @@ export class HomeView implements View {
                     drop: (event, ui) => {
                         const droppedBox: JQuery<HTMLElement> = $(ui.draggable);
                         const targetBox = $(event.target);
+                        console.log(droppedBox.data('id'))
+
     
                         if (droppedBox.data('id') === 'reperatiesemester') {
                             dropCount++;
@@ -278,9 +309,76 @@ export class HomeView implements View {
                     }
                 });
             }
+            // Standaard positie
+            // Test box id
+            // Ik verander dit later 
+            if (Array.isArray(self.data.studyRouteItems)) {
+                self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    const boxId = studyRouteItem.semesterItemId
 
-            setupDroppable($(".box")); // Set up droppable behavior for existing boxes
+                    // Dit is om een nieuwe box te clone en de oude te hide
+                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+                    const originalBoxClone = originalBoxTest.clone();
+                    originalBoxTest.hide();
 
+                    // Denk dat dit is voor styling
+                    originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+
+                    const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                    targetBox.replaceWith(originalBoxClone);
+
+                    const closeButton = $('<button class="remove-box">x</button>');
+                    closeButton.click(function () {
+                        const boxToRemove = $(this).parent();
+
+                        // Find the original landing box
+                        const originalLandingBox = targetBox.clone();
+
+                        // Replace the dropped box with the original landing box
+                        boxToRemove.replaceWith(originalLandingBox);
+                        originalLandingBox.addClass("ui-droppable");
+
+                        // Show the original box in the list
+                        const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
+                        originalBox.show();
+                    });
+
+                    originalBoxClone.append(closeButton);
+                    setupDroppable($(".box")); // Set up droppable behavior for existing boxes
+                });
+            }
+            $(".create").click(async function () {
+                // nieuwe code
+                let studyRouteItemList: IStudyRouteItem[] = [];
+                const years = $("div[class^='year-']");
+
+                years.each(function (index) {
+                    const boxes = $(this).find('.box');
+                    const afstuderenBoxes = $(this).find('.rounded-3[data-id!="afstuderen"]');
+
+                    boxes.each(function (semesterIndex) {
+                        const semesterItemId = $(this).data('id');
+
+                        if (semesterIndex < afstuderenBoxes.length) {
+                            studyRouteItemList.push({ year: index + 1, semester: semesterIndex + 1, semesterItemId });
+                        }
+                    });
+                });
+
+                let studyRoute: IStudyRoute = {
+                    userId: "1",
+                    studyRouteItems: studyRouteItemList,
+                    name: '',
+                    approved_sb: false,
+                    approved_eb: false,
+                    note: '',
+                    send_sb: false,
+                    send_eb: false
+                };
+
+                // this saves the studyroute of the user
+                const response = await Api.post('/api/StudyRoute', studyRoute)
+            });
         });
     }
 }

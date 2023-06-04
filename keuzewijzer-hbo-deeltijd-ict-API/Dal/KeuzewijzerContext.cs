@@ -460,10 +460,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     LastName = "Versendaal",
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }
-                );
+            );
+
             modelBuilder.Entity<StudyRoute>().HasData(
-    new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = 1 }
-    );
+                new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = "1" }
+            );
 
             modelBuilder.Entity<SemesterItem>().HasData(
                  new SemesterItem
@@ -501,6 +502,46 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Id = 4,
                      Name = "Semester Item 4",
                      Description = "Description for Semester Item 4",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 }, 
+                 new SemesterItem
+                 {
+                     Id = 5,
+                     Name = "Semester Item 5",
+                     Description = "Description for Semester Item 5",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 6,
+                     Name = "Semester Item 6",
+                     Description = "Description for Semester Item 6",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },  
+                 new SemesterItem
+                 {
+                     Id = 7,
+                     Name = "Semester Item 7",
+                     Description = "Description for Semester Item 7",
+                     Year = new List<int> { 2 },
+                     Semester = 2,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
+                 },   
+                 new SemesterItem
+                 {
+                     Id = 8,
+                     Name = "Semester Item 8",
+                     Description = "Description for Semester Item 8",
                      Year = new List<int> { 2 },
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
@@ -592,14 +633,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("CohortSemesterItems");
                     j.HasData(
-                        new { CohortsId = 1, SemesterItemsId = 1 },
-                        new { CohortsId = 1, SemesterItemsId = 2 },
-                        new { CohortsId = 2, SemesterItemsId = 1 },
-                        new { CohortsId = 2, SemesterItemsId = 2 },
-                        new { CohortsId = 3, SemesterItemsId = 3 },
-                        new { CohortsId = 3, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 1 },
+                        new { CohortsId = 4, SemesterItemsId = 2 },
                         new { CohortsId = 4, SemesterItemsId = 3 },
-                        new { CohortsId = 4, SemesterItemsId = 4 }
+                        new { CohortsId = 4, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 5 },
+                        new { CohortsId = 4, SemesterItemsId = 6 },
+                        new { CohortsId = 4, SemesterItemsId = 7 },
+                        new { CohortsId = 4, SemesterItemsId = 8 }
                     );
                 });
 
@@ -620,10 +661,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
 
             modelBuilder.Entity<StudyRouteItem>().HasData(
-                new StudyRouteItem { Id = 1, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
-                new StudyRouteItem { Id = 2, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 2 },
-                new StudyRouteItem { Id = 3, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
-                new StudyRouteItem { Id = 4, Year = 2023, Semester = 1, StudyRouteId = 1, SemesterItemId = 4 }
+                new StudyRouteItem { Id = 1, Year = 1, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 2, Year = 1, Semester = 2, StudyRouteId = 1, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 3, Year = 2, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 4, Year = 2, Semester = 2, StudyRouteId = 1, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 5, Year = 3, Semester = 1, StudyRouteId = 1, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 6, Year = 3, Semester = 2, StudyRouteId = 1, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 7, Year = 4, Semester = 1, StudyRouteId = 1, SemesterItemId = 7 }
                 );
 
         }

@@ -1,5 +1,5 @@
 import { View } from '../View';
-import Api from '../../js/api/api';
+import Api from '../../api/api';
 import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
 import { User } from 'Models/User';
