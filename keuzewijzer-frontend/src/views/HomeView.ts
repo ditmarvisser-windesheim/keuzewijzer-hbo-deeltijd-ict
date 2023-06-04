@@ -1,7 +1,7 @@
 import Api from '../api/api';
 import { View } from './View';
 import Swal from 'sweetalert2';
-import cohort from 'api/cohort';
+import cohort from '../api/cohort';
 
 import { ICohort } from 'interfaces/iCohort';
 import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
@@ -34,12 +34,12 @@ export class HomeView implements View {
     }
 
     private async getSemesterItem() {
-        const semesterItems = await Api.get('https://localhost:7298/api/SemesterItem/cohort/2023');
+        const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
         return semesterItems;
     }
 
     private async getStudyRouteItem() {
-        const response : any = await Api.get('https://localhost:7298/api/StudyRoute/user/1');
+        const response : any = await Api.get('/api/StudyRoute/user/1');
         const studyRouteItemList: IStudyRouteItem[] = response.studyRouteItems;
 
         return studyRouteItemList

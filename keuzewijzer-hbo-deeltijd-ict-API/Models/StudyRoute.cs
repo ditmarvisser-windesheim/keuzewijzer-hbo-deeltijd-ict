@@ -14,14 +14,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Note { get; set; }
         public bool Send_sb { get; set; }
         public bool Send_eb { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
 
         [NotMapped]
         public User? User { get; set; }
 
         public ICollection<StudyRouteItem> StudyRouteItems { get; set; }
 
-        public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, int userId, User user, ICollection<StudyRouteItem> studyRouteItems)
+        public StudyRoute(int id, string name, bool approved_sb, bool approved_eb, string note, bool send_sb, bool send_eb, string userId, User user, ICollection<StudyRouteItem> studyRouteItems)
         {
             Id = id;
             Name = name;

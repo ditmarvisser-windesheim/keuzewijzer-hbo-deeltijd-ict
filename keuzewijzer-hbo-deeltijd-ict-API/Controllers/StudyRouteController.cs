@@ -17,7 +17,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
         {
             //1. get the studyroute with the correct userid
             var studyRoute = await _context.StudyRoutes.Where(c => c.UserId == userId).FirstOrDefaultAsync();
