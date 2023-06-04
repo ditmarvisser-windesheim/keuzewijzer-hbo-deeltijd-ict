@@ -2,7 +2,7 @@ import { View } from '../View';
 import Swal from 'sweetalert2';
 import { Semester } from 'Models/Semester';
 import { Cohort } from 'Models/Cohort';
-import Api from '../../js/api/api';
+import Api from '../../api/api';
 import { User } from 'Models/User';
 
 export class CohortCreateView implements View {

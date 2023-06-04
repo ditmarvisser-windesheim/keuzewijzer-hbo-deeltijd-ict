@@ -2,7 +2,7 @@ class Api {
     //TODO: change this to env
     private static readonly baseUrl = 'https://localhost:7298';
 
-    static async get(url: string): Promise<any[] | object> {
+    static async get(url: string): Promise<any> {
         const response = await fetch(this.baseUrl + url).then((response) => { return response.json() });
         return response;
     }

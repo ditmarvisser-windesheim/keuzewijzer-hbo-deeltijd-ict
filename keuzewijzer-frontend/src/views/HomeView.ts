@@ -1,20 +1,16 @@
-import { StudyRoute } from '../class/StudyRoute';
-import { StudyRouteItem } from '../class/StudyRouteItem';
-import Api from '../js/api/api';
+import Api from '../api/api';
 import { View } from './View';
 import Swal from 'sweetalert2';
+import cohort from 'api/cohort';
 
-interface Cohort {
-    id: number;
-    name: string;
-    semesterItems: any[] | null;
-    user: string | null;
-    userId: string | null;
-}[]; 
+import { ICohort } from 'interfaces/iCohort';
+import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
+import { ISemesterItem } from 'interfaces/isSemesterItems';
+import { IStudyRoute } from 'interfaces/iStudyRoute';
 
 interface Module {
     id: number;
-    cohorts: Cohort[] | null;
+    cohorts: ICohort[] | null;
     dependentSemesterItem: any[] | null;
     description: string;
     modules: any[] | null;
@@ -25,13 +21,13 @@ interface Module {
     users: any[] | null;
     year: number[];
     yearJson: string;
-}[];
+};
 
 export class HomeView implements View {
-    public cohorts: any[] = [];
-    public semesterItems!: SemesterItem[];
-    public studyRouteItems: StudyRouteItem[] = [];
-    public modules: any[] = [];
+    public cohorts: ICohort[] = [];
+    public semesterItems!: ISemesterItem[];
+    public studyRouteItems:IStudyRouteItem[] = [];
+    public modules: Module[] = [];
 
     public constructor() {
         console.log('HomeView.constructor()');
@@ -43,23 +39,10 @@ export class HomeView implements View {
     }
 
     private async getStudyRouteItem() {
-        const response = await Api.get('https://localhost:7298/api/StudyRoute/user/1');
-        const studyRouteItemList: StudyRouteItem[] = [];
+        const response : any = await Api.get('https://localhost:7298/api/StudyRoute/user/1');
+        const studyRouteItemList: IStudyRouteItem[] = response.studyRouteItems;
 
-        // User not found
-        if (response.status != 404) {
-            // Tijdelijke oplossing
-            response.forEach((response: { year: number; semester: number; semesterItemId: number; }) => {
-                const year = response.year;
-                const semester = response.semester;
-                const semesterItemId = response.semesterItemId;
-
-                const studyRouteItem = new StudyRouteItem(year, semester, semesterItemId);
-                studyRouteItemList.push(studyRouteItem);
-            });
-        }
-
-        return studyRouteItemList;
+        return studyRouteItemList
     }
     private async getModules() {
         const modules = await Api.get('/api/SemesterItem/cohort/2021');
@@ -71,7 +54,7 @@ export class HomeView implements View {
         this.data.semesterItems = await this.getSemesterItem();
         this.data.studyRouteItems = await this.getStudyRouteItem();
         this.modules = await this.getModules();
-        this.cohorts = await Api.get('/api/Cohort');
+        this.cohorts = await cohort.getCohorts();
     }
 
     public template = `<div class="container">
@@ -180,14 +163,6 @@ export class HomeView implements View {
             let dropCount = 0;
             let yearCount = 4;
             let lastBox: JQuery<HTMLElement> | null = null;
-
-            const object: { [key: number]: any } = this.cohorts.reduce((acc, obj) => {
-                console.log(acc, obj);
-                // const { id, ...rest } = obj;
-                // acc[id] = rest;
-                return acc;
-              }, {});
-
 
             const { value: fruit } = await Swal.fire({
                 icon: 'question',
@@ -338,7 +313,6 @@ export class HomeView implements View {
             // Standaard positie
             // Test box id
             self.data.studyRouteItems.forEach(function (studyRouteItem) {
-
                 const boxId = studyRouteItem.semesterItemId
 
                 // Dit is om een nieuwe box te clone en de oude te hide
@@ -374,7 +348,7 @@ export class HomeView implements View {
 
             $(".create").click(async function () {
                 let year = 1;
-                let studyRouteItemList: StudyRouteItem[] = [];
+                let studyRouteItemList: IStudyRouteItem[] = [];
                 $("div[class^='year-']").each(function () {
                     // SemesterId from semester 1 year x 
                     const SemesterItem1Id = $(this).find('.box').eq(0).data('id');
@@ -386,15 +360,17 @@ export class HomeView implements View {
                     const afstuderenId2 = $(this).find('.rounded-3').eq(2).data('id');
 
                     if (afstuderenId1 != "afstuderen") {
-                        studyRouteItemList.push(new StudyRouteItem(year, 1, SemesterItem1Id));
+                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem1Id });
                     }
                     console.log(afstuderenId2)
                     if (afstuderenId2 != "afstuderen") {
-                        studyRouteItemList.push(new StudyRouteItem(year, 2, SemesterItem2Id));
+                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem1Id });
                     }
                     year += 1;
                 });
-                let studyRoute = new StudyRoute(1, studyRouteItemList)
+
+                // bo fix dit ff
+                let studyRoute: IStudyRoute = new StudyRoute(1, studyRouteItemList)
                 // this saves the studyroute of the user
                 const response = await Api.post('https://localhost:7298/api/StudyRoute', studyRoute)
             });
