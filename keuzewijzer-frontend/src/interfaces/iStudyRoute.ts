@@ -7,6 +7,6 @@ export interface IStudyRoute {
     note: string;
     send_sb: boolean;
     send_eb: boolean;
-    userId: number;
+    userId: string;
     studyRouteItems: IStudyRouteItem[];
 };

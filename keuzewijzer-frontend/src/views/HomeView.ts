@@ -311,64 +311,41 @@ export class HomeView implements View {
             }
             // Standaard positie
             // Test box id
-            self.data.studyRouteItems.forEach(function (studyRouteItem) {
-                const boxId = studyRouteItem.semesterItemId
+        /*        self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    const boxId = studyRouteItem.semesterItemId
 
-                // Dit is om een nieuwe box te clone en de oude te hide
-                const originalBoxTest = $('.box[data-id="' + boxId + '"]');
-                const originalBoxClone = originalBoxTest.clone();
-                originalBoxTest.hide();
+                    // Dit is om een nieuwe box te clone en de oude te hide
+                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+                    const originalBoxClone = originalBoxTest.clone();
+                    originalBoxTest.hide();
 
-                // Denk dat dit is voor styling
-                originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+                    // Denk dat dit is voor styling
+                    originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
 
-                const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
-                targetBox.replaceWith(originalBoxClone);
+                    const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                    targetBox.replaceWith(originalBoxClone);
 
-                const closeButton = $('<button class="remove-box">x</button>');
-                closeButton.click(function () {
-                    const boxToRemove = $(this).parent();
+                    const closeButton = $('<button class="remove-box">x</button>');
+                    closeButton.click(function () {
+                        const boxToRemove = $(this).parent();
 
-                    // Find the original landing box
-                    const originalLandingBox = targetBox.clone();
+                        // Find the original landing box
+                        const originalLandingBox = targetBox.clone();
 
-                    // Replace the dropped box with the original landing box
-                    boxToRemove.replaceWith(originalLandingBox);
-                    originalLandingBox.addClass("ui-droppable");
+                        // Replace the dropped box with the original landing box
+                        boxToRemove.replaceWith(originalLandingBox);
+                        originalLandingBox.addClass("ui-droppable");
 
-                    // Show the original box in the list
-                    const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
-                    originalBox.show();
-                });
+                        // Show the original box in the list
+                        const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
+                        originalBox.show();
+                    });
 
-                originalBoxClone.append(closeButton);
-                setupDroppable($(".box")); // Set up droppable behavior for existing boxes
-            }); 
-
-            $(".create").click(async function () {
-                // oude code
-/*                let year = 1;
-                let studyRouteItemList: IStudyRouteItem[] = [];
-                $("div[class^='year-']").each(function () {
-                    // SemesterId from semester 1 year x 
-                    const SemesterItem1Id = $(this).find('.box').eq(0).data('id');
-                     // SemesterId from semester 2 year x  
-                    const SemesterItem2Id = $(this).find('.box').eq(1).data('id');
-
-                    // Check if semesterItem is not of type afstuderen
-                    const afstuderenId1 = $(this).find('.rounded-3').eq(1).data('id');
-                    const afstuderenId2 = $(this).find('.rounded-3').eq(2).data('id');
-
-                    if (afstuderenId1 != "afstuderen") {
-                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem1Id });
-                    }
-                    console.log(afstuderenId2)
-                    if (afstuderenId2 != "afstuderen") {
-                        studyRouteItemList.push({ year: year, semester: 1, semesterItemId: SemesterItem2Id });
-                    }
-                    year += 1;
+                    originalBoxClone.append(closeButton);
+                    setupDroppable($(".box")); // Set up droppable behavior for existing boxes
                 });*/
-
+            
+            $(".create").click(async function () {
                 // nieuwe code
                 let studyRouteItemList: IStudyRouteItem[] = [];
                 const years = $("div[class^='year-']");
@@ -385,9 +362,9 @@ export class HomeView implements View {
                         }
                     });
                 });
-                 
+
                 let studyRoute: IStudyRoute = {
-                    userId: 1,
+                    userId: "1",
                     studyRouteItems: studyRouteItemList,
                     name: '',
                     approved_sb: false,
@@ -398,7 +375,7 @@ export class HomeView implements View {
                 };
 
                 // this saves the studyroute of the user
-                const response = await Api.post('https://localhost:7298/api/StudyRoute', studyRoute)
+                const response = await Api.post('/api/StudyRoute', studyRoute)
             });
         });
     }
