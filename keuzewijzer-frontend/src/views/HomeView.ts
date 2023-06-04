@@ -311,7 +311,9 @@ export class HomeView implements View {
             }
             // Standaard positie
             // Test box id
-        /*        self.data.studyRouteItems.forEach(function (studyRouteItem) {
+            // Ik verander dit later 
+            if (Array.isArray(self.data.studyRouteItems)) {
+                self.data.studyRouteItems.forEach(function (studyRouteItem) {
                     const boxId = studyRouteItem.semesterItemId
 
                     // Dit is om een nieuwe box te clone en de oude te hide
@@ -343,8 +345,8 @@ export class HomeView implements View {
 
                     originalBoxClone.append(closeButton);
                     setupDroppable($(".box")); // Set up droppable behavior for existing boxes
-                });*/
-            
+                });
+            }
             $(".create").click(async function () {
                 // nieuwe code
                 let studyRouteItemList: IStudyRouteItem[] = [];
