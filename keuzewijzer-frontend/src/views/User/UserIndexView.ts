@@ -54,7 +54,7 @@ export class UserIndexView implements View {
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
                   .text('Bewerken'),
-                $('<a>').attr('href', '/userUpdateSemester?id=' + user.id)
+                $('<a>').attr('href', '/user/update/semester/' + user.id)
                   .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')

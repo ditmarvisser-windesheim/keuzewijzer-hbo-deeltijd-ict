@@ -21,17 +21,17 @@ export class App {
 
     //SemesterItem
     this.router.addRoute('/semester', new SemesterIndexView());
-    this.router.addRoute('/semesterCreate', new SemesterCreateView());
-    this.router.addRoute('/semesterUpdate', new SemesterUpdateView());
+    this.router.addRoute('/semester/create', new SemesterCreateView());
+    this.router.addRoute('/semester/update/:id', new SemesterUpdateView());
 
     //Cohort
     this.router.addRoute('/cohort', new CohortIndexView());
-    this.router.addRoute('/cohortCreate', new CohortCreateView());
+    this.router.addRoute('/cohort/create', new CohortCreateView());
 
     //Users
     this.router.addRoute('/user', new UserIndexView());
     this.router.addRoute('/userUpdate', new UserUpdateView())
-    this.router.addRoute('/userUpdateSemester', new UserUpdateSemesterView());
+    this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     // Start the router
     this.router.start();

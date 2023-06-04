@@ -15,7 +15,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         {
             _context = context;
         }
-
+        /*
         // GET: api/role
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Role>>> GetRole()
@@ -115,5 +115,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         {
             return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+    }
+        */
     }
 }
