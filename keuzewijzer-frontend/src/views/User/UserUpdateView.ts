@@ -7,6 +7,7 @@ import { Role } from '../../../Models/Role';
 export class UserUpdateView implements View {
 
   private Id = 5; //TODO: get the id form the url
+  private user: User = new User;
 
   public template = `
   <div class="container mt-2 mb-2">
@@ -50,7 +51,15 @@ export class UserUpdateView implements View {
 
     //Search for the user item with the id
     var response = await Api.get(`/api/user/${id}`);
+    console.log(this.user);
     var updateUser = response as User;
+    this.user = updateUser;
+    console.log(this.user);
+
+    console.log(updateUser);
+    
+
+
     var rolesArray = updateUser.roles.map(r => r.id)
 
     var roles = await Api.get(`/api/role`) as Role[];
@@ -88,6 +97,9 @@ export class UserUpdateView implements View {
     $('#roles input:checked').each(function() {
       roles.push($(this).attr('value'));
     });
+
+    console.log(roles);
+    
     
 
     const id = parseInt($('#id').val() as string);
@@ -108,53 +120,21 @@ export class UserUpdateView implements View {
     //   return;
     // }
 
-    const userItem = {
-      "id": "string",
-      "userName": "string",
-      "normalizedUserName": "string",
-      "email": "string",
-      "normalizedEmail": "string",
-      "emailConfirmed": true,
-      "passwordHash": "string",
-      "securityStamp": "string",
-      "concurrencyStamp": "string",
-      "phoneNumber": "string",
-      "phoneNumberConfirmed": true,
-      "twoFactorEnabled": true,
-      "lockoutEnd": "2023-05-31T18:56:28.108Z",
-      "lockoutEnabled": true,
-      "accessFailedCount": 0,
-      "name": "string",
-      "firstName": "string",
-      "lastName": "string",
-      "roles": [
-        {
-          "id": 0,
-          "name": "string",
-          "users": [
-            "string"
-          ]
-        }
-      ],
-      "timedOut": "2023-05-31T18:56:28.108Z",
-      "cohortId": 0
-    }
-
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/user/' + id, userItem);
+      const response = await Api.put('/api/user/' + id, this.user);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
       }
 
       // Show a success message
-      Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
+      Swal.fire('User ' + response.name + ' Aangepast!', '', 'success');
       console.log(response);
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
-        window.location.href = '/semester';
+        window.location.href = '/user';
       }, 2000);
 
     } catch (error) {
