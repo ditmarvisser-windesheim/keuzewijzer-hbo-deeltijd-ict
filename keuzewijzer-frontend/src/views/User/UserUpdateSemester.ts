@@ -1,8 +1,8 @@
 import { View } from '../View';
 import Api from '../../api/api';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import { User } from 'Models/User';
+import { Semester } from 'models/Semester';
+import { User } from 'models/User';
 
 export class UserUpdateSemester implements View {
 

@@ -1,4 +1,7 @@
 import { Router } from './router';
+import AuthService from './services/AuthService';
+
+//Import views
 import { HomeView } from './views/HomeView';
 import { SemesterCreateView } from './views/Module/SemesterCreateView';
 import { SemesterUpdateView } from './views/Module/SemesterUpdateView';
@@ -9,11 +12,17 @@ import { UserIndexView } from './views/User/UserIndexView';
 import { UserUpdateSemesterView } from './views/User/UserUpdateSemesterView';
 
 
+import { LoginView } from './views/Auth/LoginView';
+
+
 export class App {
   private router: Router;
+  private authService : AuthService;
 
   constructor() {
-    this.router = new Router();
+    this.authService = new AuthService();
+    this.router = new Router(this.authService);
+
 
     // Add routes to the router
     this.router.addRoute('/', new HomeView());
@@ -30,6 +39,9 @@ export class App {
     //Users
     this.router.addRoute('/user', new UserIndexView());
     this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
+
+    //Login
+    this.router.addRoute('/login', new LoginView());
 
     // Start the router
     this.router.start();

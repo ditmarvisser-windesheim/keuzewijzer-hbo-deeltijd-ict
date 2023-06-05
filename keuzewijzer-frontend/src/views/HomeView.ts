@@ -320,12 +320,34 @@ export class HomeView implements View {
                     const semesterItemBox = $('.box[data-id="' + boxId + '"]');
                     let targetBox = null;
 
-                    if (studyRouteItem.semester === 1) {
-                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
-                    } else {
-                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
-                    }
-                    handleDropBox(semesterItemBox, targetBox);
+                    // Dit is om een nieuwe box te clone en de oude te hide
+                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
+                    const originalBoxClone = originalBoxTest.clone();
+                    originalBoxTest.hide();
+
+                    // Denk dat dit is voor styling
+                    originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+
+                    const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
+
+                    const closeButton = $('<button class="remove-box">x</button>');
+                    closeButton.click(function () {
+                        const boxToRemove = $(this).parent();
+
+                        // Find the original landing box
+                        const originalLandingBox = targetBox.clone();
+
+                        // Replace the dropped box with the original landing box
+                        boxToRemove.replaceWith(originalLandingBox);
+                        originalLandingBox.addClass("ui-droppable");
+
+                        // Show the original box in the list
+                        const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
+                        originalBox.show();
+                    });
+
+                    originalBoxClone.append(closeButton);
+                    targetBox.hide().after(originalBoxClone);
                 });
             }
 

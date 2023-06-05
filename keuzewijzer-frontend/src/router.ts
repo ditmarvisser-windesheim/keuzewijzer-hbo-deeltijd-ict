@@ -1,19 +1,31 @@
 import { View } from './views/View';
 import * as Handlebars from 'handlebars';
 import { registerHelpers } from './helpers/handlebars';
+import AuthService from './services/AuthService';
 
 export class Router {
   private routes: Map<string, View>;
   private currentView: View | null;
+  private authService: AuthService;
 
-  constructor() {
+  constructor(authService: AuthService) {
     this.routes = new Map();
     this.currentView = null;
+    this.authService = authService;
   }
 
   // Add route to the router
   public addRoute(path: string, view: View): void {
     this.routes.set(path, view);
+  }
+
+  // Add authenticated route to the router
+  public addAuthenticatedRoute(path: string, view: View): void {
+    this.routes.set(path, view);
+  }
+
+  public setAuthService(authService: AuthService): void {
+    this.authService = authService;
   }
 
   public start(): void {
@@ -65,6 +77,16 @@ export class Router {
       return;
     }
 
+    // Check if the route requires authentication
+    if (view.requiresAuth && !this.authService.isAuthenticated()) {
+      // If the user is not authenticated, redirect to the login page or show an error
+      this.showAuthenticationError();
+      return;
+    }
+
+    // Pass the authService instance to the view
+    view.authService = this.authService;
+
     // Fetch the view's data from API project
     if (view.fetchAsyncData) {
       if (app) { // TODO: change if app
@@ -100,6 +122,14 @@ export class Router {
 
     if (app) {
       app.innerHTML = '<h1>404 Error</h1><p>The page you requested could not be found.</p>';
+    }
+  }
+
+  private showAuthenticationError(): void {
+    const app = document.getElementById('app');
+
+    if (app) {
+      app.innerHTML = '<h1>Authentication Error</h1><p>You need to log in to access this page.</p>';
     }
   }
 }

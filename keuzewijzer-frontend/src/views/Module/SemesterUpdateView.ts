@@ -1,8 +1,8 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
+import { Semester } from 'models/Semester';
 import Api from '../../api/api';
-import { Cohort } from 'Models/Cohort';
+import { Cohort } from 'models/Cohort';
 
 export class SemesterUpdateView implements View {
   public params: Record<string, string> = {};
