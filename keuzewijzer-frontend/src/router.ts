@@ -34,10 +34,10 @@ export class Router {
     // Iterate over the routes and find a match
     const urlParts = path.split('/');
 
+
     // Iterate over the routes and find a match
     for (const [route, routeView] of this.routes) {
       const routeParts = route.split('/');
-
       if (routeParts.length === urlParts.length) {
         let match = true;
         const params: Record<string, string> = {};

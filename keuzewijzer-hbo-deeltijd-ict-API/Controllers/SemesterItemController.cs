@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -28,7 +29,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             //3. if the cohort exists, get the modules from the cohort
             var semesterItems = await _context.SemesterItems
                 .Where(m => m.Cohorts.Contains(cohort))
-                //DIT GAAT NOG NIET HELEMAAL GOED
                 .Include(m => m.RequiredSemesterItem) // Load the required modules
                 .ToListAsync();
 
@@ -38,9 +38,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             //5. return the modules including the cohort and the required modules
 
             return semesterItems;
-
-
-            return NotFound();
         }
 
         public SemesterItemController(KeuzewijzerContext context)
@@ -49,6 +46,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/SemesterItems
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SemesterItem>>> GetSemesterItems()
         {
@@ -60,6 +58,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/SemesterItems/5
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<ActionResult<SemesterItem>> GetSemesterItems(int id)
         {
@@ -81,6 +80,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
         // PUT: api/SemesterItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSemesterItem(int id, SemesterItem semesterItem)
         {
@@ -144,6 +144,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // POST: api/SemesterItem
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<SemesterItem>> PostSemesterItem(SemesterItem semesterItem)
         {
@@ -171,6 +172,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // DELETE: api/SemesterItem/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {

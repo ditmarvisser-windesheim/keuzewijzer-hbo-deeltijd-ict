@@ -1,49 +1,87 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using keuzewijzer_hbo_deeltijd_ict_API.Dal;
-using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using keuzewijzer_hbo_deeltijd_ict_API.Request;
-using keuzewijzer_hbo_deeltijd_ict_API.Utils;
-using Microsoft.EntityFrameworkCore;
+using keuzewijzer_hbo_deeltijd_ict_API.ViewModels;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // voeg autorisatie toe aan de controller
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly KeuzewijzerContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(KeuzewijzerContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
-            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
-        [AllowAnonymous] // voeg uitzondering toe voor aanmeldingsverzoeken
-        public async Task<ActionResult<User>> Login(LoginRequest loginRequest)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            // Zoek de gebruiker op in de database op basis van de gegeven gebruikersnaam
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName);
-
-            // Controleer of het wachtwoord niet overeenkomt met de opgeslagen hash
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+            var user = await _userManager.FindByEmailAsync(request.UserName);
+            if (user == null)
             {
-                // Als de gebruiker niet is gevonden of het wachtwoord onjuist is, retourneer dan een foutmelding
-                return BadRequest(new { message = "Ongeldige gebruikersnaam of wachtwoord" });
+                return Unauthorized();
             }
 
-            // Maak een JWT-token aan voor de gebruiker
-            var token = JwtUtils.GenerateToken(user);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            if (!result.Succeeded)
+            {
+                return Unauthorized();
+            }
 
-            // Retourneer de gebruikersgegevens en de token
-            return Ok(new { user = user, token = token });
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var accessToken = GenerateAccessToken(user, userRoles);
+
+            return Ok(new AuthenticationResponse(
+                user.UserName,
+                user.Email,
+                accessToken,
+                accessToken,
+                DateTime.Now
+            ));
+        }
+
+        private string GenerateAccessToken(User user, IList<string> roles)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+
+            var roleClaims = new List<Claim>();
+
+            foreach (var role in roles)
+            {
+                roleClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email)
+                }.Concat(roleClaims)),
+
+                Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["Jwt:ExpireHours"])),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

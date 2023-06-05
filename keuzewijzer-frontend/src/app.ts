@@ -5,8 +5,9 @@ import { SemesterUpdateView } from './views/Module/SemesterUpdateView';
 import { SemesterIndexView } from './views/Module/SemesterIndexView';
 import { CohortIndexView } from './views/Cohort/CohortIndexView';
 import { CohortCreateView } from './views/Cohort/CohortCreateView';
-import { UserIndexView } from './views/User/UserIndex';
-import { UserUpdateSemester } from './views/User/UserUpdateSemester';
+import { UserIndexView } from './views/User/UserIndexView';
+import { UserUpdateSemesterView } from './views/User/UserUpdateSemesterView';
+
 
 export class App {
   private router: Router;
@@ -19,16 +20,16 @@ export class App {
 
     //SemesterItem
     this.router.addRoute('/semester', new SemesterIndexView());
-    this.router.addRoute('/semesterCreate', new SemesterCreateView());
-    this.router.addRoute('/semesterUpdate', new SemesterUpdateView());
+    this.router.addRoute('/semester/create', new SemesterCreateView());
+    this.router.addRoute('/semester/update/:id', new SemesterUpdateView());
 
     //Cohort
     this.router.addRoute('/cohort', new CohortIndexView());
-    this.router.addRoute('/cohortCreate', new CohortCreateView());
+    this.router.addRoute('/cohort/create', new CohortCreateView());
 
     //Users
     this.router.addRoute('/user', new UserIndexView());
-    this.router.addRoute('/userUpdateSemester', new UserUpdateSemester());
+    this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     // Start the router
     this.router.start();

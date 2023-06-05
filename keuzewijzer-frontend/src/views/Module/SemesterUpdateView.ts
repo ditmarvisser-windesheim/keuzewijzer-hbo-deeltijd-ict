@@ -5,8 +5,7 @@ import Api from '../../api/api';
 import { Cohort } from 'Models/Cohort';
 
 export class SemesterUpdateView implements View {
-
-  private Id = 1050; //TODO: get the id form the url
+  public params: Record<string, string> = {};
 
   public template = `
   <div class="container mt-2 mb-2">
@@ -87,17 +86,30 @@ export class SemesterUpdateView implements View {
     const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
 
     requiredSemesterItem.forEach((semesterItem: Semester) => {
-      if (semesterItem.id === this.Id) return;
+      if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
       requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
 
   private async setForm(): Promise<void> {
-    //TODO: get the id from the url
-    const id = this.Id;
+    const id = this.params?.id;
 
-    //Search for the semester item with the id
-    var response = await Api.get(`/api/SemesterItem/${id}`);
+    const response = await Api.get(`/api/SemesterItem/${id}`);
+    if ('status' in response && response.status === 404) {
+      Swal.fire({
+        title: 'Fout!',
+        text: 'Semester niet gevonden!',
+        icon: 'error',
+        confirmButtonText: 'Oké'
+      });
+
+      setTimeout(() => {
+        window.location.href = '/semester';
+      }, 2000);
+
+      return;
+    }
+
     var updateSemester = response as Semester;
 
     //set the values of the form
