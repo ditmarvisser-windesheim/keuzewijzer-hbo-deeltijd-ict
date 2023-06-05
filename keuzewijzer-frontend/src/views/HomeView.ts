@@ -3,6 +3,7 @@ import { View } from './View';
 import Swal from 'sweetalert2';
 import cohort from '../api/cohort';
 
+
 import { ICohort } from 'interfaces/iCohort';
 import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
 import { ISemesterItem } from 'interfaces/isSemesterItems';
@@ -106,7 +107,7 @@ export class HomeView implements View {
                                 <div class="row">
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
                                     {{#each semesterItems}}
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">{{name}}</div>
+                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}" data-toggle="modal" data-target="#semesterItemInfoModal">{{name}}</div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -114,7 +115,9 @@ export class HomeView implements View {
                     </div>
                 </div>
             </div>
-            <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
+            </div>
         </div>
     </div>
     `;
@@ -135,8 +138,9 @@ export class HomeView implements View {
     public setup(): void {
         const self = this;
 
-        $(".box").click(function () {
+        $(document).on("click", ".box", function () {
             var semesterItemId = $(this).data("id");
+            console.log(semesterItemId);
             var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
             });
@@ -145,14 +149,9 @@ export class HomeView implements View {
                 var semesterItemName = clickedSemesterItem.name;
                 var semesterItemDescription = clickedSemesterItem.description;
 
-                $(".modal h1").text(semesterItemName);
-                $(".modal p").text(semesterItemDescription);
-                $(".modal").show();
+                $("#semesterItemInfoModal .modal-title").text(semesterItemName);
+                $("#semesterItemInfoModal .modal-body").text(semesterItemDescription);
             }
-        });
-
-        $(".close-button").click(function () {
-            $(".modal").hide();
         });
 
         console.log('HomeView.setup()');
@@ -226,127 +225,111 @@ export class HomeView implements View {
                     drop: (event, ui) => {
                         const droppedBox: JQuery<HTMLElement> = $(ui.draggable);
                         const targetBox = $(event.target);
-                        console.log(droppedBox.data('id'))
-
-    
-                        if (droppedBox.data('id') === 'reperatiesemester') {
-                            dropCount++;
-                            // Add a new column and move the "afstuderen" box to the new column
-                            const currentYear = targetBox.closest('.year');
-                            const latestYear = $('.year-' + yearCount);
-
-                            const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
-                            const newColumn = $('<div class="col-md-4 landing-box align-self-center p-4 m-1 rounded-3 bg-primary text-center">' +
-                                'Nieuw semester' +
-                                '</div>');
-
-                            setupDroppable(newColumn);
-
-                            if (latestYear.find('.col-md-4').length === 2) {
-                                const afstuderenBoxClone = afstuderenBox.clone();
-                                afstuderenBox.replaceWith(newColumn);
-
-                                const newRow = $('<div class="year-' + (yearCount + 1) + ' droppable col-md-12">' +
-                                    '<div class="row">' +
-                                    '<div class="col-md-2 align-self-center p-4 text-center">Jaar ' + (yearCount + 1) + '</div>' +
-                                    '</div>' +
-                                    '</div>');
-
-                                latestYear.after(newRow);
-                                afstuderenBoxClone.addClass("ui-droppable");
-                                newRow.find('.row').append(afstuderenBoxClone);
-                                yearCount++;
-                            }
-
-                            if (latestYear.find('.col-md-4').length === 1) {
-                                afstuderenBox.before(newColumn);
-                            }
-                        }
-
-                        const boxClone = droppedBox.clone();
-                        boxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
-
-                        const closeButton = $('<button class="remove-box">x</button>');
-                        closeButton.click(function () {
-                            const boxToRemove = $(this).parent();
-
-                            targetBox.show();
-                            boxToRemove.remove();
-
-                            const originalBox = $('.box[data-id="' + droppedBox.data('id') + '"]');
-
-                            originalBox.show();
-                            targetBox.show();
-                            droppedBox.show();
-
-                            // If repearatie semester is removed, remove the extra column
-                            if (droppedBox.data('id') === 'reperatiesemester') {
-                                const latestYear = $('.year-' + yearCount);
-
-                                if (latestYear.find('.col-md-4').length === 1) {
-                                    const yearBefore = $('.year-' + (yearCount - 1));
-                                    const latestExtraColumn = yearBefore.find('.col-md-4').last();
-                                    const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
-
-                                    latestExtraColumn.before(afstuderenBox);
-                                    latestExtraColumn.remove();
-                                    latestYear.remove();
-                                    yearCount--;
-                                }
-
-                                if (latestYear.find('.col-md-4').length === 2) {
-                                    latestYear.find('.col-md-4').first().remove();
-                                }
-                            }
-                        });
-
-                        boxClone.append(closeButton);
-                        targetBox.hide().after(boxClone);
-
-                        if (droppedBox.data('id') !== 'reperatiesemester') {
-                            droppedBox.hide();
-                        }
+                        console.log(targetBox)
+                        handleDropBox(droppedBox, targetBox)
                     }
                 });
             }
-            // Standaard positie
-            // Test box id
-            // Ik verander dit later 
+
+            function handleDropBox(droppedBox: JQuery<HTMLElement>, targetBox: JQuery<Element>) {
+                if (droppedBox.data('id') === 'reperatiesemester') {
+                    dropCount++;
+                    // Add a new column and move the "afstuderen" box to the new column
+                    const latestYear = $('.year-' + yearCount);
+
+                    const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
+                    const newColumn = $('<div class="col-md-4 landing-box align-self-center p-4 m-1 rounded-3 bg-primary text-center">' +
+                        'Nieuw semester' +
+                        '</div>');
+
+                    setupDroppable(newColumn);
+                    console.log(latestYear.find('.col-md-4').length)
+
+
+                    if (latestYear.find('.col-md-4').length === 2 || latestYear.find('.col-md-4').length === 3) {
+                        
+                        const afstuderenBoxClone = afstuderenBox.clone();
+                        afstuderenBox.replaceWith(newColumn);
+
+                        const newRow = $('<div class="year-' + (yearCount + 1) + ' droppable col-md-12">' +
+                            '<div class="row">' +
+                            '<div class="col-md-2 align-self-center p-4 text-center">Jaar ' + (yearCount + 1) + '</div>' +
+                            '</div>' +
+                            '</div>');
+
+                        latestYear.after(newRow);
+                        afstuderenBoxClone.addClass("ui-droppable");
+                        newRow.find('.row').append(afstuderenBoxClone);
+                        yearCount++;
+                    }
+
+                    if (latestYear.find('.col-md-4').length === 1) {
+                        afstuderenBox.before(newColumn);
+                    }
+                }
+
+                const boxClone = droppedBox.clone();
+                boxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
+
+                const closeButton = $('<button class="remove-box">x</button>');
+                closeButton.click(function () {
+                    const boxToRemove = $(this).parent();
+
+                    targetBox.show();
+                    boxToRemove.remove();
+
+                    const originalBox = $('.box[data-id="' + droppedBox.data('id') + '"]');
+
+                    originalBox.show();
+                    targetBox.show();
+                    droppedBox.show();
+
+                    // If repearatie semester is removed, remove the extra column
+                    if (droppedBox.data('id') === 'reperatiesemester') {
+                        const latestYear = $('.year-' + yearCount);
+
+                        if (latestYear.find('.col-md-4').length === 1) {
+                            const yearBefore = $('.year-' + (yearCount - 1));
+                            const latestExtraColumn = yearBefore.find('.col-md-4').last();
+                            const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
+
+                            latestExtraColumn.before(afstuderenBox);
+                            latestExtraColumn.remove();
+                            latestYear.remove();
+                            yearCount--;
+                        }
+
+                        if (latestYear.find('.col-md-4').length === 2) {
+                            latestYear.find('.col-md-4').first().remove();
+                        }
+                    }
+                });
+
+                boxClone.append(closeButton);
+                targetBox.hide().after(boxClone);
+
+                if (droppedBox.data('id') !== 'reperatiesemester') {
+                    droppedBox.hide();
+                }
+            }
+
             if (Array.isArray(self.data.studyRouteItems)) {
                 self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    // this will take the find the semesterItem
                     const boxId = studyRouteItem.semesterItemId
+                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
+                    let targetBox = null;
 
-                    // Dit is om een nieuwe box te clone en de oude te hide
-                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
-                    const originalBoxClone = originalBoxTest.clone();
-                    originalBoxTest.hide();
-
-                    // Denk dat dit is voor styling
-                    originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
-
-                    const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
-                    targetBox.replaceWith(originalBoxClone);
-
-                    const closeButton = $('<button class="remove-box">x</button>');
-                    closeButton.click(function () {
-                        const boxToRemove = $(this).parent();
-
-                        // Find the original landing box
-                        const originalLandingBox = targetBox.clone();
-
-                        // Replace the dropped box with the original landing box
-                        boxToRemove.replaceWith(originalLandingBox);
-                        originalLandingBox.addClass("ui-droppable");
-
-                        // Show the original box in the list
-                        const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
-                        originalBox.show();
-                    });
-
-                    originalBoxClone.append(closeButton);
-                    setupDroppable($(".box")); // Set up droppable behavior for existing boxes
+                    if (studyRouteItem.semester === 1) {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                    } else {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
+                    }
+                    handleDropBox(semesterItemBox, targetBox);
                 });
             }
+
+
             $(".create").click(async function () {
                 // nieuwe code
                 let studyRouteItemList: IStudyRouteItem[] = [];
@@ -378,6 +361,7 @@ export class HomeView implements View {
 
                 // this saves the studyroute of the user
                 const response = await Api.post('/api/StudyRoute', studyRoute)
+                console.log(response)
             });
         });
     }
