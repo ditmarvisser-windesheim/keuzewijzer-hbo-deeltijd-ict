@@ -4,7 +4,7 @@ import Api from '../../js/api/api';
 import { User } from '../../../Models/User';
 import { Role } from '../../../Models/Role';
 
-export class UserUpdateView implements View {
+export class UserUpdateRoleView implements View {
 
   private Id = 5; //TODO: get the id form the url
   private user: User = new User;
@@ -16,17 +16,12 @@ export class UserUpdateView implements View {
         <a href="/user" data-link class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Terug</a>
       </div>
       <div class="col-9">
-        <h1>User aanpassen</h1>
+        <h1 id="name"></h1>
       </div>
     </div>
     
     <form id="user-form">
       <input type="hidden" id="id">
-      <div class="form-group">
-        <label for="name">Naam:</label>
-        <input type="text" class="form-control" id="name">
-        <div id="nameError" class="invalid-feedback"></div>
-      </div>
       <div class="form-group">
         <label for="year">Rollen:</label>
         <div class="checkBoxContainer", id="roles"></div>
@@ -60,15 +55,18 @@ export class UserUpdateView implements View {
     
 
 
-    var rolesArray = updateUser.roles.map(r => r.id)
+    // var rolesArray = updateUser.roles.map(r => r.id)
+    var rolesArray = await Api.get(`/api/User/${this.user.id}/roles`)
 
     var roles = await Api.get(`/api/role`) as Role[];
 
     $.each(roles,function(index, role){
-      var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.id}" name="role-${role.id}"`;
+      var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.name}" name="role-${role.id}"`;
       
-      if (rolesArray.includes(role.id)) {
-        checkbox += " checked";
+      if (Array.isArray(rolesArray)) {
+        if (rolesArray.includes(role.name)) {
+          checkbox += " checked";
+        }
       }
       
       checkbox += `><label for="role-${role.id}">${role.name}</label><br>`;
@@ -76,7 +74,7 @@ export class UserUpdateView implements View {
     })
 
     //set the values of the form
-    $('#name').val(updateUser.name);
+    $('#name').html(updateUser.name);
     $('#id').val(updateUser.id);
   }
 
@@ -84,15 +82,9 @@ export class UserUpdateView implements View {
   private async handleUserUpdate(event: Event): Promise<void> {
     event.preventDefault();
 
-    const nameInput = $('#name');
-    console.log(nameInput);
-
     const rolesInput = $('#roles')
     console.log(rolesInput);
     
-    const name = nameInput.val() as string;
-    console.log(name);
-
     const roles: (string | undefined)[] = [];
     $('#roles input:checked').each(function() {
       roles.push($(this).attr('value'));
@@ -121,8 +113,8 @@ export class UserUpdateView implements View {
     // }
 
     try {
-      // Make the POST request to the server
-      const response = await Api.put('/api/user/' + id, this.user);
+      // Make the PUT request to the server
+      const response = await Api.put('/api/user/' + id + '/roles', roles);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

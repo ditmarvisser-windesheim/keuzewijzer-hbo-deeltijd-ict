@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Data;
 
 
 //EXAMPLE
@@ -17,10 +19,12 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly KeuzewijzerContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public UserController(KeuzewijzerContext context)
+        public UserController(KeuzewijzerContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/User
@@ -31,7 +35,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             {
                 return NotFound();
             }
-            return await _context.Users.Include(u => u.Roles).ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         // GET: api/User/5
@@ -43,7 +47,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -53,6 +57,28 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return user;
         }
 
+        // GET: api/User/5
+        [HttpGet("{id}/roles")]
+        public async Task<IList<string>> GetUserRoles(string id)
+        {
+            User user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
+
+            return await _userManager.GetRolesAsync(user);
+        }
+
+
+
+        // PUT: api/User/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}/roles")]
+        public async Task<IActionResult> PutUserRoles(string id, List<string> roles)
+        {
+            User user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
+            await _userManager.AddToRolesAsync(user, roles);
+
+            return NoContent();
+        }
+        
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

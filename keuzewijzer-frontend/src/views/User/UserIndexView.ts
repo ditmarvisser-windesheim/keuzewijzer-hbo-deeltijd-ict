@@ -37,12 +37,14 @@ export class UserIndexView implements View {
   public async setup(): Promise<void> {
     try {
       var users = await Api.get('/api/User');
-      $('#loading').remove();
-
+      
       if (Array.isArray(users)) {
-        users.forEach((user) => {
-          console.log(user);
-          var rolesText = user.roles.map((x: { name: any; }) => x.name).join(', ');
+        users.forEach(async (user) => {
+          var roles = await Api.get(`/api/User/${user.id}/roles`)
+          var rolesText = '';
+          if (Array.isArray(roles)) {
+            rolesText = roles.toString();
+          }
           var tableBody = document.getElementById('users');
           if (tableBody) {
             var row = $('<tr>').append(
@@ -50,28 +52,29 @@ export class UserIndexView implements View {
               $('<td>').text(rolesText),
               $('<td>').append(
                 $('<a>').attr('href', '/userUpdate?id=' + user.id)
-                  .addClass('btn btn-primary btn-sm active')
+                .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
                   .text('Bewerken'),
                 $('<a>').attr('href', '/user/update/semester/' + user.id)
-                  .addClass('btn btn-primary btn-sm active')
-                  .attr('role', 'button')
-                  .attr('aria-pressed', 'true')
-                  .text('Semester toewijzen')
-                  )
-              )
-            
-            row.appendTo(tableBody);
+                .addClass('btn btn-primary btn-sm active')
+                .attr('role', 'button')
+                .attr('aria-pressed', 'true')
+                .text('Semester toewijzen')
+                )
+                )
+                
+                row.appendTo(tableBody);
+              }
+            });
+          } else {
+            console.error('Users is not an array');
           }
-        });
-      } else {
-        console.error('Users is not an array');
-      }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      $('#loading').remove();
+        
 
   }
 }
