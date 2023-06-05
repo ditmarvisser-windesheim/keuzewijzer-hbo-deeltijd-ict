@@ -74,10 +74,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudyRoute(int id, StudyRoute @studyRoute)
         {
-            if (id != @studyRoute.Id)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(@studyRoute).State = EntityState.Modified;
 
@@ -103,23 +99,39 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // POST: api/StudyRoute
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute @studyRoute)
+        public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute studyRoute)
         {
             if (_context.StudyRoutes == null)
             {
                 return Problem("Entity set 'KeuzewijzerContext.StudyRoute' is null.");
             }
 
-            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 7)
+            if (studyRoute.StudyRouteItems == null || studyRoute.StudyRouteItems.Count < 7)
             {
                 return BadRequest("The 'Posts' collection must contain at least 7 items.");
             }
 
-            _context.StudyRoutes.Add(@studyRoute);
+            var existingStudyRoute = await _context.StudyRoutes
+                .Include(sr => sr.StudyRouteItems)
+                .FirstOrDefaultAsync(sr => sr.UserId == studyRoute.UserId);
+
+            if (existingStudyRoute != null)
+            {
+                // Update the existing study route with the new data
+                _context.StudyRouteItems.RemoveRange(existingStudyRoute.StudyRouteItems);
+                existingStudyRoute.StudyRouteItems = studyRoute.StudyRouteItems;
+            }
+            else
+            {
+                // Add a new study route
+                _context.StudyRoutes.Add(studyRoute);
+            }
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudyRoute", new { id = @studyRoute.Id }, @studyRoute);
+            return CreatedAtAction("GetStudyRoute", new { id = studyRoute.Id }, studyRoute);
         }
+
 
         // DELETE: api/StudyRoute/5
         [HttpDelete("{id}")]

@@ -546,6 +546,16 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
+                 },
+                 new SemesterItem
+                 {
+                     Id = 999,
+                     Name = "Reparatiesemester",
+                     Description = "Reparatiesemester",
+                     Year = new List<int> { 1,2 },
+                     Semester = 1,
+                     RequiredSemesterItem = new List<SemesterItem>(),
+                     DependentSemesterItem = new List<SemesterItem>()
                  }
              );
 
@@ -640,7 +650,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                         new { CohortsId = 4, SemesterItemsId = 5 },
                         new { CohortsId = 4, SemesterItemsId = 6 },
                         new { CohortsId = 4, SemesterItemsId = 7 },
-                        new { CohortsId = 4, SemesterItemsId = 8 }
+                        new { CohortsId = 4, SemesterItemsId = 8 },
+                        new { CohortsId = 4, SemesterItemsId = 999 }
                     );
                 });
 

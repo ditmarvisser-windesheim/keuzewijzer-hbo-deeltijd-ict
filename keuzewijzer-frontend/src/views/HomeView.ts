@@ -36,6 +36,7 @@ export class HomeView implements View {
 
     private async getSemesterItem() {
         const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
+        console.log(semesterItems)
         return semesterItems;
     }
 
@@ -105,9 +106,11 @@ export class HomeView implements View {
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
                                 <div class="row">
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
                                     {{#each semesterItems}}
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}" data-toggle="modal" data-target="#semesterItemInfoModal">{{name}}</div>
+                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">
+                                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#semesterItemInfoModal"></i>
+                                        {{name}}
+                                    </div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -138,8 +141,9 @@ export class HomeView implements View {
     public setup(): void {
         const self = this;
 
-        $(document).on("click", ".box", function () {
-            var semesterItemId = $(this).data("id");
+        // TODO niet als je op het kruisje drukt
+        $(document).on("click", ".fa-info-circle", function () {
+            var semesterItemId = $(this).closest(".box").data("id");
             console.log(semesterItemId);
             var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
@@ -193,8 +197,6 @@ export class HomeView implements View {
                 }
               })
 
-
-    
             $(".box").draggable({
                 zIndex: 100,
                 cursor: "move",
@@ -231,8 +233,24 @@ export class HomeView implements View {
                 });
             }
 
+            if (Array.isArray(self.data.studyRouteItems)) {
+                self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    // this will take the find the semesterItem
+                    const boxId = studyRouteItem.semesterItemId
+                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
+                    let targetBox = null;
+
+                    if (studyRouteItem.semester === 1) {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                    } else {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
+                    }
+                    handleDropBox(semesterItemBox, targetBox);
+                });
+            }
+
             function handleDropBox(droppedBox: JQuery<HTMLElement>, targetBox: JQuery<Element>) {
-                if (droppedBox.data('id') === 'reperatiesemester') {
+                if (droppedBox.data('id') === 999) {
                     dropCount++;
                     // Add a new column and move the "afstuderen" box to the new column
                     const latestYear = $('.year-' + yearCount);
@@ -285,7 +303,7 @@ export class HomeView implements View {
                     droppedBox.show();
 
                     // If repearatie semester is removed, remove the extra column
-                    if (droppedBox.data('id') === 'reperatiesemester') {
+                    if (droppedBox.data('id') === 999) {
                         const latestYear = $('.year-' + yearCount);
 
                         if (latestYear.find('.col-md-4').length === 1) {
@@ -308,30 +326,13 @@ export class HomeView implements View {
                 boxClone.append(closeButton);
                 targetBox.hide().after(boxClone);
 
-                if (droppedBox.data('id') !== 'reperatiesemester') {
+                if (droppedBox.data('id') !== 999) {
                     droppedBox.hide();
                 }
             }
 
-            if (Array.isArray(self.data.studyRouteItems)) {
-                self.data.studyRouteItems.forEach(function (studyRouteItem) {
-                    // this will take the find the semesterItem
-                    const boxId = studyRouteItem.semesterItemId
-                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
-                    let targetBox = null;
-
-                    if (studyRouteItem.semester === 1) {
-                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
-                    } else {
-                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
-                    }
-                    handleDropBox(semesterItemBox, targetBox);
-                });
-            }
-
-
+            // todo tekst met uitleg
             $(".create").click(async function () {
-                // nieuwe code
                 let studyRouteItemList: IStudyRouteItem[] = [];
                 const years = $("div[class^='year-']");
 
@@ -358,10 +359,8 @@ export class HomeView implements View {
                     send_sb: false,
                     send_eb: false
                 };
-
                 // this saves the studyroute of the user
                 const response = await Api.post('/api/StudyRoute', studyRoute)
-                console.log(response)
             });
         });
     }

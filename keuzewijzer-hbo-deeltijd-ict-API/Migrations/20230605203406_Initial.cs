@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
-    public partial class useridinttostring : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -433,7 +433,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     { 5, "Description for Semester Item 5", "Semester Item 5", 2, "[2]" },
                     { 6, "Description for Semester Item 6", "Semester Item 6", 2, "[2]" },
                     { 7, "Description for Semester Item 7", "Semester Item 7", 2, "[2]" },
-                    { 8, "Description for Semester Item 8", "Semester Item 8", 2, "[2]" }
+                    { 8, "Description for Semester Item 8", "Semester Item 8", 2, "[2]" },
+                    { 999, "Reparatiesemester", "Reparatiesemester", 1, "[1,2]" }
                 });
 
             migrationBuilder.InsertData(
@@ -441,32 +442,31 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "34f74915-085e-435b-b2ad-15cc7555a723", "admin@example.com", false, "Arnold", "Min", false, null, "Arnold Dirk Min", null, null, "AQAAAAEAACcQAAAAEOKFjtMmnWAOQT3G0PWw0c725e2fMh1q5v6dOpY+ms9O65jW1iQVu7n89tSEFltDpQ==", null, false, null, null, false, "admin@example.com" },
-                    { "10", 0, null, "987d8d41-10f8-4fb2-9c69-126b23c8c0ed", "sharonapouw@example.com", false, "Sharona", "Pouw", false, null, "Sharona Pouw", null, null, "AQAAAAEAACcQAAAAEMK51P4nkXMIf1801nqX9e3rJYfjaWhpBmd/W/k4erGZaF0r1+nQrrBRXbZ1VLHa5g==", null, false, null, null, false, "sharonapouw@example.com" },
-                    { "11", 0, null, "74c58617-20b6-4b99-88a2-e31a4526bf16", "ashwienabbenhuis@example.com", false, "Ashwien", "Abbenhuis", false, null, "Ashwien Abbenhuis", null, null, "AQAAAAEAACcQAAAAEMFBiODinNdtxKQSLeoPJd0JSVuGxVavewjf46LLhOWk2xw7UkgloKpeul1bdt6uFg==", null, false, null, null, false, "ashwienabbenhuis@example.com" },
-                    { "12", 0, null, "55e1b057-fb61-49b9-965b-4659be6c49b7", "raulverdaasdonk@example.com", false, "Raul", "Verdaasdonk", false, null, "Raul Verdaasdonk", null, null, "AQAAAAEAACcQAAAAEA7wM8bQKXI6cnIPNlvzzCqyA46WAxfnCp7HzxPov12cCNyTS/6bwT0f5MzvdCU8Bg==", null, false, null, null, false, "raulverdaasdonk@example.com" },
-                    { "13", 0, null, "df30de4f-f2a8-401a-b5a4-efecc76a5fce", "majellawessels@example.com", false, "Majella", "Wessels", false, null, "Majella Wessels", null, null, "AQAAAAEAACcQAAAAEFGvPxIlwG3Ujj4IR/VCGd8Z7OR8xx2VBePrvhVMbKj3m8MwRirrCrXre7RK/rqeLA==", null, false, null, null, false, "majellawessels@example.com" },
-                    { "14", 0, null, "cba87bd3-4679-47ce-ab7c-77c45ca0569a", "kwintlogtenberg@example.com", false, "Kwint", "Logtenberg", false, null, "Kwint Logtenberg", null, null, "AQAAAAEAACcQAAAAELgH1Ul7sNrz+AoXyyDAo25skvq7s6v6EGPYIdP3K2EpbMLa2aX4PHWcjRto98aMXQ==", null, false, null, null, false, "kwintlogtenberg@example.com" },
-                    { "15", 0, null, "b9b269f8-5802-4bc1-a393-d55a546aeff7", "mikhaillebbink@example.com", false, "Mikhail", "Lebbink", false, null, "Mikhail Lebbink", null, null, "AQAAAAEAACcQAAAAEEBca1e692qMfSabi6pu5GTfe58sPSpJOQYXtJa+IkdC0UDEPoEDAZfkPCZR/QcEHw==", null, false, null, null, false, "mikhaillebbink@example.com" },
-                    { "16", 0, null, "17ccc633-e729-498c-a081-0d9b378b3138", "claylier@example.com", false, "Clay", "Lier", false, null, "Clay Lier", null, null, "AQAAAAEAACcQAAAAEAwSIUyspodHvc6dngPMg0MvOFdDBWw31NvMAWhHQ6VO1pY2fiBKlP5EMIJpm/GVqA==", null, false, null, null, false, "claylier@example.com" },
-                    { "17", 0, null, "77729202-2e7d-49ea-91c3-60846fe156e8", "rubinavanderhout@example.com", false, "Rubina", "Van der Hout", false, null, "Rubina Van der Hout", null, null, "AQAAAAEAACcQAAAAEMItH707nq5828bXYY/2fs/bHOPVg97wMOmnDT0q7Y+h71Gk0VBF/4ApR0qS/lDFmw==", null, false, null, null, false, "rubinavanderhout@example.com" },
-                    { "18", 0, null, "9d865c7c-b5ea-4a02-b80e-a8782ccc9fe9", "abderrazakblaauwbroek@example.com", false, "Abderrazak", "Blaauwbroek", false, null, "Abderrazak Blaauwbroek", null, null, "AQAAAAEAACcQAAAAEHXMekMBYdMVZzWbeExcE27YU+QZPUsFHVA15sFhrezRG2+SL6kCMZysF/RRdcyDuA==", null, false, null, null, false, "abderrazakblaauwbroek@example.com" },
-                    { "19", 0, null, "a81399e5-3511-4026-bdcf-6022d084dd83", "yannikconsten@example.com", false, "Yannik", "Consten", false, null, "Yannik Consten", null, null, "AQAAAAEAACcQAAAAEPicOZ49jmaf0JlF0SndPLnB6YzUhBCaDp+QqAieG7u61FekHTTQuWmCb86lmv1pcA==", null, false, null, null, false, "yannikconsten@example.com" },
-                    { "2", 0, null, "cc07f5ad-aa9a-4164-bb76-3833020d3f7a", "eugenevanroden@example.com", false, "Eugene", "Van Roden", false, null, "Eugene Van Roden", null, null, "AQAAAAEAACcQAAAAEOoeGeeiJh3EkrHEHCmhSmFXInQY/lENQj5SLkSgogxDD3Gss8FO4xheCKEuZWkf7w==", null, false, null, null, false, "eugenevanroden@example.com" },
-                    { "20", 0, null, "9d3d4520-aeec-477c-9eb1-5981030c0658", "niniboekhoudt@example.com", false, "Nini", "Boekhoudt", false, null, "Nini Boekhoudt", null, null, "AQAAAAEAACcQAAAAEHUwMMinxK/fLadPDh9Gs39OuyKbxbvt41YOeaA4Ew2CD5V7a4vkF1lQ7L/3CE3faA==", null, false, null, null, false, "niniboekhoudt@example.com" },
-                    { "21", 0, null, "9f2b9875-98fa-4c4a-ba60-0373417e224c", "mounssifborkent@example.com", false, "Mounssif", "Borkent", false, null, "Mounssif Borkent", null, null, "AQAAAAEAACcQAAAAELcdJbEmLd0D+OfywjpsSbdhVXlxWJpV4uy5NrKCnEBCWW1+4V8f6l/tduN3jjrDpA==", null, false, null, null, false, "mounssifborkent@example.com" },
-                    { "22", 0, null, "f75f540c-324a-45f2-a744-66ffbbd205bb", "metjeknoef@example.com", false, "Metje", "Knoef", false, null, "Metje Knoef", null, null, "AQAAAAEAACcQAAAAEOVxTg1EHxffDOHnyFjhu2fZni+7vVkbIxQ8as/ABfiLrxAICR4+9QFzdTm5GD+WUg==", null, false, null, null, false, "metjeknoef@example.com" },
-                    { "23", 0, null, "c9c266f3-ea49-49f5-9e23-bbb7732aa35f", "lolkjehagoort@example.com", false, "Lolkje", "Hagoort", false, null, "Lolkje Hagoort", null, null, "AQAAAAEAACcQAAAAELWUUkFnOc+nz0VLU1HTEo+Uo5MwUZn8e81CbmmExmdgedpSj8knAkTYF+t/ckWewQ==", null, false, null, null, false, "lolkjehagoort@example.com" },
-                    { "24", 0, null, "b6ed115c-2af8-4d29-b2e3-0c296d5e8487", "sabriadenissen@example.com", false, "Sabria", "Denissen", false, null, "Sabria Denissen", null, null, "AQAAAAEAACcQAAAAECUTCyx0/UhNr436rtWNxhKOLlkju+DcNyPMQ7uWm3tumilSCr3SNmmyhIyvxspjDw==", null, false, null, null, false, "sabriadenissen@example.com" },
-                    { "25", 0, null, "e92a9bc4-22f7-48dd-9abd-adf7418c8b2a", "farukvanschip@example.com", false, "Faruk", "Van Schip", false, null, "Faruk Van Schip", null, null, "AQAAAAEAACcQAAAAEPJfbaaqVxIL3MXXDkRQbxg2GWHgfBh0tfyco3tijf7dM7ykmjoq7Q0EsgjqCt6mqA==", null, false, null, null, false, "farukvanschip@example.com" },
-                    { "26", 0, null, "5465fe69-a575-4e96-81d1-47a1878e2280", "zakariadraaisma@example.com", false, "Zakaria", "Draaisma", false, null, "Zakaria Draaisma", null, null, "AQAAAAEAACcQAAAAEJFvTeeO9lPC1i+/fxdyTCd7hihivxOpQGTokrha8bEzFlO/SirOoCz6UwDeaCWydQ==", null, false, null, null, false, "zakariadraaisma@example.com" },
-                    { "27", 0, null, "c8cf8043-292f-4069-823d-9bf60b7da7e8", "oguzheessels@example.com", false, "Oguz", "Heessels", false, null, "Oguz Heessels", null, null, "AQAAAAEAACcQAAAAEAzv1UjWLOn5YMOJcTuRii6FhKXIB3FHO03iGBrcatSjZB+g00pj8yC+qcwcuBwEhg==", null, false, null, null, false, "oguzheessels@example.com" },
-                    { "28", 0, null, "1a9bbc6d-9f99-4939-a7f4-68a87023ea56", "mariaburggraaff@example.com", false, "Maria", "Burggraaff", false, null, "Maria Burggraaff", null, null, "AQAAAAEAACcQAAAAEF2HwvXJlDRqPeaTvQJOhIqJGHYlaxvxdK5XoXYXSV/ekOoK57a+21wN1vGJ4rGziA==", null, false, null, null, false, "mariaburggraaff@example.com" },
-                    { "29", 0, null, "6d9b4ddd-5b8d-4d70-8a2c-b1119daba81f", "katelijnvandekoppel@example.com", false, "Katelijn", "Van de Koppel", false, null, "Katelijn Van de Koppel", null, null, "AQAAAAEAACcQAAAAEAv+WMfu4RJezQoiFQqb+09zd+kwgKkqun7MZGIjz5nibfqT9zUvBK/5evJBp/v21A==", null, false, null, null, false, "katelijnvandekoppel@example.com" },
-                    { "3", 0, null, "75b51610-6b88-4140-86a3-b7a5e5edf710", "theotan@example.com", false, "Theo", "Tan", false, null, "Theo Tan", null, null, "AQAAAAEAACcQAAAAEMTCHWXYRWcyhddbyQa0WR42HiVnGMU95O8svs80nSR0Ne1N+nEh0cbsnQ67djW/7w==", null, false, null, null, false, "theotan@example.com" },
-                    { "30", 0, null, "fec5d88c-7073-4034-8999-6f913e1ab2c5", "desirescheeren@example.com", false, "Désiré", "Scheeren", false, null, "Désiré Scheeren", null, null, "AQAAAAEAACcQAAAAECMC1IJvoR/IR980pFjETQnGg+wywKh9Sk/DCZgZHguyiG5W9jbxhVbKO7NOsQexSQ==", null, false, null, null, false, "desirescheeren@example.com" },
-                    { "31", 0, null, "31d540be-6781-46dd-ac9d-1fbcd3c79b74", "daxgabriel@example.com", false, "Dax", "Gabriel", false, null, "Dax Gabriel", null, null, "AQAAAAEAACcQAAAAEDb6I8LmxzHLEFUH0nzIHc5kfIRRGcxkDG1bhmW6ZprEa65uPdOXCgXeK7iISdnsUA==", null, false, null, null, false, "daxgabriel@example.com" },
-                    { "32", 0, null, "9463d430-e7c0-4643-96cb-01e35f8e8d3d", "tommiestel@example.com", false, "Tommie", "Stel", false, null, "Tommie Stel", null, null, "AQAAAAEAACcQAAAAEHoxldMqjgJ5mQHM3NcnXyF6nwUpfL1sYY53rZ6Zg6UhA935tRe1nKtFdKJc/uxZ/Q==", null, false, null, null, false, "tommiestel@example.com" }
+                    { "1", 0, null, "ccd5b25e-a230-4831-9729-15d333db3090", "admin@example.com", false, "Arnold", "Min", false, null, "Arnold Dirk Min", null, null, "AQAAAAEAACcQAAAAEIGvM+de233XPuOQIuectMSga5jOk3MDKB/TMDCBUydVEWEdIjrKxaeVaVWIj0Sf2A==", null, false, null, null, false, "admin@example.com" },
+                    { "10", 0, null, "4e6e5b07-fa2e-4171-8550-bb5265b9dbe4", "sharonapouw@example.com", false, "Sharona", "Pouw", false, null, "Sharona Pouw", null, null, "AQAAAAEAACcQAAAAEGXSz63SRUWgFYRx6BY2ZrJGCxnGA4q1hRFdWSglWXFRYMJfMauH0xtOmZe/xipiTA==", null, false, null, null, false, "sharonapouw@example.com" },
+                    { "11", 0, null, "686776d0-8186-4e71-896e-9ba7fe1cc3fd", "ashwienabbenhuis@example.com", false, "Ashwien", "Abbenhuis", false, null, "Ashwien Abbenhuis", null, null, "AQAAAAEAACcQAAAAEFWrPd9N31BVA+McUB5prNcTjIw65E/P/hUty+o4ew7kVa/tWlsf1GunpJr72huiNQ==", null, false, null, null, false, "ashwienabbenhuis@example.com" },
+                    { "12", 0, null, "0d985615-1ea1-4bc2-a07a-c3abb3cf508b", "raulverdaasdonk@example.com", false, "Raul", "Verdaasdonk", false, null, "Raul Verdaasdonk", null, null, "AQAAAAEAACcQAAAAEM/09CxCAL8uCfC8P1i+nlukJhpUjIgkfrLz4f5wfauOcrLMKDt5eOF/b82yhzab3w==", null, false, null, null, false, "raulverdaasdonk@example.com" },
+                    { "13", 0, null, "b47fea9c-e1d9-4776-8588-bcf169f462da", "majellawessels@example.com", false, "Majella", "Wessels", false, null, "Majella Wessels", null, null, "AQAAAAEAACcQAAAAEF+RkX8f4cX3jUvRUP650ejXmM0koWduEYsOt5omf3Zt99Pzum5sQAvMmUVAM9KHHA==", null, false, null, null, false, "majellawessels@example.com" },
+                    { "14", 0, null, "68007cd6-8871-4f3b-8beb-f0484103cff2", "kwintlogtenberg@example.com", false, "Kwint", "Logtenberg", false, null, "Kwint Logtenberg", null, null, "AQAAAAEAACcQAAAAEDahxe8ErlX0ZLdT0yjWTKxknihiLSe2QxjE32lk7mIJYNSsyfmh6VXPmrGvbtWKdA==", null, false, null, null, false, "kwintlogtenberg@example.com" },
+                    { "15", 0, null, "d4ed38e2-fe25-4cbc-a791-de737f8afdb2", "mikhaillebbink@example.com", false, "Mikhail", "Lebbink", false, null, "Mikhail Lebbink", null, null, "AQAAAAEAACcQAAAAEAffMx/s7OZHRVQoXBuSrKzm7NzLSykzOOl/DiCm7AVA+vAOBMLS0oH4YzogphZYQA==", null, false, null, null, false, "mikhaillebbink@example.com" },
+                    { "16", 0, null, "3b4bac95-324f-41ef-ba88-cb6e430af920", "claylier@example.com", false, "Clay", "Lier", false, null, "Clay Lier", null, null, "AQAAAAEAACcQAAAAEFHnj6XKXprm0KCgS+5gDSjB7/TJA5/jG8+zncqeNL9fjs5g1pHI7s3KJxd/kURm3A==", null, false, null, null, false, "claylier@example.com" },
+                    { "17", 0, null, "48c9300f-286b-4fc3-8f77-3b7030b9ec20", "rubinavanderhout@example.com", false, "Rubina", "Van der Hout", false, null, "Rubina Van der Hout", null, null, "AQAAAAEAACcQAAAAEGaEq+gEVIlEPxSje5hclML86PLb7pBF8jGDcZC/iZMn+MHbh1rwJOLUn4sbcNCxeA==", null, false, null, null, false, "rubinavanderhout@example.com" },
+                    { "18", 0, null, "6e656ade-fcee-4bd9-8083-c73a7e76c8f5", "abderrazakblaauwbroek@example.com", false, "Abderrazak", "Blaauwbroek", false, null, "Abderrazak Blaauwbroek", null, null, "AQAAAAEAACcQAAAAEA5b5tEUrlquWQlcx1PDKuu2Yxj1SA52cPZpbcdKbGDzci0qLiCUp/+ucl29oKL8pw==", null, false, null, null, false, "abderrazakblaauwbroek@example.com" },
+                    { "19", 0, null, "fdb0f05a-e38d-4dab-a097-7e6e1758b6ad", "yannikconsten@example.com", false, "Yannik", "Consten", false, null, "Yannik Consten", null, null, "AQAAAAEAACcQAAAAEAZnC6r3SGfkKbqKWiSyNchIKkMrs59Yo90S3YF1v3HAO5+tcgrMBsE6UPboBIORVg==", null, false, null, null, false, "yannikconsten@example.com" },
+                    { "2", 0, null, "968d9d1d-d323-4503-a45b-9d279be3533c", "eugenevanroden@example.com", false, "Eugene", "Van Roden", false, null, "Eugene Van Roden", null, null, "AQAAAAEAACcQAAAAEM+mwdNLiz9IdGy2D2An89Kqwpl/dXjSdvsd/CRBugfvhY6ST6jxaoXOz4UuqztGzQ==", null, false, null, null, false, "eugenevanroden@example.com" },
+                    { "20", 0, null, "460bc0a9-cda3-4d35-ae12-defe14bbd041", "niniboekhoudt@example.com", false, "Nini", "Boekhoudt", false, null, "Nini Boekhoudt", null, null, "AQAAAAEAACcQAAAAEOFtHrH7ZccWw9DZApl3BAVZpbgTCi3BXcMoDlo8CMC2zqq6LGMpFOh5AVLVeabSzA==", null, false, null, null, false, "niniboekhoudt@example.com" },
+                    { "21", 0, null, "21f13b47-0541-4b40-9659-3d148fb9fa6b", "mounssifborkent@example.com", false, "Mounssif", "Borkent", false, null, "Mounssif Borkent", null, null, "AQAAAAEAACcQAAAAEAEZ9h0ZWUprD+33IfgnxVCmp7+MqQzc6udSWabWC6SmVrVSowLMjn8TqFuLIeIk/g==", null, false, null, null, false, "mounssifborkent@example.com" },
+                    { "22", 0, null, "0e3d8287-daef-416e-900f-fd5f3ebdee15", "metjeknoef@example.com", false, "Metje", "Knoef", false, null, "Metje Knoef", null, null, "AQAAAAEAACcQAAAAEBKDC/BtEW4ftzpx9ulJqki8jccDIPIm58cq/g1MW1H0QZBfhGBZPDPjjCzDSzGW7g==", null, false, null, null, false, "metjeknoef@example.com" },
+                    { "23", 0, null, "269700d4-b0e3-4912-8f05-c610ba8e0641", "lolkjehagoort@example.com", false, "Lolkje", "Hagoort", false, null, "Lolkje Hagoort", null, null, "AQAAAAEAACcQAAAAEJ8wz9YUfwl8qB3/Ce7ojjo+fYZVz1TcIprFO/REAqQ6amKhnvO6Yecyt/QoWxXxjg==", null, false, null, null, false, "lolkjehagoort@example.com" },
+                    { "24", 0, null, "5fb6e859-3092-4650-b891-087ac93eaa06", "sabriadenissen@example.com", false, "Sabria", "Denissen", false, null, "Sabria Denissen", null, null, "AQAAAAEAACcQAAAAEC2MS30b3wpZz0mLpa/8Isxc6yMlQQ3fvm17NWcHVWl6I7tBPkvgCpD3oyjdCZkJAA==", null, false, null, null, false, "sabriadenissen@example.com" },
+                    { "25", 0, null, "37592073-4964-40d8-956e-b68f48c4f0d0", "farukvanschip@example.com", false, "Faruk", "Van Schip", false, null, "Faruk Van Schip", null, null, "AQAAAAEAACcQAAAAEJbPNWVkrggoI2iiCs3fGAqIj2+SX5v8hVHeIWg+2fVSQGiinX2hYONXzhAFB4XCgQ==", null, false, null, null, false, "farukvanschip@example.com" },
+                    { "26", 0, null, "3cc9b725-21d6-4a9d-922d-29a2a0b89bfb", "zakariadraaisma@example.com", false, "Zakaria", "Draaisma", false, null, "Zakaria Draaisma", null, null, "AQAAAAEAACcQAAAAEBRlrzi/61qr9+NaMknaAJDb9U7Opig8QMdNk3la9vjVPxzWzJIKmPxH5fZZ+Xhelw==", null, false, null, null, false, "zakariadraaisma@example.com" },
+                    { "27", 0, null, "c289888f-3519-4057-9fb0-4154494709ba", "oguzheessels@example.com", false, "Oguz", "Heessels", false, null, "Oguz Heessels", null, null, "AQAAAAEAACcQAAAAEE+/gY8ZTfHCiEQvZCZkcj6/vrqoO7eMKH3wx/GSt0FbyEkCbNGxYmMwUqQYECrLhw==", null, false, null, null, false, "oguzheessels@example.com" },
+                    { "28", 0, null, "d0c3d9e8-fc3a-4e83-bf5f-6e12bd93736a", "mariaburggraaff@example.com", false, "Maria", "Burggraaff", false, null, "Maria Burggraaff", null, null, "AQAAAAEAACcQAAAAEF+jZe+GqXHa1NPFC3vJykYnMcrobBct+rrOP/bYZGv3j2T0qkmGO+M3LcU/kiu+nQ==", null, false, null, null, false, "mariaburggraaff@example.com" },
+                    { "29", 0, null, "a0758c51-7740-4ebe-8359-1373a28bc496", "katelijnvandekoppel@example.com", false, "Katelijn", "Van de Koppel", false, null, "Katelijn Van de Koppel", null, null, "AQAAAAEAACcQAAAAEFbCs5suT4aVlRiu03l5OC6YheOlSakElCj9G41edLhS6bWPAk2xTd/3jjliprgxXw==", null, false, null, null, false, "katelijnvandekoppel@example.com" },
+                    { "3", 0, null, "9a8f8739-2768-4d90-9e77-cd54df7cebf7", "theotan@example.com", false, "Theo", "Tan", false, null, "Theo Tan", null, null, "AQAAAAEAACcQAAAAENVLJP5FBCZGtpqAebnnOfEq6ylerUm9R29TzJGR7n4onLedTXpu8Owcz15wNa/L/A==", null, false, null, null, false, "theotan@example.com" },
+                    { "30", 0, null, "6e3f5e47-0bb9-40b3-8557-abd2c6f73144", "desirescheeren@example.com", false, "Désiré", "Scheeren", false, null, "Désiré Scheeren", null, null, "AQAAAAEAACcQAAAAEPQPlBwmdmQrAqbuSCq0+MW2sjvgZCbl4P+jr2Ey1NGlOtd98pXv1l8UkEjfbiL6Hw==", null, false, null, null, false, "desirescheeren@example.com" },
+                    { "31", 0, null, "bb8446eb-55b4-48aa-8a38-3d0c51479c96", "daxgabriel@example.com", false, "Dax", "Gabriel", false, null, "Dax Gabriel", null, null, "AQAAAAEAACcQAAAAECTAhNnNFqaI2ywXiJ6O9/zNIbHmw0HbGMbfE0QxCj4qLhtvGc2M1+GXY4NtUkAC6Q==", null, false, null, null, false, "daxgabriel@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -474,23 +474,24 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "CohortId1", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TimedOut", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "33", 0, null, "dae3efb7-0f2c-4421-b09b-3cfaa5fb53a4", "raphaelkoppe@example.com", false, "Raphaël", "Koppe", false, null, "Raphaël Koppe", null, null, "AQAAAAEAACcQAAAAEIUG0/vHNadUJ65QnCy9LxL+qOBqpQTS6vmATn66umdEGloZkEJgmSFiiCs1CBK7EQ==", null, false, null, null, false, "raphaelkoppe@example.com" },
-                    { "34", 0, null, "59948d06-b10c-4125-b897-06e0ac05e117", "demyjongen@example.com", false, "Demy", "Jongen", false, null, "Demy Jongen", null, null, "AQAAAAEAACcQAAAAEBAnAf1SazTDxvqxo1fL5i4+QZc2xbYBeG4V9C5AvnQCwAuLLTtrTSk/LK0dZzoeUw==", null, false, null, null, false, "demyjongen@example.com" },
-                    { "35", 0, null, "2ecf7c72-1603-48e4-9540-b91b88b8b406", "leahharreman@example.com", false, "Leah", "Harreman", false, null, "Leah Harreman", null, null, "AQAAAAEAACcQAAAAELk6EvTXjkDSsVdJY5PR7+ddEyzO1kuvigmRxA9aCBRy/r1CZxeaqPY/QC12YdtQIg==", null, false, null, null, false, "leahharreman@example.com" },
-                    { "36", 0, null, "3ea44cac-edf4-486b-909c-93f5f93b65ad", "idrisskorpershoek@example.com", false, "Idriss", "Korpershoek", false, null, "Idriss Korpershoek", null, null, "AQAAAAEAACcQAAAAEGawEZpcgfcczmx95MzdybfBv7d0zEqhu75F9UDKwBgwSmhTDOITYmEpcDOSR1RmGA==", null, false, null, null, false, "idrisskorpershoek@example.com" },
-                    { "37", 0, null, "c04e22ed-f74b-4768-96a4-b519599b8bcb", "rashiedbleumink@example.com", false, "Rashied", "Bleumink", false, null, "Rashied Bleumink", null, null, "AQAAAAEAACcQAAAAEOIk0WgpkA23k8SgRctrxjZEvh1NlnbTClPqGo4uuTzbXDEZ9VtNWH7oFiaCQuRLFQ==", null, false, null, null, false, "rashiedbleumink@example.com" },
-                    { "38", 0, null, "ccb1211e-b208-4bf0-99cf-b02d07b19f73", "siay@example.com", false, "Si", "Ay", false, null, "Si Ay", null, null, "AQAAAAEAACcQAAAAEEAtqsq7pk54oah3EithjI0hYHczNSEKk35t/az9T63fO51wykelEh2lGb5Plb8VxQ==", null, false, null, null, false, "siay@example.com" },
-                    { "39", 0, null, "cba86010-d030-44ef-8085-a48b4b6efa81", "manolyalebens@example.com", false, "Manolya", "Lebens", false, null, "Manolya Lebens", null, null, "AQAAAAEAACcQAAAAEF67EaT1F43Dakx5qMjXq7yV//MByDeT4Qs04VIuO87ULzRQLuSxi70NCNNvOhCsgQ==", null, false, null, null, false, "manolyalebens@example.com" },
-                    { "4", 0, null, "b44db12e-924e-4ce4-9d15-23f16b875777", "cloekras@example.com", false, "Cloé", "Kras", false, null, "Cloé Kras", null, null, "AQAAAAEAACcQAAAAEKKvltppGZR6SKBwyzy4JZgskmfjMGiDDTsu0igqTrV8+vCTkzvVYYKI98PtPCY5lQ==", null, false, null, null, false, "cloekras@example.com" },
-                    { "40", 0, null, "98bd94d7-01e1-402a-b920-cd9a861c185a", "mateuszmachielsen@example.com", false, "Mateusz", "Machielsen", false, null, "Mateusz Machielsen", null, null, "AQAAAAEAACcQAAAAEP8NZ9q8J0XxRf71FLjjpgViex5G8SnBRlMvrtkZsIoxBySuhBIYv0C+69ByG6xoqg==", null, false, null, null, false, "mateuszmachielsen@example.com" },
-                    { "41", 0, null, "6f16d1ef-2d4c-49e9-aff7-c18f05fa1c9b", "douaavandepavert@example.com", false, "Douaa", "Van de Pavert", false, null, "Douaa Van de Pavert", null, null, "AQAAAAEAACcQAAAAEAcoyJUXfNAlpqnZjmz06FonZKY2BMacfI1eF5bDzeliy/gUkcoNUhBigD7eW5YcZQ==", null, false, null, null, false, "douaavandepavert@example.com" },
-                    { "42", 0, null, "b69a67f8-1ddc-4f94-9610-26d24e8f872e", "kishanhoogkamp@example.com", false, "Kishan", "Hoogkamp", false, null, "Kishan Hoogkamp", null, null, "AQAAAAEAACcQAAAAEPfsoJxXxFnLIY2Tl85fJL9vRaoZ4W0SdkvrVHw/WXIW4AaO3IOuKLBPS4NIYBKZiQ==", null, false, null, null, false, "kishanhoogkamp@example.com" },
-                    { "43", 0, null, "80288ca1-c7a2-4e0f-bb89-38eae9520b92", "harmjanversendaal@example.com", false, "Harmjan", "Versendaal", false, null, "Harmjan Versendaal", null, null, "AQAAAAEAACcQAAAAEBvfTz/IqjdveooTKcc61lfDXr5VKHtIcnF+NZYdhsbj/+0B3t/F9knqQtWij3CfmQ==", null, false, null, null, false, "harmjanversendaal@example.com" },
-                    { "5", 0, null, "3608a167-ffb4-44f5-aa6a-6c4c1b296bd7", "maurivannuland@example.com", false, "Mauri", "Van Nuland", false, null, "Mauri Van Nuland", null, null, "AQAAAAEAACcQAAAAEKNwQ063/ap65EITLLVff1sHfban/FoXwlQoGccA69UjPs6pwN690OndtfK8wTJD1A==", null, false, null, null, false, "maurivannuland@example.com" },
-                    { "6", 0, null, "659aa565-b319-4659-84ed-59171f9eddba", "jeromeheerink@example.com", false, "Jerome", "Heerink", false, null, "Jerome Heerink", null, null, "AQAAAAEAACcQAAAAEPhhx9d3WJIGf2aLCC/9TSkQrhoxNyU1+YUyfAgtlDcHifgOt2qsNXQuxvGZSxZSXA==", null, false, null, null, false, "jeromeheerink@example.com" },
-                    { "7", 0, null, "60d0ddcd-8ff5-432b-9f30-17506c75b5fd", "semihvanburken@example.com", false, "Semih", "Van Burken", false, null, "Semih Van Burken", null, null, "AQAAAAEAACcQAAAAEHcv2MeffG3fxfdc6xxX+Y9W2v/jKSTr/RgDdMZDcDfyo/w3pibIQZu+54zyjH5cgA==", null, false, null, null, false, "semihvanburken@example.com" },
-                    { "8", 0, null, "919ed05f-052a-49b9-93d3-7303771c8888", "jacomijntjemoraal@example.com", false, "Jacomijntje", "Moraal", false, null, "Jacomijntje Moraal", null, null, "AQAAAAEAACcQAAAAELg1sfl3RADbZDnPtUbzHm9yi5U9DVSk6tHk7dascU2W+I5/eUT6ksjMDUausxulTQ==", null, false, null, null, false, "jacomijntjemoraal@example.com" },
-                    { "9", 0, null, "679b105b-9e97-4745-b750-9ea8840ab232", "sjuulalma@example.com", false, "Sjuul", "Alma", false, null, "Sjuul Alma", null, null, "AQAAAAEAACcQAAAAEGXjeE6wiTxaVFiZEEFvf8Rp6AzX+0iJ23va139MjfOw8gg6pLKuY6CHxwQ3D1Rygg==", null, false, null, null, false, "sjuulalma@example.com" }
+                    { "32", 0, null, "3e17756d-a7de-4050-bbf9-ded2367e8a53", "tommiestel@example.com", false, "Tommie", "Stel", false, null, "Tommie Stel", null, null, "AQAAAAEAACcQAAAAEL68gbSDRv5dp8cN3cQyPidJvsf8L5iuvoD67NAMcF2PjU8o3fpDzvhGrjkgQSZ7XQ==", null, false, null, null, false, "tommiestel@example.com" },
+                    { "33", 0, null, "0297dd36-3523-4c10-b605-949aad4ae44e", "raphaelkoppe@example.com", false, "Raphaël", "Koppe", false, null, "Raphaël Koppe", null, null, "AQAAAAEAACcQAAAAEPkXCVzv+WCC4xkr/ZlvtRgM0YLo29FPkMvitg9Dn4v1ZSxQEICNjaFexESxCuzbng==", null, false, null, null, false, "raphaelkoppe@example.com" },
+                    { "34", 0, null, "7cc3c189-f07b-4864-972b-a7ce1456136b", "demyjongen@example.com", false, "Demy", "Jongen", false, null, "Demy Jongen", null, null, "AQAAAAEAACcQAAAAECFNlIbHM9BIkmSbas9/puNeKD5ECwkKvqmW3lU10XmVFuMkXmenhBf7CqC+lF5wvA==", null, false, null, null, false, "demyjongen@example.com" },
+                    { "35", 0, null, "af4821d5-0291-4761-999c-94ea8dc41064", "leahharreman@example.com", false, "Leah", "Harreman", false, null, "Leah Harreman", null, null, "AQAAAAEAACcQAAAAEIWXXMgmxUkRv91GqgFJtKxWePx9pZ/OgkN1Rp5UAVH/TVPECNa1Ls4FtpyMpIXgRw==", null, false, null, null, false, "leahharreman@example.com" },
+                    { "36", 0, null, "01c47fc8-055e-4158-85b0-c4f647df91d1", "idrisskorpershoek@example.com", false, "Idriss", "Korpershoek", false, null, "Idriss Korpershoek", null, null, "AQAAAAEAACcQAAAAEPAe8J0f2JFHlQk4e9NQZ5CaOBGfCUcuCrWZSam3VCY4ddXVhJGqUyFm6l+PobX+hQ==", null, false, null, null, false, "idrisskorpershoek@example.com" },
+                    { "37", 0, null, "415cfc36-e887-44fb-9663-3e2761fdb90a", "rashiedbleumink@example.com", false, "Rashied", "Bleumink", false, null, "Rashied Bleumink", null, null, "AQAAAAEAACcQAAAAEGv0Nle8ZGWgYyd3z04j99H7d8LkMHRcJ3X9Gj7DA2a9P0fsU+evTMYJ4JJbQn/3gA==", null, false, null, null, false, "rashiedbleumink@example.com" },
+                    { "38", 0, null, "e522da41-fd14-455e-9bfd-abad8ec0ead2", "siay@example.com", false, "Si", "Ay", false, null, "Si Ay", null, null, "AQAAAAEAACcQAAAAEE6RuZqscMmq/+qyW9WbJZ8qYjAFQb3E0L+UMuKrQyRh9axTPmv6AapSbqEtQ7jGQA==", null, false, null, null, false, "siay@example.com" },
+                    { "39", 0, null, "4b7abe6a-9313-4d59-876a-4d88110813b3", "manolyalebens@example.com", false, "Manolya", "Lebens", false, null, "Manolya Lebens", null, null, "AQAAAAEAACcQAAAAEBFWER/AFTfc7na+Ief+VExmkKD9mQ8a/gbPOTij8mCb+/4tg2RV0t8ALOu7EwQ6WQ==", null, false, null, null, false, "manolyalebens@example.com" },
+                    { "4", 0, null, "097b31db-47ca-4942-adb0-822506144702", "cloekras@example.com", false, "Cloé", "Kras", false, null, "Cloé Kras", null, null, "AQAAAAEAACcQAAAAEPtmLv9rwtTpHWylVCxMv2g5rH8zuUZpIlUYJg3NJuoQZGjssbmVyZBI0U22UaTDXQ==", null, false, null, null, false, "cloekras@example.com" },
+                    { "40", 0, null, "4c0e8259-074d-4dfc-a2c1-c2aed0b81156", "mateuszmachielsen@example.com", false, "Mateusz", "Machielsen", false, null, "Mateusz Machielsen", null, null, "AQAAAAEAACcQAAAAEAB5bIuLKraIiY3gFn/0XnsQDQeGK80xzoKPJ0XesR4y50pH30nEWf++t+uak3mm1g==", null, false, null, null, false, "mateuszmachielsen@example.com" },
+                    { "41", 0, null, "a5833e7a-3f0d-4c7f-b61a-5bb3215b0efd", "douaavandepavert@example.com", false, "Douaa", "Van de Pavert", false, null, "Douaa Van de Pavert", null, null, "AQAAAAEAACcQAAAAEHI754XMCa/RO1ZjGrUf2XJm1fQ2fmIFAzHLAwT41fgim2CSMKsOvtMZz0LKC+WwHA==", null, false, null, null, false, "douaavandepavert@example.com" },
+                    { "42", 0, null, "1421db28-e462-4116-b1cd-965e4f2001e1", "kishanhoogkamp@example.com", false, "Kishan", "Hoogkamp", false, null, "Kishan Hoogkamp", null, null, "AQAAAAEAACcQAAAAEEYpX5JRSgdKRbhuARDocFsq1PUqIqwNt3NFRlCD+8ApQK6Ap2qvxnmlbK672zJGVA==", null, false, null, null, false, "kishanhoogkamp@example.com" },
+                    { "43", 0, null, "55f62875-a3da-4dd2-99fe-7c3974da26d9", "harmjanversendaal@example.com", false, "Harmjan", "Versendaal", false, null, "Harmjan Versendaal", null, null, "AQAAAAEAACcQAAAAENnD4Glpd/Qd13YjiM87ysj6O3BJzkasbMxB/DJRzO6BmaHr8KKXo/FvEShrOHHsqQ==", null, false, null, null, false, "harmjanversendaal@example.com" },
+                    { "5", 0, null, "3ba86fea-f648-4f9a-b34e-ade4ebd2e281", "maurivannuland@example.com", false, "Mauri", "Van Nuland", false, null, "Mauri Van Nuland", null, null, "AQAAAAEAACcQAAAAEN62Uny2XaSCKeYHyI7Y/46z59DjlRPJwGJamK3RuvdAuw8AMkkbCLt8/gqh6HL0UA==", null, false, null, null, false, "maurivannuland@example.com" },
+                    { "6", 0, null, "40041dd3-4498-44a7-b9e8-b553d4e26812", "jeromeheerink@example.com", false, "Jerome", "Heerink", false, null, "Jerome Heerink", null, null, "AQAAAAEAACcQAAAAEApNW2EGY9JgD7zMHxIaP9eyrgZecDUstWtpefHwOoHhfK/II2UE1YfKVAZTAq/rEg==", null, false, null, null, false, "jeromeheerink@example.com" },
+                    { "7", 0, null, "bacd4a4a-4ff5-40c7-abb7-7781ee0bd981", "semihvanburken@example.com", false, "Semih", "Van Burken", false, null, "Semih Van Burken", null, null, "AQAAAAEAACcQAAAAEN/mmXg4f5FgRqYouKZwDo01Jcyr9UH3bvms3DX08zP1u6M0pzTWE1Ov5ICyRAUweQ==", null, false, null, null, false, "semihvanburken@example.com" },
+                    { "8", 0, null, "6feb6258-e250-4e9a-bea0-e28050448a0a", "jacomijntjemoraal@example.com", false, "Jacomijntje", "Moraal", false, null, "Jacomijntje Moraal", null, null, "AQAAAAEAACcQAAAAEFDwqycci/oVncNChmASWV8NgdoRZKdYKmR1SQE8lXLIMnFTwNAvu9oNqovXa7LfoA==", null, false, null, null, false, "jacomijntjemoraal@example.com" },
+                    { "9", 0, null, "2c4dd41a-f6a1-4fa9-a0f9-3c394b0e5d53", "sjuulalma@example.com", false, "Sjuul", "Alma", false, null, "Sjuul Alma", null, null, "AQAAAAEAACcQAAAAEHDJKv1a1nRMoCcVyVLmLnnWH89mCju59Pm/tIFBxMyI69LzcAWxUBHKTOTHoGPURw==", null, false, null, null, false, "sjuulalma@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -505,7 +506,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     { 4, 5 },
                     { 4, 6 },
                     { 4, 7 },
-                    { 4, 8 }
+                    { 4, 8 },
+                    { 4, 999 }
                 });
 
             migrationBuilder.InsertData(
@@ -563,8 +565,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     { 2, "29" },
                     { 2, "30" },
                     { 2, "31" },
-                    { 2, "32" },
-                    { 2, "33" }
+                    { 2, "32" }
                 });
 
             migrationBuilder.InsertData(
@@ -572,6 +573,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "RolesId", "UsersId" },
                 values: new object[,]
                 {
+                    { 2, "33" },
                     { 2, "34" },
                     { 2, "35" },
                     { 2, "36" },
@@ -599,10 +601,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 columns: new[] { "Id", "Semester", "SemesterItemId", "StudyRouteId", "Year" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 1, 2023 },
-                    { 2, 1, 2, 1, 2023 },
-                    { 3, 1, 3, 1, 2023 },
-                    { 4, 1, 4, 1, 2023 }
+                    { 1, 1, 1, 1, 1 },
+                    { 2, 2, 2, 1, 1 },
+                    { 3, 1, 3, 1, 2 },
+                    { 4, 2, 4, 1, 2 },
+                    { 5, 1, 5, 1, 3 },
+                    { 6, 2, 6, 1, 3 },
+                    { 7, 1, 7, 1, 4 }
                 });
 
             migrationBuilder.CreateIndex(
