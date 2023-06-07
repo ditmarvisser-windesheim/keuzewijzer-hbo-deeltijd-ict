@@ -30,7 +30,7 @@ export class App {
 
     //Users
     this.router.addRoute('/user', new UserIndexView());
-    this.router.addRoute('/userUpdate', new UserUpdateRoleView())
+    this.router.addRoute('/user/update/:id', new UserUpdateRoleView())
     this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     // Start the router

@@ -9,6 +9,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
+using System.Runtime.CompilerServices;
 
 
 //EXAMPLE
@@ -73,10 +74,23 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpPut("{id}/roles")]
         public async Task<IActionResult> PutUserRoles(string id, List<string> roles)
         {
-            User user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
-            await _userManager.AddToRolesAsync(user, roles);
+            var user = await _userManager.FindByIdAsync(id);
+            var currentRoles = await _userManager.GetRolesAsync(user);
 
-            return NoContent();
+            List<string> removedRoles = (from role in currentRoles 
+                                         where !(roles.Contains(role)) 
+                                         select role)
+                                         .ToList();
+            List<string> addedRoles = (from role in roles
+                                       where !(currentRoles.Contains(role))
+                                       select role)
+                                       .ToList();
+
+
+            await _userManager.AddToRolesAsync(user, addedRoles);
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+            return CreatedAtAction("PutUserRoles", new { id = id }, user);
         }
         
         // PUT: api/User/5

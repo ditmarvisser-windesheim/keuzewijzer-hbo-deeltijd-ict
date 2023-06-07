@@ -6,7 +6,9 @@ import { Role } from '../../../Models/Role';
 
 export class UserUpdateRoleView implements View {
 
-  private Id = 5; //TODO: get the id form the url
+  // private Id = 5; //TODO: get the id form the url
+  public params: Record<string, string> = {};
+  
   private user: User = new User;
 
   public template = `
@@ -34,15 +36,19 @@ export class UserUpdateRoleView implements View {
   public data = {};
 
   public async setup(): Promise<void> {
+    
     this.setForm();
-
+    
     const userForm = $('#user-form');
     userForm.on('submit', this.handleUserUpdate.bind(this));
   }
-
+  
   private async setForm(): Promise<void> {
     //TODO: get the id from the url
-    const id = this.Id;
+    const id = this.params?.id;
+    console.log("p");
+    console.log(this.params);
+    console.log("p");
 
     //Search for the user item with the id
     var response = await Api.get(`/api/user/${id}`);
@@ -115,6 +121,7 @@ export class UserUpdateRoleView implements View {
     try {
       // Make the PUT request to the server
       const response = await Api.put('/api/user/' + id + '/roles', roles);
+      console.log(response);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
@@ -124,7 +131,7 @@ export class UserUpdateRoleView implements View {
       Swal.fire('User ' + response.name + ' Aangepast!', '', 'success');
       console.log(response);
 
-      // Go back to the semester overview wait for 3 seconds
+      // Go back to the user overview wait for 3 seconds
       setTimeout(function () {
         window.location.href = '/user';
       }, 2000);
