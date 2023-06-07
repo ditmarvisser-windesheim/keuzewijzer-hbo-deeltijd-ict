@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,8 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddMemoryCache();
 builder.Services.AddAuthentication();
-
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

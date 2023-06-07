@@ -1,12 +1,15 @@
-import { View } from './views/View';
 import * as Handlebars from 'handlebars';
-import { registerHelpers } from './helpers/handlebars';
+
 import AuthService from './services/AuthService';
+import { View } from './views/View';
+import { registerHelpers } from './helpers/handlebars';
+import SidebarPartial from './views/Partials/SidebarPartial';
 
 export class Router {
   private routes: Map<string, View>;
   private currentView: View | null;
   private authService: AuthService;
+  sidebarPartial: SidebarPartial;
 
   constructor(authService: AuthService) {
     this.routes = new Map();
@@ -45,7 +48,6 @@ export class Router {
 
     // Iterate over the routes and find a match
     const urlParts = path.split('/');
-
 
     // Iterate over the routes and find a match
     for (const [route, routeView] of this.routes) {
@@ -115,6 +117,28 @@ export class Router {
 
     // Update the browser's history
     history.pushState({}, '', path);
+  }
+
+  private renderSidebar(): void {
+    const sidebarContainer = document.getElementById('sidebar-container');
+
+    if (sidebarContainer) {
+      const userData = this.authService.getUserData();
+
+      if (userData) {
+        // Create a new instance of SidebarPartial with user data
+        this.sidebarPartial = new SidebarPartial(userData);
+
+        // Render the sidebar HTML
+        const sidebarHtml: string = this.sidebarPartial.render();
+
+        // Append the sidebar HTML to the sidebar container
+        sidebarContainer.innerHTML = sidebarHtml;
+      } else {
+        // Clear the sidebar container if user data is not available
+        sidebarContainer.innerHTML = '';
+      }
+    }
   }
 
   private show404(): void {

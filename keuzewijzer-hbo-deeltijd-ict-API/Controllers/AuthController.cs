@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using keuzewijzer_hbo_deeltijd_ict_API.Request;
 using keuzewijzer_hbo_deeltijd_ict_API.ViewModels;
+using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -29,9 +29,12 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         [HttpPost("login")]
+        // Limit login tries to 5 times per minute
+        [RateLimitFilter(5, 60)]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.UserName);
+            
             if (user == null)
             {
                 return Unauthorized();
@@ -54,6 +57,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 accessToken,
                 DateTime.Now
             ));
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
 
         private string GenerateAccessToken(User user, IList<string> roles)

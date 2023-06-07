@@ -4,15 +4,15 @@
     {
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiration { get; set; }
 
-        public AuthenticationResponse(string userName, string email, string token, string refreshToken, DateTime? refreshTokenExpiration)
+        public AuthenticationResponse(string userName, string email, string accessToken, string refreshToken, DateTime? refreshTokenExpiration)
         {
             UserName = userName;
             Email = email;
-            Token = token;
+            AccessToken = accessToken;
             RefreshToken = refreshToken;
             RefreshTokenExpiration = (DateTime)refreshTokenExpiration;
         }

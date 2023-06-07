@@ -243,8 +243,6 @@ export class HomeView implements View {
                         '</div>');
 
                     setupDroppable(newColumn);
-                    console.log(latestYear.find('.col-md-4').length)
-
 
                     if (latestYear.find('.col-md-4').length === 2 || latestYear.find('.col-md-4').length === 3) {
                         
@@ -318,7 +316,6 @@ export class HomeView implements View {
                     // this will take the find the semesterItem
                     const boxId = studyRouteItem.semesterItemId
                     const semesterItemBox = $('.box[data-id="' + boxId + '"]');
-                    let targetBox = null;
 
                     // Dit is om een nieuwe box te clone en de oude te hide
                     const originalBoxTest = $('.box[data-id="' + boxId + '"]');
@@ -382,8 +379,7 @@ export class HomeView implements View {
                 };
 
                 // this saves the studyroute of the user
-                const response = await Api.post('/api/StudyRoute', studyRoute)
-                console.log(response)
+                const response = await Api.post('/api/StudyRoute', studyRoute);
             });
         });
     }
