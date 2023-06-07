@@ -35,7 +35,7 @@ export class App {
     this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     //Students
-    this.router.addRoute('/students', new StudentsIndexView())
+    this.router.addRoute('/students/:id', new StudentsIndexView())
 
     // Start the router
     this.router.start();
