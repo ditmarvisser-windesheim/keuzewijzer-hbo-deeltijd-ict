@@ -8,6 +8,7 @@ import { CohortCreateView } from './views/Cohort/CohortCreateView';
 import { UserIndexView } from './views/User/UserIndexView';
 import { UserUpdateRoleView } from './views/User/UserUpdateRoleView';
 import { UserUpdateSemesterView } from './views/User/UserUpdateSemesterView';
+import { StudentsIndexView } from './views/Students/StudentsIndexView';
 
 
 export class App {
@@ -32,6 +33,9 @@ export class App {
     this.router.addRoute('/user', new UserIndexView());
     this.router.addRoute('/user/update/:id', new UserUpdateRoleView())
     this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
+
+    //Students
+    this.router.addRoute('/students', new StudentsIndexView())
 
     // Start the router
     this.router.start();

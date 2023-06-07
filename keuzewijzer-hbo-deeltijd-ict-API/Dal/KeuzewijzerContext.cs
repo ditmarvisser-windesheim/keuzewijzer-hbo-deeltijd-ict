@@ -45,6 +45,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                            .WithMany(s => s.Users)
                            .UsingEntity(join => join.ToTable("UserSemesterItems"));
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Students)
+                .WithOne(u => u.Mentor)
+                .HasForeignKey(u => u.MentorId);
+
 
             // Your other configurations...
             base.OnModelCreating(modelBuilder);
@@ -107,6 +112,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Florus Çiçek",
                     FirstName = "Florus",
                     LastName = "Çiçek",
+                    MentorId= "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -119,6 +125,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marlène Wolf",
                     FirstName = "Marlène",
                     LastName = "Wolf",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -131,6 +138,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Bilal Steentjes",
                     FirstName = "Bilal",
                     LastName = "Steentjes",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -143,6 +151,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marlijn Giebels",
                     FirstName = "Marlijn",
                     LastName = "Giebels",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -155,6 +164,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Sabri Van der Eijk",
                     FirstName = "Sabri",
                     LastName = "Van der Eijk",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -167,6 +177,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Casey Andriesse",
                     FirstName = "Casey",
                     LastName = "Andriesse",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -179,6 +190,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Nik Huijskens",
                     FirstName = "Nik",
                     LastName = "Huijskens",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -191,6 +203,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Duran Petiet",
                     FirstName = "Duran",
                     LastName = "Petiet",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -203,6 +216,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Veroniek Bravenboer",
                     FirstName = "Veroniek",
                     LastName = "Bravenboer",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -215,6 +229,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kayne Jagtenberg",
                     FirstName = "Kayne",
                     LastName = "Jagtenberg",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -227,6 +242,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Siebrigje Abdi",
                     FirstName = "Siebrigje",
                     LastName = "Abdi",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -239,6 +255,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Sterre Lambert",
                     FirstName = "Sterre",
                     LastName = "Lambert",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -251,6 +268,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Milica Van der Gouw",
                     FirstName = "Milica",
                     LastName = "Van der Gouw",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -263,6 +281,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Yvon Brussaard",
                     FirstName = "Yvon",
                     LastName = "Brussaard",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -275,6 +294,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Bodhi Datema",
                     FirstName = "Bodhi",
                     LastName = "Datema",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -287,6 +307,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Noach Schutrups",
                     FirstName = "Noach",
                     LastName = "Schutrups",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -299,6 +320,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Ouassim Bekking",
                     FirstName = "Ouassim",
                     LastName = "Bekking",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -311,6 +333,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Noer Van der Kruit",
                     FirstName = "Noer",
                     LastName = "Van der Kruit",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -323,6 +346,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kaan Van Maarseveen",
                     FirstName = "Kaan",
                     LastName = "Van Maarseveen",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -335,6 +359,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Owen Kaal",
                     FirstName = "Owen",
                     LastName = "Kaal",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -347,6 +372,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Pauline Bah",
                     FirstName = "Pauline",
                     LastName = "Bah",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -359,6 +385,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Caterina Tas",
                     FirstName = "Caterina",
                     LastName = "Tas",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -371,6 +398,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Ed Touw",
                     FirstName = "Ed",
                     LastName = "Touw",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -383,6 +411,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Hugo Fidom",
                     FirstName = "Hugo",
                     LastName = "Fidom",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -395,6 +424,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Nanne Besseling",
                     FirstName = "Nanne",
                     LastName = "Besseling",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -407,6 +437,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Teunisje Salden",
                     FirstName = "Teunisje",
                     LastName = "Salden",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -419,6 +450,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Roché Doornink",
                     FirstName = "Roché",
                     LastName = "Doornink",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -431,6 +463,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Yuen Boertien",
                     FirstName = "Yuen",
                     LastName = "Boertien",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -443,6 +476,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Heinrich Mook",
                     FirstName = "Heinrich",
                     LastName = "Mook",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -455,6 +489,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Keri Antonisse",
                     FirstName = "Keri",
                     LastName = "Antonisse",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -467,6 +502,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Beer Rebergen",
                     FirstName = "Beer",
                     LastName = "Rebergen",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -479,6 +515,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kaïn Van der Gun",
                     FirstName = "Kaïn",
                     LastName = "Van der Gun",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -491,6 +528,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marloes Westerdijk",
                     FirstName = "Marloes",
                     LastName = "Westerdijk",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -503,6 +541,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Aurélie Esajas",
                     FirstName = "Aurélie",
                     LastName = "Esajas",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -515,6 +554,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Gerlinde Nooijens",
                     FirstName = "Gerlinde",
                     LastName = "Nooijens",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -527,6 +567,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Summer Brinkhuis",
                     FirstName = "Summer",
                     LastName = "Brinkhuis",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -539,6 +580,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Quirina Van Dusschoten",
                     FirstName = "Quirina",
                     LastName = "Van Dusschoten",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -551,6 +593,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Emmelien Handels",
                     FirstName = "Emmelien",
                     LastName = "Handels",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -563,6 +606,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Wensley Curvers",
                     FirstName = "Wensley",
                     LastName = "Curvers",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -575,6 +619,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Dawid Van Aart",
                     FirstName = "Dawid",
                     LastName = "Van Aart",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }

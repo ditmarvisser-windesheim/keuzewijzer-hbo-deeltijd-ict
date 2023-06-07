@@ -58,6 +58,17 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return user;
         }
 
+        // GET: api/User
+        [HttpGet("students/{id}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            return await _context.Users.Where(u => u.MentorId == id).ToListAsync();
+        }
+
         // GET: api/User/5
         [HttpGet("{id}/roles")]
         public async Task<IList<string>> GetUserRoles(string id)
