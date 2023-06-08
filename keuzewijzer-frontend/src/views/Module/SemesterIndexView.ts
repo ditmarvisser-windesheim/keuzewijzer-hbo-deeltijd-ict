@@ -17,8 +17,8 @@ export class SemesterIndexView implements View {
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
+            <th scope="col">Naam</th>
+            <th scope="col">Beschrijving</th>
             <th scope="col">Acties</th>
           </tr>
         </thead>
