@@ -237,7 +237,8 @@ export class HomeView implements View {
                 self.data.studyRouteItems.forEach(function (studyRouteItem) {
                     // this will take the find the semesterItem
                     const boxId = studyRouteItem.semesterItemId
-                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
+                    // .my-2 class is from the dropdown
+                    const semesterItemBox = $('.box[data-id="' + boxId + '"].my-2');
                     let targetBox = null;
 
                     if (studyRouteItem.semester === 1) {
@@ -322,7 +323,6 @@ export class HomeView implements View {
                         }
                     }
                 });
-
                 boxClone.append(closeButton);
                 targetBox.hide().after(boxClone);
 
