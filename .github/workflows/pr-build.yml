@@ -29,5 +29,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Run test
-      working-directory: ./keuzewijzer-hbo-deeltijd-ict-API-test
       run: dotnet test
