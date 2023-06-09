@@ -306,7 +306,6 @@ export class HomeView implements View {
                     // If repearatie semester is removed, remove the extra column
                     if (droppedBox.data('id') === 999) {
                         const latestYear = $('.year-' + yearCount);
-
                         if (latestYear.find('.col-md-4').length === 1) {
                             const yearBefore = $('.year-' + (yearCount - 1));
                             const latestExtraColumn = yearBefore.find('.col-md-4').last();
@@ -320,6 +319,10 @@ export class HomeView implements View {
 
                         if (latestYear.find('.col-md-4').length === 2) {
                             latestYear.find('.col-md-4').first().remove();
+                        }
+
+                        if (latestYear.find('.col-md-4').length === 3) {
+                            latestYear.find('.col-md-4').eq(1).remove()
                         }
                     }
                 });
