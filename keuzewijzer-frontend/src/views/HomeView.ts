@@ -31,6 +31,7 @@ export class HomeView implements View {
 
     private async getSemesterItem() {
         const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
+        console.log(semesterItems)
         return semesterItems;
     }
 
@@ -101,9 +102,11 @@ export class HomeView implements View {
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
                                 <div class="row">
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="reperatiesemester">Reparatiesemester</div>
                                     {{#each semesterItems}}
-                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}" data-toggle="modal" data-target="#semesterItemInfoModal">{{name}}</div>
+                                    <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">
+                                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#semesterItemInfoModal"></i>
+                                        {{name}}
+                                    </div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -134,9 +137,10 @@ export class HomeView implements View {
     public setup(): void {
         const self = this;
 
-        $(document).on('click', '.box', function () {
-            const semesterItemId = $(this).data('id');
-            const clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
+
+        $(document).on("click", ".fa-info-circle", function () {
+            var semesterItemId = $(this).closest(".box").data("id");
+            var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
             });
 
@@ -188,8 +192,25 @@ export class HomeView implements View {
                 });
             }
 
+            if (Array.isArray(self.data.studyRouteItems)) {
+                self.data.studyRouteItems.forEach(function (studyRouteItem) {
+                    // this will take the find the semesterItem
+                    const boxId = studyRouteItem.semesterItemId
+                    // .my-2 class is from the dropdown
+                    const semesterItemBox = $('.box[data-id="' + boxId + '"].my-2');
+                    let targetBox = null;
+
+                    if (studyRouteItem.semester === 1) {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester - 1);
+                    } else {
+                        targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
+                    }
+                    handleDropBox(semesterItemBox, targetBox);
+                });
+            }
+
             function handleDropBox(droppedBox: JQuery<HTMLElement>, targetBox: JQuery<Element>) {
-                if (droppedBox.data('id') === 'reperatiesemester') {
+                if (droppedBox.data('id') === 999) {
                     dropCount++;
                     // Add a new column and move the "afstuderen" box to the new column
                     const latestYear = $('.year-' + yearCount);
@@ -201,7 +222,9 @@ export class HomeView implements View {
 
                     setupDroppable(newColumn);
 
-                    if (latestYear.find('.col-md-4').length === 2 || latestYear.find('.col-md-4').length === 3) {
+
+                    if (latestYear.find('.col-md-4').length >= 2) {
+                        
                         const afstuderenBoxClone = afstuderenBox.clone();
                         afstuderenBox.replaceWith(newColumn);
 
@@ -239,10 +262,14 @@ export class HomeView implements View {
                     droppedBox.show();
 
                     // If repearatie semester is removed, remove the extra column
-                    if (droppedBox.data('id') === 'reperatiesemester') {
+                    if (droppedBox.data('id') === 999) {
                         const latestYear = $('.year-' + yearCount);
+                        var colElements = latestYear.find('.col-md-4:not(:hidden)');
+                        var latestYearLenght = colElements.length;
 
-                        if (latestYear.find('.col-md-4').length === 1) {
+                        console.log(latestYearLenght)
+
+                        if (latestYearLenght === 1) {
                             const yearBefore = $('.year-' + (yearCount - 1));
                             const latestExtraColumn = yearBefore.find('.col-md-4').last();
                             const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
@@ -253,77 +280,52 @@ export class HomeView implements View {
                             yearCount--;
                         }
 
-                        if (latestYear.find('.col-md-4').length === 2) {
-                            latestYear.find('.col-md-4').first().remove();
+                        if (latestYearLenght === 2) {
+                            const firstItem = latestYear.find('.col-md-4:not(:hidden):not([data-id="afstuderen"])').first()
+                            const originalBox = $('.box[data-id="' + firstItem.attr('data-id') + '"]');
+                            originalBox.show();
+                            firstItem.remove();
                         }
                     }
                 });
-
                 boxClone.append(closeButton);
                 targetBox.hide().after(boxClone);
 
-                if (droppedBox.data('id') !== 'reperatiesemester') {
+                if (droppedBox.data('id') !== 999) {
                     droppedBox.hide();
                 }
             }
 
-            if (Array.isArray(self.data.studyRouteItems)) {
-                self.data.studyRouteItems.forEach(function (studyRouteItem) {
-                    // this will take the find the semesterItem
-                    const boxId = studyRouteItem.semesterItemId;
-                    const semesterItemBox = $('.box[data-id="' + boxId + '"]');
-
-                    // Dit is om een nieuwe box te clone en de oude te hide
-                    const originalBoxTest = $('.box[data-id="' + boxId + '"]');
-                    const originalBoxClone = originalBoxTest.clone();
-                    originalBoxTest.hide();
-
-                    // Denk dat dit is voor styling
-                    originalBoxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
-
-                    const targetBox = $('.year-' + studyRouteItem.year + ' .col-md-4').eq(studyRouteItem.semester);
-
-                    const closeButton = $('<button class="remove-box">x</button>');
-                    closeButton.click(function () {
-                        const boxToRemove = $(this).parent();
-
-                        // Find the original landing box
-                        const originalLandingBox = targetBox.clone();
-
-                        // Replace the dropped box with the original landing box
-                        boxToRemove.replaceWith(originalLandingBox);
-                        originalLandingBox.addClass('ui-droppable');
-
-                        // Show the original box in the list
-                        const originalBox = $('.box[data-id="' + originalBoxTest.data('id') + '"]');
-                        originalBox.show();
-                    });
-
-                    originalBoxClone.append(closeButton);
-                    targetBox.hide().after(originalBoxClone);
-                });
-            }
-
-            $('.create').click(async function () {
-                // nieuwe code
-                const studyRouteItemList: IStudyRouteItem[] = [];
+            function getStudyRouteItemsByAllYears() {
+                let studyRouteItemList: IStudyRouteItem[] = [];
+                // Searching for all years
                 const years = $("div[class^='year-']");
 
+               
                 years.each(function (index) {
+                    // finds the SemesterItems
                     const boxes = $(this).find('.box');
                     const afstuderenBoxes = $(this).find('.rounded-3[data-id!="afstuderen"]');
 
                     boxes.each(function (semesterIndex) {
+                        // get the id of the SemesterItem
                         const semesterItemId = $(this).data('id');
 
+                        // If there is only a afstudeer box it will not make a studyRouteItem for that year
                         if (semesterIndex < afstuderenBoxes.length) {
                             studyRouteItemList.push({ year: index + 1, semester: semesterIndex + 1, semesterItemId });
                         }
                     });
                 });
 
-                const studyRoute: IStudyRoute = {
-                    userId: '1',
+                return studyRouteItemList
+            }
+
+            $(".create").click(async function () {
+                const studyRouteItemList = getStudyRouteItemsByAllYears()
+
+                let studyRoute: IStudyRoute = {
+                    userId: "1",
                     studyRouteItems: studyRouteItemList,
                     name: '',
                     approved_sb: false,
@@ -333,8 +335,13 @@ export class HomeView implements View {
                     send_eb: false
                 };
 
-                // this saves the studyroute of the user
-                const response = await Api.post('/api/StudyRoute', studyRoute);
+                try {
+                    // Save StudyRoute via asynchronous API call
+                    await Api.post('/api/StudyRoute', studyRoute);
+                    // Perform any further actions after successful save
+                } catch (error) {
+                    // Handle the error, e.g., display an error message to the user
+                }
             });
         });
     }
