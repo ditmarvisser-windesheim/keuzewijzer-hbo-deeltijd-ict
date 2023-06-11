@@ -1,6 +1,6 @@
 export interface ICohort {
-    id: number;
-    name: string;
-    year: number;
-    UserId: number;
+  id: number
+  name: string
+  year: number
+  UserId: number
 }

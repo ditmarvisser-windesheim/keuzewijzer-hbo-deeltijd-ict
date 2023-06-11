@@ -1,38 +1,33 @@
 import Api from '../api/api';
-import { View } from './View';
+import { type View } from './View';
 import Swal from 'sweetalert2';
 import cohort from '../api/cohort';
 
-
-import { ICohort } from 'interfaces/iCohort';
-import { IStudyRouteItem } from 'interfaces/iStudyRouteItem';
-import { ISemesterItem } from 'interfaces/isSemesterItems';
-import { IStudyRoute } from 'interfaces/iStudyRoute';
+import { type ICohort } from 'interfaces/iCohort';
+import { type IStudyRouteItem } from 'interfaces/iStudyRouteItem';
+import { type ISemesterItem } from 'interfaces/isSemesterItems';
+import { type IStudyRoute } from 'interfaces/iStudyRoute';
 
 interface Module {
-    id: number;
-    cohorts: ICohort[] | null;
-    dependentSemesterItem: any[] | null;
-    description: string;
-    modules: any[] | null;
-    name: string;
-    requiredSemesterItem: any[] | null;
-    requiredSemesterItemId: number | null;
-    semester: number;
-    users: any[] | null;
-    year: number[];
-    yearJson: string;
+    id: number
+    cohorts: ICohort[] | null
+    dependentSemesterItem: any[] | null
+    description: string
+    modules: any[] | null
+    name: string
+    requiredSemesterItem: any[] | null
+    requiredSemesterItemId: number | null
+    semester: number
+    users: any[] | null
+    year: number[]
+    yearJson: string
 };
 
 export class HomeView implements View {
     public cohorts: ICohort[] = [];
     public semesterItems!: ISemesterItem[];
-    public studyRouteItems:IStudyRouteItem[] = [];
+    public studyRouteItems: IStudyRouteItem[] = [];
     public modules: Module[] = [];
-
-    public constructor() {
-        console.log('HomeView.constructor()');
-    }
 
     private async getSemesterItem() {
         const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
@@ -41,10 +36,11 @@ export class HomeView implements View {
     }
 
     private async getStudyRouteItem() {
-        const response : any = await Api.get('/api/StudyRoute/user/1');
+        const response: any = await Api.get('/api/StudyRoute/user/1');
         const studyRouteItemList: IStudyRouteItem[] = response;
-        return studyRouteItemList
+        return studyRouteItemList;
     }
+
     private async getModules() {
         const modules = await Api.get('/api/SemesterItem/cohort/2021');
         return modules;
@@ -135,7 +131,7 @@ export class HomeView implements View {
             { year: 2 },
             { year: 3 },
             { year: 4 }
-        ],
+        ]
     };
 
     public setup(): void {
@@ -148,86 +144,50 @@ export class HomeView implements View {
                 return semesterItem.id === semesterItemId;
             });
 
-            if (clickedSemesterItem) {
-                var semesterItemName = clickedSemesterItem.name;
-                var semesterItemDescription = clickedSemesterItem.description;
+            if (clickedSemesterItem != null) {
+                const semesterItemName = clickedSemesterItem.name;
+                const semesterItemDescription = clickedSemesterItem.description;
 
-                $("#semesterItemInfoModal .modal-title").text(semesterItemName);
-                $("#semesterItemInfoModal .modal-body").text(semesterItemDescription);
+                $('#semesterItemInfoModal .modal-title').text(semesterItemName);
+                $('#semesterItemInfoModal .modal-body').text(semesterItemDescription);
             }
         });
 
-        console.log('HomeView.setup()');
-        console.log(this.data);
-    
         $(async () => {
             let dropCount = 0;
             let yearCount = 4;
-            let lastBox: JQuery<HTMLElement> | null = null;
 
-            const { value: fruit } = await Swal.fire({
-                icon: 'question',
-                title: 'Welk cohort ben jij begonnen?',
-                input: 'select',
-                inputOptions: {
-                  'Fruits': {
-                    apples: 'Apples',
-                    bananas: 'Bananas',
-                    grapes: 'Grapes',
-                    oranges: 'Oranges'
-                  },
-                  'Vegetables': {
-                    potato: 'Potato',
-                    broccoli: 'Broccoli',
-                    carrot: 'Carrot'
-                  },
-                  'icecream': 'Ice cream'
-                },
-                inputPlaceholder: 'Select a fruit',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                  return new Promise((resolve) => {
-                    if (value === 'oranges') {
-                    //   resolve()
-                    } else {
-                      resolve('You need to select oranges :)')
-                    }
-                  })
-                }
-              })
-
-            $(".box").draggable({
+            $('.box').draggable({
                 zIndex: 100,
-                cursor: "move",
-                helper: "clone",
+                cursor: 'move',
+                helper: 'clone',
                 revert: function (dropped: any) {
                     if (!dropped) {
                         // Revert the box to its original position
-                        $(this).data("uiDraggable").originalPosition = {
+                        $(this).data('uiDraggable').originalPosition = {
                             top: 0,
                             left: 0
                         };
                         return true;
                     }
                 },
-                containment: "document",
+                containment: 'document',
                 start: function (event, ui) {
                     const w = $(this).css('width');
                     const h = $(this).css('height');
                     ui.helper.css('width', w).css('height', h);
                 }
             });
-    
-            setupDroppable($(".landing-box")); // Set up droppable behavior for existing landing boxes
-    
+
+            setupDroppable($('.landing-box')); // Set up droppable behavior for existing landing boxes
+
             function setupDroppable(element: JQuery<HTMLElement>) {
                 element.droppable({
-                    accept: ".box",
+                    accept: '.box',
                     drop: (event, ui) => {
                         const droppedBox: JQuery<HTMLElement> = $(ui.draggable);
                         const targetBox = $(event.target);
-                        console.log(targetBox)
-                        handleDropBox(droppedBox, targetBox)
+                        handleDropBox(droppedBox, targetBox);
                     }
                 });
             }
@@ -261,7 +221,6 @@ export class HomeView implements View {
                         '</div>');
 
                     setupDroppable(newColumn);
-                    console.log(latestYear.find('.col-md-4').length)
 
 
                     if (latestYear.find('.col-md-4').length >= 2) {
@@ -276,7 +235,7 @@ export class HomeView implements View {
                             '</div>');
 
                         latestYear.after(newRow);
-                        afstuderenBoxClone.addClass("ui-droppable");
+                        afstuderenBoxClone.addClass('ui-droppable');
                         newRow.find('.row').append(afstuderenBoxClone);
                         yearCount++;
                     }

@@ -1,4 +1,4 @@
-import { View } from '../View';
+import { type View } from '../View';
 import Api from '../../api/api';
 import Swal from 'sweetalert2';
 
@@ -34,24 +34,23 @@ export class UserIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
-      var users = await Api.get('/api/User');
+      const users = await Api.get('/api/User');
       $('#loading').remove();
 
       if (Array.isArray(users)) {
         users.forEach((user) => {
-          console.log(user);
-          var tableBody = document.getElementById('semesterItems');
-          if (tableBody) {
-            var row = $('<tr>').append(
+          const tableBody = document.getElementById('semesterItems');
+          if (tableBody != null) {
+            const row = $('<tr>').append(
               $('<td>').text(user.name),
               $('<td>').append(
                 $('<a>').attr('href', '/userUpdateSemester?id=' + user.id)
                   .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
-                  .text('Semester toewijzen'),
+                  .text('Semester toewijzen')
               )
 
             );
@@ -64,7 +63,5 @@ export class UserIndexView implements View {
     } catch (error) {
       console.error('Error fetching users:', error);
     }
-
-
   }
 }

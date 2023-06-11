@@ -2,13 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using Microsoft.AspNetCore.Identity;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
-using Microsoft.AspNetCore.Identity;
-using keuzewijzer_hbo_deeltijd_ict_API.Models;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +14,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<KeuzewijzerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbSettings")));
 
 builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<KeuzewijzerContext>();
+    .AddEntityFrameworkStores<KeuzewijzerContext>()
+    .AddDefaultTokenProviders();
 
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builder.Services.AddMemoryCache();
+builder.Services.AddAuthentication();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

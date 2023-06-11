@@ -1,7 +1,7 @@
-import { View } from '../View';
+import { type View } from '../View';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import { Cohort } from 'Models/Cohort';
+import { type Semester } from 'models/Semester';
+import { type Cohort } from 'models/Cohort';
 import Api from '../../api/api';
 
 export class SemesterCreateView implements View {
@@ -59,17 +59,16 @@ export class SemesterCreateView implements View {
 
   public data = {};
 
-  public setup(): void {
+  public setup (): void {
     this.updateRequiredSemesterItem();
     this.updateCohorts();
-
 
     const semesterForm = $('#semester-form');
     semesterForm.on('submit', this.handleSemesterCreate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
-    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
+  private async updateCohorts (): Promise<void> {
+    const cohortSelect = $('#cohorts');
     const cohorts = await Api.get('/api/cohort') as Cohort[];
 
     cohorts.forEach((cohort: Cohort) => {
@@ -77,8 +76,8 @@ export class SemesterCreateView implements View {
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
-    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
+  private async updateRequiredSemesterItem (): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
 
     requiredSemesterItem.forEach((semesterItem: Semester) => {
@@ -86,7 +85,7 @@ export class SemesterCreateView implements View {
     });
   }
 
-  private async handleSemesterCreate(event: Event): Promise<void> {
+  private async handleSemesterCreate (event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const descriptionInput = $('#description');
@@ -135,7 +134,7 @@ export class SemesterCreateView implements View {
       return;
     }
 
-    //check if the year in the year array are unique and between 1 and 4
+    // check if the year in the year array are unique and between 1 and 4
     const uniqueYear = [...new Set(year)];
     if (uniqueYear.length !== year.length) {
       yearError.text('Selecteer unieke jaren.');
@@ -154,9 +153,9 @@ export class SemesterCreateView implements View {
     $('#submit').attr('disabled', 'disabled');
 
     const semesterItem = {
-      name: name,
-      description: description,
-      semester: semester,
+      name,
+      description,
+      semester,
       Year: year,
       Cohorts: [],
       CohortsId: cohortInt,
@@ -180,11 +179,9 @@ export class SemesterCreateView implements View {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/semester';
       }, 2000);
-
     } catch (error) {
       $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
-
 }
