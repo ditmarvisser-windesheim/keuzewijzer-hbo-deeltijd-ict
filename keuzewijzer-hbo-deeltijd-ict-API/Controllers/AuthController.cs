@@ -51,6 +51,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             var accessToken = GenerateAccessToken(user, userRoles);
 
             return Ok(new AuthenticationResponse(
+                200,
+                user.Id,
                 user.UserName,
                 user.Email,
                 accessToken,

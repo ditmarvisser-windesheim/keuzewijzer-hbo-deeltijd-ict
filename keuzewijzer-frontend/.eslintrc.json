@@ -10,6 +10,7 @@
         "project": ["tsconfig.json"]
     },
     "rules": {
-        "semi": ["error", "never"]
+        "semi": ["error", "always"],
+        "@typescript-eslint/semi": "off"
     }
 }

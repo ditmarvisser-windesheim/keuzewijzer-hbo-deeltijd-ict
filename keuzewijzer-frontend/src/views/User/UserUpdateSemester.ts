@@ -1,12 +1,11 @@
-import { View } from '../View';
+import { type View } from '../View';
 import Api from '../../api/api';
 import Swal from 'sweetalert2';
-import { Semester } from 'models/Semester';
-import { User } from 'models/User';
+import { type Semester } from 'models/Semester';
+import { type User } from 'models/User';
 
 export class UserUpdateSemester implements View {
-
-  private Id = 1; //TODO: get the id form the url
+  private readonly Id = 1; // TODO: get the id form the url
   private user: User | null = null;
 
   public template = `
@@ -35,23 +34,19 @@ export class UserUpdateSemester implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
-
+  public async setup (): Promise<void> {
     this.user = await Api.get('/api/User/' + this.Id.toString()) as User;
     this.updateSemesters();
-
 
     const userForm = $('#user-form');
     userForm.on('submit', this.handleUserSemesterUpdate.bind(this));
   }
 
-  private async updateSemesters(): Promise<void> {
-    const SemesterSelect = $('#semesters') as JQuery<HTMLSelectElement>;
+  private async updateSemesters (): Promise<void> {
+    const SemesterSelect = $('#semesters');
     const Semesters = await Api.get('/api/semesterItem') as Semester[];
 
-    //TODO: check which of the semester items are already selected
-
-    console.log(this.user);
+    // TODO: check which of the semester items are already selected
 
     Semesters.forEach((semesterItem: Semester) => {
       if (semesterItem.id === this.Id) return;
@@ -59,7 +54,7 @@ export class UserUpdateSemester implements View {
     });
   }
 
-  private async handleUserSemesterUpdate(event: Event): Promise<void> {
+  private async handleUserSemesterUpdate (event: Event): Promise<void> {
     event.preventDefault();
     const semestersInput = $('#semesters');
     const semesterError = $('#semesterError');
@@ -72,9 +67,6 @@ export class UserUpdateSemester implements View {
       semesterError.addClass('d-block');
       return;
     }
-
-
-
 
     try {
       // Make the POST request to the server
@@ -92,7 +84,6 @@ export class UserUpdateSemester implements View {
       setTimeout(function () {
         window.location.href = '/user';
       }, 2000);
-
     } catch (error) {
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }

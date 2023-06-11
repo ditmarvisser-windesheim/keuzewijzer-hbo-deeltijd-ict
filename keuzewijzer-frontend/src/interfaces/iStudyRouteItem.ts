@@ -1,5 +1,5 @@
 export interface IStudyRouteItem {
-    year: number;
-    semester: number;
-    semesterItemId: number;
+  year: number
+  semester: number
+  semesterItemId: number
 };

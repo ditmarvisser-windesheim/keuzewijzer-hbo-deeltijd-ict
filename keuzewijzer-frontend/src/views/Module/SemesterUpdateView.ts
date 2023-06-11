@@ -1,8 +1,8 @@
-import { View } from '../View';
+import { type View } from '../View';
 import Swal from 'sweetalert2';
-import { Semester } from 'models/Semester';
+import { type Semester } from 'models/Semester';
 import Api from '../../api/api';
-import { Cohort } from 'models/Cohort';
+import { type Cohort } from 'models/Cohort';
 
 export class SemesterUpdateView implements View {
   public params: Record<string, string> = {};
@@ -62,7 +62,7 @@ export class SemesterUpdateView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     await this.updateRequiredSemesterItem();
     await this.updateCohorts();
 
@@ -72,8 +72,8 @@ export class SemesterUpdateView implements View {
     semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
-    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
+  private async updateCohorts (): Promise<void> {
+    const cohortSelect = $('#cohorts');
     const cohorts = await Api.get('/api/cohort') as Cohort[];
 
     cohorts.forEach((cohort: Cohort) => {
@@ -81,8 +81,8 @@ export class SemesterUpdateView implements View {
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
-    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
+  private async updateRequiredSemesterItem (): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
 
     requiredSemesterItem.forEach((semesterItem: Semester) => {
@@ -91,7 +91,7 @@ export class SemesterUpdateView implements View {
     });
   }
 
-  private async setForm(): Promise<void> {
+  private async setForm (): Promise<void> {
     const id = this.params?.id;
 
     const response = await Api.get(`/api/SemesterItem/${id}`);
@@ -110,9 +110,9 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    var updateSemester = response as Semester;
+    const updateSemester = response as Semester;
 
-    //set the values of the form
+    // set the values of the form
     $('#name').val(updateSemester.name);
     $('#description').val(updateSemester.description);
     $('#semester').val(updateSemester.semester);
@@ -122,9 +122,9 @@ export class SemesterUpdateView implements View {
     const selectedYearValues = updateSemester.year.map(String); // Convert numbers to strings
     yearSelect.val(selectedYearValues);
 
-    //Set the required semester items
+    // Set the required semester items
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    var selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
+    const selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
 
     updateSemester.requiredSemesterItem.forEach((semesterItem: Semester) => {
       selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
@@ -132,9 +132,9 @@ export class SemesterUpdateView implements View {
 
     requiredSemesterItemSelect.val(selectedRequiredSemesterItemValues);
 
-    //Set the cohorts
+    // Set the cohorts
     const cohortSelect = $('#cohorts');
-    var selectedCohortValues: string[] = []; // Initialize as an empty array
+    const selectedCohortValues: string[] = []; // Initialize as an empty array
 
     updateSemester.cohorts.forEach((cohort: Cohort) => {
       selectedCohortValues.push(cohort.id.toString());
@@ -143,8 +143,7 @@ export class SemesterUpdateView implements View {
     cohortSelect.val(selectedCohortValues);
   }
 
-
-  private async handleSemesterUpdate(event: Event): Promise<void> {
+  private async handleSemesterUpdate (event: Event): Promise<void> {
     event.preventDefault();
 
     const nameInput = $('#name');
@@ -197,7 +196,7 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    //check if the year in the year array are unique and between 1 and 4
+    // check if the year in the year array are unique and between 1 and 4
     const uniqueYear = [...new Set(year)];
     if (uniqueYear.length !== year.length) {
       yearError.text('Selecteer unieke jaren.');
@@ -214,10 +213,10 @@ export class SemesterUpdateView implements View {
     }
 
     const semesterItem = {
-      id: id,
-      name: name,
-      description: description,
-      semester: semester,
+      id,
+      name,
+      description,
+      semester,
       Year: year,
       Cohorts: [],
       CohortsId: cohortInt,
@@ -236,16 +235,13 @@ export class SemesterUpdateView implements View {
 
       // Show a success message
       Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
-      console.log(response);
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
         window.location.href = '/semester';
       }, 2000);
-
     } catch (error) {
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
-
 }

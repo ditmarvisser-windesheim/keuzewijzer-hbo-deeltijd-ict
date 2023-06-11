@@ -1,9 +1,9 @@
-import { View } from '../View';
-import AuthService from '../../services/AuthService';
+import { type View } from '../View';
 
 export class LoginView implements View {
   public template = `<form>
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <p id="errorText" class="text-danger"></p>
 
     <div class="form-floating">
       <input type="email" class="form-control" id="emailInput" placeholder="name@example.com">
@@ -14,49 +14,42 @@ export class LoginView implements View {
       <label for="passwordInput">Password</label>
     </div>
 
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" id="rememberMeInput"> Remember me
-      </label>
-    </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
   </form>`;
 
   public data = {};
-    authService: any;
+  public authService: any;
 
-  public setup(): void {
+  public setup (): void {
     const form = document.querySelector('form');
     const emailInput = document.getElementById('emailInput') as HTMLInputElement;
     const passwordInput = document.getElementById('passwordInput') as HTMLInputElement;
-    const rememberMeInput = document.getElementById('rememberMeInput') as HTMLInputElement;
 
-    if (form) {
+    if (form != null) {
       form.addEventListener('submit', (event) => {
         event.preventDefault();
 
         const email = emailInput.value;
         const password = passwordInput.value;
-        const rememberMe = rememberMeInput.checked;
 
-        this.login(email, password, rememberMe);
+        this.login(email, password).catch((error) => {
+          console.error(error);
+        });
       });
     }
   }
 
-  private async login(email: string, password: string, rememberMe: boolean): Promise<void> {
+  private async login (email: string, password: string): Promise<void> {
     try {
-      const success = await this.authService.login(email, password);
+      const loginResponse = await this.authService.login(email, password);
 
-      if (success) {
-        // Login successful, redirect to the desired page
-        window.location.href = '/dashboard'; // Replace with the desired page URL
+      if (loginResponse.status === 200) {
+        // Login successful, redirect to home page
+        window.location.href = '/';
       } else {
         // Login failed, show an error message
-        const errorMessage = 'Invalid email or password';
-        // Display the error message to the user
-        // ...
+        const errorText = document.getElementById('errorText');
+        errorText!.innerText = loginResponse.message;
       }
     } catch (error) {
       // An error occurred during the login process
