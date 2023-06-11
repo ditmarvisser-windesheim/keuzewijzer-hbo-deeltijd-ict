@@ -141,10 +141,9 @@ export class HomeView implements View {
     public setup(): void {
         const self = this;
 
-        // TODO niet als je op het kruisje drukt
+
         $(document).on("click", ".fa-info-circle", function () {
             var semesterItemId = $(this).closest(".box").data("id");
-            console.log(semesterItemId);
             var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
             });
@@ -334,23 +333,33 @@ export class HomeView implements View {
                 }
             }
 
-            // todo tekst met uitleg
-            $(".create").click(async function () {
+            function getStudyRouteItemsBy() {
                 let studyRouteItemList: IStudyRouteItem[] = [];
+                // Searching for all years
                 const years = $("div[class^='year-']");
 
+               
                 years.each(function (index) {
+                    // finds the SemesterItems
                     const boxes = $(this).find('.box');
                     const afstuderenBoxes = $(this).find('.rounded-3[data-id!="afstuderen"]');
 
                     boxes.each(function (semesterIndex) {
+                        // get the id of the SemesterItem
                         const semesterItemId = $(this).data('id');
 
+                        // If there is only a afstudeer box it will not make a studyRouteItem for that year
                         if (semesterIndex < afstuderenBoxes.length) {
                             studyRouteItemList.push({ year: index + 1, semester: semesterIndex + 1, semesterItemId });
                         }
                     });
                 });
+
+                return studyRouteItemList
+            }
+
+            $(".create").click(async function () {
+                const studyRouteItemList = getStudyRouteItemsBy()
 
                 let studyRoute: IStudyRoute = {
                     userId: "1",
@@ -362,8 +371,14 @@ export class HomeView implements View {
                     send_sb: false,
                     send_eb: false
                 };
-                // this saves the studyroute of the user
-                const response = await Api.post('/api/StudyRoute', studyRoute)
+
+                try {
+                    // Save StudyRoute via asynchronous API call
+                    await Api.post('/api/StudyRoute', studyRoute);
+                    // Perform any further actions after successful save
+                } catch (error) {
+                    // Handle the error, e.g., display an error message to the user
+                }
             });
         });
     }
