@@ -337,7 +337,7 @@ export class HomeView implements View {
                 }
             }
 
-            function getStudyRouteItemsBy() {
+            function getStudyRouteItemsByAllYears() {
                 let studyRouteItemList: IStudyRouteItem[] = [];
                 // Searching for all years
                 const years = $("div[class^='year-']");
@@ -363,7 +363,7 @@ export class HomeView implements View {
             }
 
             $(".create").click(async function () {
-                const studyRouteItemList = getStudyRouteItemsBy()
+                const studyRouteItemList = getStudyRouteItemsByAllYears()
 
                 let studyRoute: IStudyRoute = {
                     userId: "1",
