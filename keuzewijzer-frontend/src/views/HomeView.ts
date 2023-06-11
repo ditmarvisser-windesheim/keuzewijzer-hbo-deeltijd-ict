@@ -264,7 +264,7 @@ export class HomeView implements View {
                     console.log(latestYear.find('.col-md-4').length)
 
 
-                    if (latestYear.find('.col-md-4').length === 2 || latestYear.find('.col-md-4').length === 3) {
+                    if (latestYear.find('.col-md-4').length >= 2) {
                         
                         const afstuderenBoxClone = afstuderenBox.clone();
                         afstuderenBox.replaceWith(newColumn);
@@ -305,7 +305,12 @@ export class HomeView implements View {
                     // If repearatie semester is removed, remove the extra column
                     if (droppedBox.data('id') === 999) {
                         const latestYear = $('.year-' + yearCount);
-                        if (latestYear.find('.col-md-4').length === 1) {
+                        var colElements = latestYear.find('.col-md-4:not(:hidden)');
+                        var latestYearLenght = colElements.length;
+
+                        console.log(latestYearLenght)
+
+                        if (latestYearLenght === 1) {
                             const yearBefore = $('.year-' + (yearCount - 1));
                             const latestExtraColumn = yearBefore.find('.col-md-4').last();
                             const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
@@ -316,12 +321,11 @@ export class HomeView implements View {
                             yearCount--;
                         }
 
-                        if (latestYear.find('.col-md-4').length === 2) {
-                            latestYear.find('.col-md-4').first().remove();
-                        }
-
-                        if (latestYear.find('.col-md-4').length === 3) {
-                            latestYear.find('.col-md-4').eq(1).remove()
+                        if (latestYearLenght === 2) {
+                            const firstItem = latestYear.find('.col-md-4:not(:hidden):not([data-id="afstuderen"])').first()
+                            const originalBox = $('.box[data-id="' + firstItem.attr('data-id') + '"]');
+                            originalBox.show();
+                            firstItem.remove();
                         }
                     }
                 });
