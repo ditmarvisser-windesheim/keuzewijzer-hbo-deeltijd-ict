@@ -4,6 +4,7 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -18,11 +19,12 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         {
             _roleManager = roleManager;
         }
-        
-        
+
+
         // GET: api/role
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public async Task<IQueryable<IdentityRole>> GetRole()
+        public async Task<IQueryable<IdentityRole>> GetRoles()
         {
             return _roleManager.Roles;
         }
