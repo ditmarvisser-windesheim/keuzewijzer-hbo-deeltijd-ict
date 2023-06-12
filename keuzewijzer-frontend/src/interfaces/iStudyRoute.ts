@@ -1,7 +1,6 @@
 import { type IStudyRouteItem } from './iStudyRouteItem';
 
 export interface IStudyRoute {
-  name: string
   approved_sb: boolean
   approved_eb: boolean
   note: string

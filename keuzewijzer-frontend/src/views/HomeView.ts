@@ -326,7 +326,6 @@ export class HomeView implements View {
                 let studyRoute: IStudyRoute = {
                     userId: "1",
                     studyRouteItems: studyRouteItemList,
-                    name: '',
                     approved_sb: false,
                     approved_eb: false,
                     note: '',
