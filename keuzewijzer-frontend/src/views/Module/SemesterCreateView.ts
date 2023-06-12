@@ -105,14 +105,20 @@ export class SemesterCreateView implements View {
     const semesterError = $('#semesterError');
     const yearError = $('#yearError');
 
-    if (name.length < 4 || name.length > 100) {
+    if (name.length < 1 || name.length > 244) {
       nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
 
-    if (!description) {
+    if (!description && description.length < 1500) {
       descriptionError.text('Vul alle verplichte velden in.');
+      descriptionError.addClass('d-block');
+      return;
+    }
+
+    if (cohort.length === 0) {
+      descriptionError.text('Selecteer minimaal 1 cohort.');
       descriptionError.addClass('d-block');
       return;
     }

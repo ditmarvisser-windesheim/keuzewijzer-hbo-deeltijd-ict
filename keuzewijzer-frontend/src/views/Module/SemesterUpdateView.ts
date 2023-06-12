@@ -55,7 +55,7 @@ export class SemesterUpdateView implements View {
         <select class="form-select" id="requiredSemesterItem" multiple>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Aanmaken</button>
+      <button type="submit" class="btn btn-primary">Aanpassen</button>
     </form>
   </div>
 `;
