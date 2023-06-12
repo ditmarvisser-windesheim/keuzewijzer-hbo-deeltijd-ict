@@ -1,8 +1,10 @@
-import { type View } from '../View';
 import Swal from 'sweetalert2';
-import { type Semester } from 'models/Semester';
-import Api from '../../api/api';
-import { type Cohort } from 'models/Cohort';
+
+import { type View } from '../View';
+import { getCohorts } from '../../api/cohort';
+import { ICohort } from 'interfaces/iCohort';
+import { getAllSemesters, getOneSemester, updateSemester } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
 
 export class SemesterUpdateView implements View {
   public params: Record<string, string> = {};
@@ -74,27 +76,29 @@ export class SemesterUpdateView implements View {
 
   private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
-    const cohorts = await Api.get('/api/cohort') as Cohort[];
+    const cohorts = await getCohorts();
 
-    cohorts.forEach((cohort: Cohort) => {
+    cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
     });
   }
 
   private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+    const requiredSemesterItem = await getAllSemesters();
 
-    requiredSemesterItem.forEach((semesterItem: Semester) => {
-      if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
-      requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+    requiredSemesterItem.forEach((semesterItem: ISemester) => {
+      if(semesterItem.id !== null && semesterItem.id !== undefined) {
+        if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
+        requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+      }
     });
   }
 
   private async setForm (): Promise<void> {
     const id = this.params?.id;
 
-    const response = await Api.get(`/api/SemesterItem/${id}`);
+    const response = await getOneSemester(id) as ISemester;
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -110,25 +114,29 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    const updateSemester = response as Semester;
-
-    // set the values of the form
-    $('#name').val(updateSemester.name);
-    $('#description').val(updateSemester.description);
-    $('#semester').val(updateSemester.semester);
-    $('#id').val(updateSemester.id);
+    if(response && response.id !== null && response.id !== undefined) {
+      // set the values of the form
+      $('#name').val(response.name);
+      $('#description').val(response.description);
+      $('#semester').val(response.semester);
+      $('#id').val(response.id.toString());
+    }
 
     const yearSelect = $('#year');
-    const selectedYearValues = updateSemester.year.map(String); // Convert numbers to strings
+    const selectedYearValues = response.year.map(String); // Convert numbers to strings
     yearSelect.val(selectedYearValues);
 
     // Set the required semester items
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
 
-    updateSemester.requiredSemesterItem.forEach((semesterItem: Semester) => {
-      selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
-    });
+    if (response.requiredSemesterItem !== null) {
+      response.requiredSemesterItem.forEach((semesterItem: ISemester) => {
+        if(semesterItem.id !== null && semesterItem.id !== undefined) {
+          selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
+        }
+      });
+    }
 
     requiredSemesterItemSelect.val(selectedRequiredSemesterItemValues);
 
@@ -136,9 +144,13 @@ export class SemesterUpdateView implements View {
     const cohortSelect = $('#cohorts');
     const selectedCohortValues: string[] = []; // Initialize as an empty array
 
-    updateSemester.cohorts.forEach((cohort: Cohort) => {
-      selectedCohortValues.push(cohort.id.toString());
-    });
+    if (response.cohorts !== null) {
+      response.cohorts.forEach((cohort: ICohort) => {
+        if(cohort.id !== null && cohort.id !== undefined) {
+          selectedCohortValues.push(cohort.id.toString());
+        }
+      });
+    }
 
     cohortSelect.val(selectedCohortValues);
   }
@@ -212,22 +224,22 @@ export class SemesterUpdateView implements View {
       }
     }
 
-    const semesterItem = {
+    const semesterItem: ISemester = {
       id,
       name,
       description,
       semester,
-      Year: year,
-      Cohorts: [],
-      CohortsId: cohortInt,
-      RequiredSemesterItemId: requiredSemesterItemInt,
-      RequiredSemesterItem: [],
-      DependentSemesterItem: []
+      year: year,
+      cohorts: null,
+      cohortsId: cohortInt,
+      requiredSemesterItemId: requiredSemesterItemInt,
+      requiredSemesterItem: null,
+      dependentSemesterItem: null
     };
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/semesterItem/' + id, semesterItem);
+      const response = await updateSemester(id, semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

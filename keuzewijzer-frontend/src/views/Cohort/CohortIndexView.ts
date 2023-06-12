@@ -1,6 +1,7 @@
-import { type View } from '../View';
-import Api from '../../api/api';
 import Swal from 'sweetalert2';
+
+import { type View } from '../View';
+import { getCohorts, removeCohort } from '../../api/cohort';
 
 export class CohortIndexView implements View {
   public template = `
@@ -37,13 +38,13 @@ export class CohortIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const cohorts = await Api.get('/api/Cohort');
+      const cohorts = await getCohorts();
       $('#loading').remove();
 
       if (Array.isArray(cohorts)) {
         cohorts.forEach((cohort) => {
           const tableBody = document.getElementById('semesterItems');
-          if (tableBody != null) {
+          if (tableBody != null && cohort.id != null) {
             const row = $('<tr>').append(
               $('<td>').text(cohort.name),
               $('<td>').text(cohort.year),
@@ -84,7 +85,7 @@ export class CohortIndexView implements View {
         });
         if (result.isConfirmed) {
           // Make the API call to delete the module
-          const response = await Api.remove(`/api/Cohort/${cohortId}`);
+          const response = await removeCohort(cohortId);
           if (response.status === 204) {
             // Success! Remove the corresponding row from the table
             const row = button.closest('tr');
@@ -104,3 +105,7 @@ export class CohortIndexView implements View {
     }
   }
 }
+function getAllCohorts() {
+  throw new Error('Function not implemented.');
+}
+

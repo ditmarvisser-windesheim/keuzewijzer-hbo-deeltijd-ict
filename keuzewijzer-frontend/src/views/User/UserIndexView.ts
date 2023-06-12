@@ -1,6 +1,5 @@
 import { type View } from '../View';
-import Api from '../../api/api';
-import Swal from 'sweetalert2';
+import { getAllUsers } from '../../api/user';
 
 export class UserIndexView implements View {
   public template = `
@@ -36,7 +35,7 @@ export class UserIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const users = await Api.get('/api/User');
+      const users = await getAllUsers();
       $('#loading').remove();
 
       if (Array.isArray(users)) {

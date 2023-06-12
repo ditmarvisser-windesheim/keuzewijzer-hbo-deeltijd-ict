@@ -1,12 +1,14 @@
-import { type View } from '../View';
-import Api from '../../api/api';
 import Swal from 'sweetalert2';
-import { type Semester } from 'models/Semester';
-import { type User } from 'models/User';
+
+import { type View } from '../View';
+import { getOneUser, updateUserSemesters } from 'api/user';
+import { IUser } from 'interfaces/iUser';
+import { getAllSemesters } from 'api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
 
 export class UserUpdateSemester implements View {
-  private readonly Id = 1; // TODO: get the id form the url
-  private user: User | null = null;
+  private readonly Id = 1; // TODO: get the id form the url FIX DEZE
+  private user: IUser | null = null;
 
   public template = `
     <div class="container mt-2 mb-2">
@@ -35,7 +37,7 @@ export class UserUpdateSemester implements View {
   public data = {};
 
   public async setup (): Promise<void> {
-    this.user = await Api.get('/api/User/' + this.Id.toString()) as User;
+    this.user = await getOneUser(this.Id.toString());
     this.updateSemesters();
 
     const userForm = $('#user-form');
@@ -44,11 +46,11 @@ export class UserUpdateSemester implements View {
 
   private async updateSemesters (): Promise<void> {
     const SemesterSelect = $('#semesters');
-    const Semesters = await Api.get('/api/semesterItem') as Semester[];
+    const Semesters = await getAllSemesters();
 
     // TODO: check which of the semester items are already selected
 
-    Semesters.forEach((semesterItem: Semester) => {
+    Semesters.forEach((semesterItem: ISemester) => {
       if (semesterItem.id === this.Id) return;
       SemesterSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
@@ -70,7 +72,7 @@ export class UserUpdateSemester implements View {
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/User/UpdateSemesters/' + this.Id, semesterIds);
+      const response = await updateUserSemesters(this.Id.toString(), semesterIds);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

@@ -1,4 +1,4 @@
-export const baseUrl = 'https://localhost:7298';
+const baseUrl = 'https://localhost:7298';
 
 export async function login (payload: any): Promise<any> {
   const url = '/api/Auth/login';

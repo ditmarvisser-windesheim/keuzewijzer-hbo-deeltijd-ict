@@ -1,6 +1,7 @@
-import { type View } from '../View';
-import Api from '../../api/api';
 import Swal from 'sweetalert2';
+
+import { type View } from '../View';
+import { getAllSemesters, removeSemester } from '../../api/semesterItem';
 
 export class SemesterIndexView implements View {
   public template = `
@@ -37,14 +38,14 @@ export class SemesterIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const study_semesters = await Api.get('/api/SemesterItem');
+      const study_semesters = await getAllSemesters();
 
       $('#loading').remove();
 
       if (Array.isArray(study_semesters)) {
         study_semesters.forEach((semester) => {
           const tableBody = document.getElementById('semesterItems');
-          if (tableBody != null) {
+          if (tableBody != null && semester.id != null) {
             const row = $('<tr>').append(
               $('<td>').text(semester.name),
               $('<td>').text(semester.description),
@@ -90,7 +91,7 @@ export class SemesterIndexView implements View {
         });
         if (result.isConfirmed) {
           // Make the API call to delete the module
-          const response = await Api.remove(`/api/SemesterItem/${moduleId}`);
+          const response = await removeSemester(moduleId);
           if (response.status === 204) {
             // Success! Remove the corresponding row from the table
             const row = button.closest('tr');

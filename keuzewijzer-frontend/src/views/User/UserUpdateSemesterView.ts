@@ -1,11 +1,13 @@
-import { type View } from '../View';
-import Api from '../../api/api';
 import Swal from 'sweetalert2';
-import { type Semester } from 'models/Semester';
-import { type User } from 'models/User';
+
+import { type View } from '../View';
+import { getAllSemesters } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
+import { getOneUser, updateUserSemesters } from '../../api/user';
+import { IUser } from 'interfaces/iUser';
 
 export class UserUpdateSemesterView implements View {
-  private readonly user: User | null = null;
+  private readonly user: IUser | null = null;
 
   public template = `
     <div class="container mt-2 mb-2">
@@ -35,7 +37,7 @@ export class UserUpdateSemesterView implements View {
   public params: Record<string, string> = {};
 
   public async setup (): Promise<void> {
-    const response = await Api.get('/api/User/' + this.params?.id);
+    const response = await getOneUser(this.params?.id);
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -52,7 +54,7 @@ export class UserUpdateSemesterView implements View {
     }
     await this.updateSemesters();
 
-    const user = response as User;
+    const user = response as IUser;
 
     await this.setForm(user);
 
@@ -60,21 +62,27 @@ export class UserUpdateSemesterView implements View {
     userForm.on('submit', this.handleUserSemesterUpdate.bind(this));
   }
 
-  private async setForm (user: User): Promise<void> {
+  private async setForm (user: IUser): Promise<void> {
     const semestersInput = $('#semesters');
     const semesterError = $('#semesterError');
 
     if (user.semesterItems != null) {
-      const semesters = user.semesterItems.map((semester) => semester.id.toString());
+      const semesters = user.semesterItems.map((semester) => {
+        if(semester.id != null) {
+          return semester.id.toString();
+        }
+        
+        return '';
+      });
       semestersInput.val(semesters);
     };
   }
 
   private async updateSemesters (): Promise<void> {
     const SemesterSelect = $('#semesters');
-    const Semesters = await Api.get('/api/semesterItem') as Semester[];
+    const Semesters = await getAllSemesters();
 
-    Semesters.forEach((semesterItem: Semester) => {
+    Semesters.forEach((semesterItem: ISemester) => {
       SemesterSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
@@ -95,7 +103,7 @@ export class UserUpdateSemesterView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/User/UpdateSemesters/' + this.params?.id, semesterIds).catch((error) => {
+      const response = await updateUserSemesters(this.params?.id, semesterIds).catch((error) => {
         console.log(error);
       });
 

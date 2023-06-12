@@ -1,12 +1,12 @@
-import Api from '../api/api';
-import { type View } from './View';
 import Swal from 'sweetalert2';
-import cohort from '../api/cohort';
 
+import { type View } from './View';
+import { getCohort, getCohorts } from '../api/cohort';
 import { type ICohort } from 'interfaces/iCohort';
 import { type IStudyRouteItem } from 'interfaces/iStudyRouteItem';
-import { type ISemesterItem } from 'interfaces/isSemesterItems';
+import { type ISemesterItem } from 'interfaces/iSemesterItems';
 import { type IStudyRoute } from 'interfaces/iStudyRoute';
+import { createStudyRoute, getUserStudyRoute } from '../api/studyRoute';
 
 interface Module {
     id: number
@@ -27,22 +27,21 @@ export class HomeView implements View {
     public cohorts: ICohort[] = [];
     public semesterItems!: ISemesterItem[];
     public studyRouteItems: IStudyRouteItem[] = [];
-    public modules: Module[] = [];
+    public modules: ISemesterItem[] = [];
 
     private async getSemesterItem() {
-        const semesterItems = await Api.get('/api/SemesterItem/cohort/2023');
-        console.log(semesterItems)
+        const semesterItems = await getCohort(2023);
         return semesterItems;
     }
 
     private async getStudyRouteItem() {
-        const response: any = await Api.get('/api/StudyRoute/user/1');
+        const response: any = await getUserStudyRoute('1');
         const studyRouteItemList: IStudyRouteItem[] = response;
         return studyRouteItemList;
     }
 
     private async getModules() {
-        const modules = await Api.get('/api/SemesterItem/cohort/2021');
+        const modules = await getCohort(2021);
         return modules;
     }
 
@@ -51,7 +50,7 @@ export class HomeView implements View {
         this.data.semesterItems = await this.getSemesterItem();
         this.data.studyRouteItems = await this.getStudyRouteItem();
         this.modules = await this.getModules();
-        this.cohorts = await cohort.getCohorts();
+        this.cohorts = await getCohorts();
     }
 
     public template = `<div class="container">
@@ -337,7 +336,7 @@ export class HomeView implements View {
 
                 try {
                     // Save StudyRoute via asynchronous API call
-                    await Api.post('/api/StudyRoute', studyRoute);
+                    await createStudyRoute(studyRoute);
                     // Perform any further actions after successful save
                 } catch (error) {
                     // Handle the error, e.g., display an error message to the user

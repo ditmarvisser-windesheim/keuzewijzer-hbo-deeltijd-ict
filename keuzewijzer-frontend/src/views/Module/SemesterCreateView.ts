@@ -1,8 +1,10 @@
-import { type View } from '../View';
 import Swal from 'sweetalert2';
-import { type Semester } from 'models/Semester';
-import { type Cohort } from 'models/Cohort';
-import Api from '../../api/api';
+
+import { type View } from '../View';
+import { createSemester, getAllSemesters } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
+import { getCohorts } from '../../api/cohort';
+import { ICohort } from 'interfaces/iCohort';
 
 export class SemesterCreateView implements View {
   public template = `
@@ -69,18 +71,18 @@ export class SemesterCreateView implements View {
 
   private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
-    const cohorts = await Api.get('/api/cohort') as Cohort[];
+    const cohorts = await getCohorts();
 
-    cohorts.forEach((cohort: Cohort) => {
+    cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
     });
   }
 
   private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+    const requiredSemesterItem = await getAllSemesters();
 
-    requiredSemesterItem.forEach((semesterItem: Semester) => {
+    requiredSemesterItem.forEach((semesterItem: ISemester) => {
       requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
@@ -156,17 +158,17 @@ export class SemesterCreateView implements View {
       name,
       description,
       semester,
-      Year: year,
-      Cohorts: [],
-      CohortsId: cohortInt,
-      RequiredSemesterItemId: requiredSemesterItemInt,
-      RequiredSemesterItem: [],
-      DependentSemesterItem: []
+      year: year,
+      cohorts: null,
+      cohortsId: cohortInt,
+      requiredSemesterItemId: requiredSemesterItemInt,
+      requiredSemesterItem: null,
+      dependentSemesterItem: null
     };
 
     try {
       // Make the POST request to the server
-      const response = await Api.post('/api/semesterItem', semesterItem);
+      const response = await createSemester(semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

@@ -1,7 +1,10 @@
-import { type View } from '../View';
+
 import Swal from 'sweetalert2';
-import Api from '../../api/api';
-import { type User } from 'models/User';
+
+import { type View } from '../View';
+import { getAllUsers } from '../../api/user';
+import { IUser } from 'interfaces/iUser';
+import { createCohort } from '../../api/cohort';
 
 export class CohortCreateView implements View {
   public template = `
@@ -51,9 +54,9 @@ export class CohortCreateView implements View {
   private async updateUsers (): Promise<void> {
     const userSelect = $('#user');
 
-    await Api.get('/api/user')
+    await getAllUsers()
       .then((response) => {
-        response.forEach((user: User) => {
+        response.forEach((user: IUser) => {
           userSelect.append(`<option value="${user.id}">${user.name}</option>`);
         });
       });
@@ -95,7 +98,7 @@ export class CohortCreateView implements View {
 
     const cohort = {
       name,
-      Year: year,
+      year: year,
       semesterItems: [],
       UserId: userId,
       User: null
@@ -103,7 +106,7 @@ export class CohortCreateView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await Api.post('/api/Cohort', cohort)
+      const response = await createCohort(cohort)
         .then((response) => {
           Swal.fire('Cohort ' + response.name + ' Aangemaakt!', '', 'success');
         })

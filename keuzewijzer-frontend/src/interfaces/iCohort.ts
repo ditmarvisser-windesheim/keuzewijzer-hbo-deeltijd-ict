@@ -1,5 +1,5 @@
 export interface ICohort {
-  id: number
+  id?: number
   name: string
   year: number
   UserId: number

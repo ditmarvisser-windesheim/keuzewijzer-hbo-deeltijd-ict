@@ -10,7 +10,7 @@ class AuthService {
     localStorage.setItem('access_token', token);
   }
 
-  private getAuthToken (): string | null {
+  public getAuthToken (): string | null {
     return localStorage.getItem('access_token');
   }
 
@@ -59,6 +59,7 @@ class AuthService {
   }
 
   public async logout (): Promise<void> {
+    localStorage.removeItem('access_token');
     return await logout({})
     .then((response) => {
       console.log(response);
