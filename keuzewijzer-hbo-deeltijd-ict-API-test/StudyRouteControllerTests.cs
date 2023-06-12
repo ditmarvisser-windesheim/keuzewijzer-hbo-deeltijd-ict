@@ -65,6 +65,15 @@ namespace Keuzewijzer_hbo_deeltijd_ict_API.Tests.Controllers
             Assert.Equal("GetStudyRoute", createdResult.ActionName);
             Assert.Equal(studyRoute.Id, createdResult.RouteValues["id"]);
             Assert.Equal(studyRoute, createdResult.Value);
+
+            // Additional assertions to verify the data in the actual database
+            using (var context = new KeuzewijzerContext(_options))
+            {
+                var savedStudyRoute = await context.StudyRoutes.FindAsync(studyRoute.Id);
+                Assert.NotNull(savedStudyRoute);
+                Assert.Equal(studyRoute.UserId, savedStudyRoute.UserId);
+                // Assert other properties and relationships as needed
+            }
         }
 
         [Fact]
