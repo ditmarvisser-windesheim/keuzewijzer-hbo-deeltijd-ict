@@ -538,7 +538,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
             );
 
             modelBuilder.Entity<StudyRoute>().HasData(
-                new StudyRoute { Id = 1, Name = "Computer Science", Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = "1" }
+                new StudyRoute { Id = 1, Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = "1" }
             );
 
             modelBuilder.Entity<SemesterItem>().HasData(
