@@ -66,7 +66,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             {
                 return NotFound();
             }
-            return await _context.Users.Where(u => u.MentorId == id).ToListAsync();
+            return await _context.Users.Include(u => u.StudyRoute).Where(u => u.MentorId == id).ToListAsync();
         }
 
         // GET: api/User/5
