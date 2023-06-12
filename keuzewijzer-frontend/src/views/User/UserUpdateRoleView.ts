@@ -27,6 +27,7 @@ export class UserUpdateRoleView implements View {
       <div class="form-group">
         <label for="year">Rollen:</label>
         <div class="checkBoxContainer", id="roles"></div>
+        <div id="studentError" class="invalid-feedback"></div>
       </div>
       <button type="submit" class="btn btn-primary">Aanpassen</button>
     </form>
@@ -98,25 +99,15 @@ export class UserUpdateRoleView implements View {
 
     console.log(roles);
     
-    
-
     const id = parseInt($('#id').val() as string);
 
-    // const cohort = $('#cohorts').val() as string[];
-    // const cohortInt = cohort.map(Number);
-    // const requiredSemesterItem = $('#requiredSemesterItem').val() as string[];
-    // const requiredSemesterItemInt = requiredSemesterItem.map(Number);
+    const studentError = $('#studentError');
 
-    // const nameError = $('#nameError');
-    // const descriptionError = $('#descriptionError');
-    // const semesterError = $('#semesterError');
-    // const yearError = $('#yearError');
-
-    // if (name.length < 4 || name.length > 100) {
-    //   nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
-    //   nameError.addClass('d-block');
-    //   return;
-    // }
+    if (roles.includes("Student") && (roles.length > 1)) {
+      studentError.text('Een student kan geen andere rollen hebben.');
+      studentError.addClass('d-block');
+      return;
+    }
 
     try {
       // Make the PUT request to the server
