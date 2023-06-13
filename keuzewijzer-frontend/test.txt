@@ -52,3 +52,15 @@
                                         just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
                                 </div>
                             </div>
+
+
+
+
+                            describe("login_test", () => {
+    it("should send a login request and succeed", () => {
+      const authService = new AuthService();
+      var testlogin = authService.login("test", "test").then((response) => response);
+      var testcode = testlogin.then((response) => response.status);
+      expect(testcode).toBe(Promise.resolve(200));
+    });
+  });
