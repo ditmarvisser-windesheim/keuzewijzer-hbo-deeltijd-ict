@@ -5,7 +5,6 @@
 // const test = await Api.get('https://jsonplaceholder.typicode.com/todos/1');
 // console.log(test);
 
-
 // const template = Handlebars.compile(Handlebars.templates['layout']);
 // const data = { title: 'My Title'};
 // const html = template(data);
@@ -18,6 +17,6 @@
 
 // //initial render
 // render();
-import { App } from "./app";
+import { App } from './app';
 
 const app = new App();

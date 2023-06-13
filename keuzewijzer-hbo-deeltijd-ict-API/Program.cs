@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,15 +37,24 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddMemoryCache();
 builder.Services.AddAuthentication();
-
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-
+// Add CORS configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -64,6 +74,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 //TODO: add safe cors
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+app.UseCors("AllowOrigin"); // Apply CORS configuration
 
 app.UseAuthentication(); // Enable authentication
 app.UseAuthorization();

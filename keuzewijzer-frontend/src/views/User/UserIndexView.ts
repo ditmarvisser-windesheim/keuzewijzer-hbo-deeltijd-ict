@@ -1,6 +1,5 @@
-import { View } from '../View';
-import Api from '../../js/api/api';
-import Swal from 'sweetalert2';
+import { type View } from '../View';
+import { getAllUsers } from '../../api/user';
 
 export class UserIndexView implements View {
   public template = `
@@ -34,24 +33,24 @@ export class UserIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
-      var users = await Api.get('/api/User');
+      const users = await getAllUsers();
       $('#loading').remove();
 
       if (Array.isArray(users)) {
         users.forEach((user) => {
           console.log(user);
-          var tableBody = document.getElementById('users');
-          if (tableBody) {
-            var row = $('<tr>').append(
+          const tableBody = document.getElementById('users');
+          if (tableBody != null) {
+            const row = $('<tr>').append(
               $('<td>').text(user.name),
               $('<td>').append(
                 $('<a>').attr('href', '/user/update/semester/' + user.id)
                   .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
-                  .text('Semester toewijzen'),
+                  .text('Semester toewijzen')
               )
 
             );
@@ -64,7 +63,5 @@ export class UserIndexView implements View {
     } catch (error) {
       console.error('Error fetching users:', error);
     }
-
-
   }
 }
