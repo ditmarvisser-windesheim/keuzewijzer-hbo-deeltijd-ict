@@ -1,6 +1,7 @@
-import { View } from '../View';
-import Api from '../../js/api/api';
 import Swal from 'sweetalert2';
+
+import { type View } from '../View';
+import { getCohorts, removeCohort } from '../../api/cohort';
 
 export class CohortIndexView implements View {
   public template = `
@@ -35,17 +36,16 @@ export class CohortIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
-      var cohorts = await Api.get('/api/Cohort');
+      const cohorts = await getCohorts();
       $('#loading').remove();
 
       if (Array.isArray(cohorts)) {
         cohorts.forEach((cohort) => {
-          console.log(cohort);
-          var tableBody = document.getElementById('semesterItems');
-          if (tableBody) {
-            var row = $('<tr>').append(
+          const tableBody = document.getElementById('semesterItems');
+          if (tableBody != null && cohort.id != null) {
+            const row = $('<tr>').append(
               $('<td>').text(cohort.name),
               $('<td>').text(cohort.year),
               $('<td>').append(
@@ -66,11 +66,11 @@ export class CohortIndexView implements View {
 
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach((button) => {
-      button.addEventListener('click', (event) => this.handleDeleteButtonClick(event));
+      button.addEventListener('click', async (event) => { await this.handleDeleteButtonClick(event); });
     });
   }
 
-  private async handleDeleteButtonClick(event: Event): Promise<void> {
+  private async handleDeleteButtonClick (event: Event): Promise<void> {
     try {
       const button = event.target as HTMLButtonElement;
       const cohortId = button.dataset.id;
@@ -81,15 +81,15 @@ export class CohortIndexView implements View {
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Ja, verwijderen!',
-          cancelButtonText: 'Annuleren',
+          cancelButtonText: 'Annuleren'
         });
         if (result.isConfirmed) {
           // Make the API call to delete the module
-          const response = await Api.delete(`/api/Cohort/${cohortId}`);
+          const response = await removeCohort(cohortId);
           if (response.status === 204) {
             // Success! Remove the corresponding row from the table
             const row = button.closest('tr');
-            if (row) {
+            if (row != null) {
               row.remove();
             }
             Swal.fire('Verwijderd!', 'De cohort is verwijderd.', 'success');
@@ -104,5 +104,8 @@ export class CohortIndexView implements View {
       Swal.fire('Fout!', 'Er is een fout opgetreden.', 'error');
     }
   }
-
 }
+function getAllCohorts() {
+  throw new Error('Function not implemented.');
+}
+

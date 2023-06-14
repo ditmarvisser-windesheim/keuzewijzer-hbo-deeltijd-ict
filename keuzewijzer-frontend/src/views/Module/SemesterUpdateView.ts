@@ -1,8 +1,10 @@
-import { View } from '../View';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import Api from '../../js/api/api';
-import { Cohort } from 'Models/Cohort';
+
+import { type View } from '../View';
+import { getCohorts } from '../../api/cohort';
+import { ICohort } from 'interfaces/iCohort';
+import { getAllSemesters, getOneSemester, updateSemester } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
 
 export class SemesterUpdateView implements View {
   public params: Record<string, string> = {};
@@ -55,14 +57,14 @@ export class SemesterUpdateView implements View {
         <select class="form-select" id="requiredSemesterItem" multiple>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Aanmaken</button>
+      <button type="submit" class="btn btn-primary">Aanpassen</button>
     </form>
   </div>
 `;
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     await this.updateRequiredSemesterItem();
     await this.updateCohorts();
 
@@ -72,29 +74,31 @@ export class SemesterUpdateView implements View {
     semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
-    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
-    const cohorts = await Api.get('/api/cohort') as Cohort[];
+  private async updateCohorts (): Promise<void> {
+    const cohortSelect = $('#cohorts');
+    const cohorts = await getCohorts();
 
-    cohorts.forEach((cohort: Cohort) => {
+    cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
-    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
-    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+  private async updateRequiredSemesterItem (): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem');
+    const requiredSemesterItem = await getAllSemesters();
 
-    requiredSemesterItem.forEach((semesterItem: Semester) => {
-      if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
-      requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+    requiredSemesterItem.forEach((semesterItem: ISemester) => {
+      if(semesterItem.id !== null && semesterItem.id !== undefined) {
+        if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
+        requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
+      }
     });
   }
 
-  private async setForm(): Promise<void> {
+  private async setForm (): Promise<void> {
     const id = this.params?.id;
 
-    const response = await Api.get(`/api/SemesterItem/${id}`);
+    const response = await getOneSemester(id) as ISemester;
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -110,41 +114,48 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    var updateSemester = response as Semester;
-
-    //set the values of the form
-    $('#name').val(updateSemester.name);
-    $('#description').val(updateSemester.description);
-    $('#semester').val(updateSemester.semester);
-    $('#id').val(updateSemester.id);
+    if(response && response.id !== null && response.id !== undefined) {
+      // set the values of the form
+      $('#name').val(response.name);
+      $('#description').val(response.description);
+      $('#semester').val(response.semester);
+      $('#id').val(response.id.toString());
+    }
 
     const yearSelect = $('#year');
-    const selectedYearValues = updateSemester.year.map(String); // Convert numbers to strings
+    const selectedYearValues = response.year.map(String); // Convert numbers to strings
     yearSelect.val(selectedYearValues);
 
-    //Set the required semester items
+    // Set the required semester items
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    var selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
+    const selectedRequiredSemesterItemValues: string[] = []; // Initialize as an empty array
 
-    updateSemester.requiredSemesterItem.forEach((semesterItem: Semester) => {
-      selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
-    });
+    if (response.requiredSemesterItem !== null) {
+      response.requiredSemesterItem.forEach((semesterItem: ISemester) => {
+        if(semesterItem.id !== null && semesterItem.id !== undefined) {
+          selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
+        }
+      });
+    }
 
     requiredSemesterItemSelect.val(selectedRequiredSemesterItemValues);
 
-    //Set the cohorts
+    // Set the cohorts
     const cohortSelect = $('#cohorts');
-    var selectedCohortValues: string[] = []; // Initialize as an empty array
+    const selectedCohortValues: string[] = []; // Initialize as an empty array
 
-    updateSemester.cohorts.forEach((cohort: Cohort) => {
-      selectedCohortValues.push(cohort.id.toString());
-    });
+    if (response.cohorts !== null) {
+      response.cohorts.forEach((cohort: ICohort) => {
+        if(cohort.id !== null && cohort.id !== undefined) {
+          selectedCohortValues.push(cohort.id.toString());
+        }
+      });
+    }
 
     cohortSelect.val(selectedCohortValues);
   }
 
-
-  private async handleSemesterUpdate(event: Event): Promise<void> {
+  private async handleSemesterUpdate (event: Event): Promise<void> {
     event.preventDefault();
 
     const nameInput = $('#name');
@@ -197,7 +208,7 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    //check if the year in the year array are unique and between 1 and 4
+    // check if the year in the year array are unique and between 1 and 4
     const uniqueYear = [...new Set(year)];
     if (uniqueYear.length !== year.length) {
       yearError.text('Selecteer unieke jaren.');
@@ -213,22 +224,22 @@ export class SemesterUpdateView implements View {
       }
     }
 
-    const semesterItem = {
-      id: id,
-      name: name,
-      description: description,
-      semester: semester,
-      Year: year,
-      Cohorts: [],
-      CohortsId: cohortInt,
-      RequiredSemesterItemId: requiredSemesterItemInt,
-      RequiredSemesterItem: [],
-      DependentSemesterItem: []
+    const semesterItem: ISemester = {
+      id,
+      name,
+      description,
+      semester,
+      year: year,
+      cohorts: null,
+      cohortsId: cohortInt,
+      requiredSemesterItemId: requiredSemesterItemInt,
+      requiredSemesterItem: null,
+      dependentSemesterItem: null
     };
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/semesterItem/' + id, semesterItem);
+      const response = await updateSemester(id, semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
@@ -236,16 +247,13 @@ export class SemesterUpdateView implements View {
 
       // Show a success message
       Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
-      console.log(response);
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
         window.location.href = '/semester';
       }, 2000);
-
     } catch (error) {
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
-
 }

@@ -1,12 +1,13 @@
-import { View } from '../View';
-import Api from '../../js/api/api';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import { User } from 'Models/User';
+
+import { type View } from '../View';
+import { getAllSemesters } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
+import { getOneUser, updateUserSemesters } from '../../api/user';
+import { IUser } from 'interfaces/iUser';
 
 export class UserUpdateSemesterView implements View {
-
-  private user: User | null = null;
+  private readonly user: IUser | null = null;
 
   public template = `
     <div class="container mt-2 mb-2">
@@ -31,12 +32,12 @@ export class UserUpdateSemesterView implements View {
       </form>
     </div>
   `;
+
   public data = {};
   public params: Record<string, string> = {};
 
-  public async setup(): Promise<void> {
-
-    const response = await Api.get('/api/User/' + this.params?.id);
+  public async setup (): Promise<void> {
+    const response = await getOneUser(this.params?.id);
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -53,7 +54,7 @@ export class UserUpdateSemesterView implements View {
     }
     await this.updateSemesters();
 
-    const user = response as User;
+    const user = response as IUser;
 
     await this.setForm(user);
 
@@ -61,26 +62,32 @@ export class UserUpdateSemesterView implements View {
     userForm.on('submit', this.handleUserSemesterUpdate.bind(this));
   }
 
-  private async setForm(user: User): Promise<void> {
+  private async setForm (user: IUser): Promise<void> {
     const semestersInput = $('#semesters');
     const semesterError = $('#semesterError');
 
     if (user.semesterItems != null) {
-      const semesters = user.semesterItems.map((semester) => semester.id.toString());
+      const semesters = user.semesterItems.map((semester) => {
+        if(semester.id != null) {
+          return semester.id.toString();
+        }
+        
+        return '';
+      });
       semestersInput.val(semesters);
     };
   }
 
-  private async updateSemesters(): Promise<void> {
-    const SemesterSelect = $('#semesters') as JQuery<HTMLSelectElement>;
-    const Semesters = await Api.get('/api/semesterItem') as Semester[];
+  private async updateSemesters (): Promise<void> {
+    const SemesterSelect = $('#semesters');
+    const Semesters = await getAllSemesters();
 
-    Semesters.forEach((semesterItem: Semester) => {
+    Semesters.forEach((semesterItem: ISemester) => {
       SemesterSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
 
-  private async handleUserSemesterUpdate(event: Event): Promise<void> {
+  private async handleUserSemesterUpdate (event: Event): Promise<void> {
     event.preventDefault();
     const semestersInput = $('#semesters');
     const semesterError = $('#semesterError');
@@ -96,20 +103,22 @@ export class UserUpdateSemesterView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await Api.put('/api/User/UpdateSemesters/' + this.params?.id, semesterIds);
+      const response = await updateUserSemesters(this.params?.id, semesterIds).catch((error) => {
+        console.log(error);
+      });
+
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
       }
 
       // Show a success message
-      Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
+      Swal.fire(`Semester ${response.name} Aangepast!`, '', 'success');
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
         window.location.href = '/user';
       }, 2000);
-
     } catch (error) {
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }

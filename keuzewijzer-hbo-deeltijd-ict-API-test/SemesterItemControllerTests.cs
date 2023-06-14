@@ -33,6 +33,84 @@ namespace Keuzewijzer_hbo_deeltijd_ict_API.Tests.Controllers
                 }
             }
         }
+          [Fact]
+            public async Task GetSemesterItemsByCohort_ValidCohortYear_ReturnsSemesterItems()
+            {
+                // Arrange
+                using (var context = new KeuzewijzerContext(_options))
+                {
+                    // Add test data to the in-memory database
+                    var cohort = new Cohort
+                    {
+                        Year = 2022,
+                        Name = "Sample Cohort"
+                    };
+                    var semesterItem1 = new SemesterItem
+                    {
+                        Id = 1,
+                        Description = "Sample Description 1",
+                        Name = "Sample Name 1",
+                        Cohorts = new List<Cohort> { cohort }
+                    };
+                    var semesterItem2 = new SemesterItem
+                    {
+                        Id = 2,
+                        Description = "Sample Description 2",
+                        Name = "Sample Name 2",
+                        Cohorts = new List<Cohort> { cohort }
+                    };
+                    context.Cohorts.Add(cohort);
+                    context.SemesterItems.AddRange(semesterItem1, semesterItem2);
+                    context.SaveChanges();
+                }
+
+                // Act
+                var result = await _controller.GetSemesterItemsByCohort(2022);
+
+                // Assert
+                Assert.NotNull(result);
+                var actionResult = Assert.IsType<ActionResult<IEnumerable<SemesterItem>>>(result);
+                var semesterItems = Assert.IsType<List<SemesterItem>>(actionResult.Value);
+
+                Assert.Equal(2, semesterItems.Count);
+                Assert.Equal("Sample Description 1", semesterItems[0].Description);
+                Assert.Equal("Sample Name 1", semesterItems[0].Name);
+                Assert.Equal("Sample Description 2", semesterItems[1].Description);
+                Assert.Equal("Sample Name 2", semesterItems[1].Name);
+            }
+
+        [Fact]
+        public async Task GetSemesterItemsByCohort_CohortYearNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            using (var context = new KeuzewijzerContext(_options))
+            {
+                // Add test data to the in-memory database (excluding the desired cohort year)
+                var cohort = new Cohort
+                {
+                    Year = 2021,
+                    Name = "Sample Cohort"
+                };
+                var semesterItem = new SemesterItem
+                {
+                    Id = 1,
+                    Description = "Sample Description",
+                    Name = "Sample Name",
+                    Cohorts = new List<Cohort> { cohort }
+                };
+                context.Cohorts.Add(cohort);
+                context.SemesterItems.Add(semesterItem);
+                context.SaveChanges();
+            }
+
+            // Act
+            var result = await _controller.GetSemesterItemsByCohort(2020); // Cohort year that doesn't exist in the test data
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+
         [Fact]
         public async Task GetSemesterItem_ValidId_ReturnsSemesterItem()
         {

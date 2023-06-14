@@ -1,6 +1,7 @@
-import { View } from '../View';
-import Api from '../../js/api/api';
 import Swal from 'sweetalert2';
+
+import { type View } from '../View';
+import { getAllSemesters, removeSemester } from '../../api/semesterItem';
 
 export class SemesterIndexView implements View {
   public template = `
@@ -17,8 +18,8 @@ export class SemesterIndexView implements View {
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
+            <th scope="col">Naam</th>
+            <th scope="col">Beschrijving</th>
             <th scope="col">Acties</th>
           </tr>
         </thead>
@@ -35,19 +36,17 @@ export class SemesterIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
-
+  public async setup (): Promise<void> {
     try {
-      var study_semesters = await Api.get('/api/SemesterItem');
+      const study_semesters = await getAllSemesters();
 
       $('#loading').remove();
 
       if (Array.isArray(study_semesters)) {
         study_semesters.forEach((semester) => {
-          console.log(semester);
-          var tableBody = document.getElementById('semesterItems');
-          if (tableBody) {
-            var row = $('<tr>').append(
+          const tableBody = document.getElementById('semesterItems');
+          if (tableBody != null && semester.id != null) {
+            const row = $('<tr>').append(
               $('<td>').text(semester.name),
               $('<td>').text(semester.description),
               $('<td>').append(
@@ -73,11 +72,11 @@ export class SemesterIndexView implements View {
 
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach((button) => {
-      button.addEventListener('click', (event) => this.handleDeleteButtonClick(event));
+      button.addEventListener('click', async (event) => { await this.handleDeleteButtonClick(event); });
     });
   }
 
-  private async handleDeleteButtonClick(event: Event): Promise<void> {
+  private async handleDeleteButtonClick (event: Event): Promise<void> {
     try {
       const button = event.target as HTMLButtonElement;
       const moduleId = button.dataset.id;
@@ -88,15 +87,15 @@ export class SemesterIndexView implements View {
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Ja, verwijderen!',
-          cancelButtonText: 'Annuleren',
+          cancelButtonText: 'Annuleren'
         });
         if (result.isConfirmed) {
           // Make the API call to delete the module
-          const response = await Api.delete(`/api/SemesterItem/${moduleId}`);
+          const response = await removeSemester(moduleId);
           if (response.status === 204) {
             // Success! Remove the corresponding row from the table
             const row = button.closest('tr');
-            if (row) {
+            if (row != null) {
               row.remove();
             }
             Swal.fire('Verwijderd!', 'De module is verwijderd.', 'success');
@@ -111,5 +110,4 @@ export class SemesterIndexView implements View {
       Swal.fire('Fout!', 'Er is een fout opgetreden.', 'error');
     }
   }
-
 }
