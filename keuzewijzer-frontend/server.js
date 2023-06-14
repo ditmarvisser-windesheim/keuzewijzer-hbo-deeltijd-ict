@@ -1,3 +1,5 @@
+const https = require("https");
+const fs = require("fs");
 const express = require('express');
 const path = require('path');
 const mime = require('mime-types');
@@ -26,6 +28,14 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port http://localhost:${port}`);
+
+https.createServer(
+    // Provide the private and public key to the server by reading each
+    // file's content with the readFileSync() method.
+    {
+        key: fs.readFileSync("cert/key.pem"),
+        cert: fs.readFileSync("cert/cert.pem"),
+    },
+    app).listen(3000, () => {
+    console.log("server is running at port 3000");
 });
