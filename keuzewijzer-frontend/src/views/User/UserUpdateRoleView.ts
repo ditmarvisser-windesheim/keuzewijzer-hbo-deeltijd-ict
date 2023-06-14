@@ -1,15 +1,15 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
-import Api from '../../js/api/api';
-import { User } from '../../../Models/User';
-import { Role } from '../../../Models/Role';
+import { getAllRoles } from '../../api/role';
+import { getOneUser, getUserRoles, updateUserRoles } from '../../api/user'
+import { IUser } from 'interfaces/iUser';
 
 export class UserUpdateRoleView implements View {
 
   // private Id = 5; //TODO: get the id form the url
   public params: Record<string, string> = {};
   
-  private user: User = new User;
+  private user= {} as IUser;
 
   public template = `
   <div class="container mt-2 mb-2">
@@ -52,9 +52,8 @@ export class UserUpdateRoleView implements View {
     console.log("p");
 
     //Search for the user item with the id
-    var response = await Api.get(`/api/user/${id}`);
+    var updateUser = await getOneUser(id);
     console.log(this.user);
-    var updateUser = response as User;
     this.user = updateUser;
     console.log(this.user);
 
@@ -63,9 +62,9 @@ export class UserUpdateRoleView implements View {
 
 
     // var rolesArray = updateUser.roles.map(r => r.id)
-    var rolesArray = await Api.get(`/api/User/${this.user.id}/roles`)
+    var rolesArray = await getUserRoles(this.user.id)
 
-    var roles = await Api.get(`/api/role`) as Role[];
+    const roles = await getAllRoles();
 
     $.each(roles,function(index, role){
       var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.name}" name="role-${role.id}"`;
@@ -92,14 +91,14 @@ export class UserUpdateRoleView implements View {
     const rolesInput = $('#roles')
     console.log(rolesInput);
     
-    const roles: (string | undefined)[] = [];
+    const roles: (string)[] = [];
     $('#roles input:checked').each(function() {
-      roles.push($(this).attr('value'));
+      roles.push($(this).attr('value') as string);
     });
 
     console.log(roles);
     
-    const id = parseInt($('#id').val() as string);
+    const id = $('#id').val() as string;
 
     const studentError = $('#studentError');
 
@@ -111,7 +110,7 @@ export class UserUpdateRoleView implements View {
 
     try {
       // Make the PUT request to the server
-      const response = await Api.put('/api/user/' + id + '/roles', roles);
+      const response = await updateUserRoles(id, roles);
       console.log(response);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
