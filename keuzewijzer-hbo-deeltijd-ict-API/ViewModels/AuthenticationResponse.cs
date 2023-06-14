@@ -10,15 +10,12 @@
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiration { get; set; }
 
-        public AuthenticationResponse(int status, string userId, string userName, string email, string accessToken, string refreshToken, DateTime? refreshTokenExpiration)
+        public AuthenticationResponse(int status, string userId, string userName, string email)
         {
             Status = status;
             UserId = userId;
             UserName = userName;
             Email = email;
-            AccessToken = accessToken;
-            RefreshToken = refreshToken;
-            RefreshTokenExpiration = (DateTime)refreshTokenExpiration;
         }
     }
 }

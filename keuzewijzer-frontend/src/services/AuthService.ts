@@ -1,84 +1,83 @@
-import { login, logout } from '../api/auth';
+import { ApiService } from './ApiService';
 
 interface LoginResult {
   status: number;
   message: string;
 }
 
+interface AuthResponse {
+  status: number;
+  userId: string;
+  userName: string;
+  email: string;
+  accessToken: null | string;
+  refreshToken: null | string;
+  refreshTokenExpiration: string;
+}
+
 class AuthService {
-  private setAuthToken (token: string): void {
-    localStorage.setItem('access_token', token);
+  private readonly apiService: ApiService;
+
+  constructor(apiService: ApiService) {
+    this.apiService = apiService;
   }
 
-  public getAuthToken (): string | null {
-    return localStorage.getItem('access_token');
+  public getUserData(): { userId: string; username: string; email: string } | null {
+    var response = localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
+    return response;
   }
 
-  public getUserData(): { userId: string, username: string, email: string } | null	 {
-    return localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
-  }
-
-  private setUserData (userData: { userId: string, username: string, email: string }): void {
+  private setUserData(userData: { userId: string; username: string; email: string }): void {
     localStorage.setItem('user_data', JSON.stringify(userData));
   }
 
-  public async login (username: string, password: string): Promise<LoginResult> {
-    // Make an API request to authenticate the user
-    // Example implementation:
- 
-      return await login({ UserName: username, Password: password })
-        .then((response) => {
-          var message: string = '';
+  public async login(username: string, password: string): Promise<LoginResult> {
+    try {
+      const response = await this.apiService.post<AuthResponse>('/api/Auth/login', { UserName: username, Password: password });
 
-          if (response.status === 401) {
-            message = 'Invalid username or password';
-          } else if (response.status === 200) {
-            const accessToken = response.accessToken;
+      var message: string = '';
 
-            this.setAuthToken(accessToken);
-            this.setUserData({ userId: response.userId, username: username, email: username + '@test.nl' });
-            message = 'Login successful';
-          } else {
-            message = 'An unknown error occurred';
-          }
+      if (response.status === 401) {
+        message = 'Invalid username or password';
+      } else if (response.status === 200) {
+        this.setUserData({ userId: response.userId, username: username, email: username + '@test.nl' });
+        message = 'Login successful';
+      } else {
+        message = 'An unknown error occurred';
+      }
 
-          console.log('Login response', response);
-
-          return {
-            status: response.status,
-            message: message
-          };
-        }).catch((error) => {
-          console.error('Error login', error);
-          return {
-            status: 500,
-            message: error
-          };
-        });
-
-  }
-
-  public async logout (): Promise<void> {
-    localStorage.removeItem('access_token');
-    return await logout({})
-    .then((response) => {
-      console.log(response);
-      localStorage.removeItem('access_token');
-
-    }).catch((error) => {
+      return {
+        status: response.status,
+        message: message
+      };
+    } catch (error) {
       console.error('Error login', error);
-    });
+
+      return {
+        status: 500,
+        message: 'An unknown error occurred'
+      };
+    }
   }
 
-  public isAuthenticated (): boolean {
-    // Check if the user is authenticated based on the access token stored in local storage
-    const accessToken = this.getAuthToken();
-    console.log('accessToken', accessToken);
-    console.log(typeof accessToken);
-    console.log('accessToken != null', accessToken != null);
-    console.log('accessToken != undefined', accessToken != undefined);
+  public async logout(): Promise<void> {
+    localStorage.removeItem('user_data');
 
-    return accessToken != null && accessToken != undefined && accessToken !== 'undefined';
+    try {
+      await this.apiService.post('/api/Auth/logout', {});
+    } catch (error) {
+      console.error('Error logout', error);
+    }
+  }
+
+  public isAuthenticated(): boolean {
+    try {
+      const userData = this.getUserData();
+      return userData !== null;
+    } catch (error) {
+      console.log('isAuthenticated', error);
+      return false;
+    }
   }
 }
 

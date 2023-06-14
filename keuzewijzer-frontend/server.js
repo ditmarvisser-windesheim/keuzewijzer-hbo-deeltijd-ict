@@ -1,11 +1,19 @@
 const express = require('express');
 const path = require('path');
 const mime = require('mime-types');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use('/dist/js', express.static(path.join(__dirname, 'dist/js')));
+
+app.use(
+    cors({
+        origin: [`http://localhost:7298`],
+        credentials: 'true',
+    })
+);
 
 // Set content-type header for JS files explicitly
 app.get('*.js', function(req, res, next) {
