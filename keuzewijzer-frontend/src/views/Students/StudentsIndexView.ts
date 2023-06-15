@@ -33,7 +33,7 @@ export class StudentsIndexView implements View {
         
         <thead>
           <tr>
-            <th scope="col">Studieroutes goedgekeurd, afgekeurd door StudieVoortgang</th>
+            <th scope="col">Studieroutes afgekeurd door StudieVoortgang</th>
             <th scope="col">Acties</th>
           </tr>
         </thead>
@@ -104,35 +104,50 @@ export class StudentsIndexView implements View {
         var routesOther = 0;
         students.forEach(async (student) => {
           var tableBody;
+          var button = $();
+
           if (student.studyRoute.approved_eb == true){
             tableBody = document.getElementById('routesApprovedBySV');
             routesApprovedBySV++;
           } else if (student.studyRoute.approved_eb == false){
             tableBody = document.getElementById('routesRejectedBySV');
             routesRejectedBySV++;
+            button = $('<a>').addClass('btn btn-danger btn-sm active reminder')
+            .attr('role', 'button')
+            .attr('aria-pressed', 'true')
+            .text('Reminder sturen')
           } else if (student.studyRoute.approved_sb == false){
             tableBody = document.getElementById('routesRejectedBySB');
             routesRejectedBySB++;
+            button = $('<a>').addClass('btn btn-warning btn-sm active reminder')
+            .attr('role', 'button')
+            .attr('aria-pressed', 'true')
+            .text('Reminder sturen')
           } else if (student.studyRoute.send_eb == true){
             tableBody = document.getElementById('routesApprovedWaitingForSV');
             routesApprovedWaitingForSV++;
           } else if (student.studyRoute.send_sb == true){
             tableBody = document.getElementById('routesToApprove');
             routesToApprove++;
+            button = $('<a>').attr('href', '/students/studyroute/' + student.id)
+            .addClass('btn btn-success btn-sm active')
+            .attr('role', 'button')
+            .attr('aria-pressed', 'true')
+            .text('Studieroute bekijken')
           } else {
             tableBody = document.getElementById('routesOther');
             routesOther++;
+            button = $('<a>').addClass('btn btn-warning btn-sm active reminder')
+            .attr('role', 'button')
+            .attr('aria-pressed', 'true')
+            .text('Reminder sturen')
           }
 
           if (tableBody) {
             var row = $('<tr>').append(
               $('<td>').text(student.name),
               $('<td>').append(
-                $('<a>').attr('href', '/student/studyroute/' + student.id)
-                .addClass('btn btn-primary btn-sm active')
-                .attr('role', 'button')
-                .attr('aria-pressed', 'true')
-                .text('Studieroute bekijken')
+                button
                 )
                 )
                 
@@ -190,6 +205,7 @@ export class StudentsIndexView implements View {
               )
           row.appendTo(tableBody);
         }
+        
 
       } else {
         console.error('Users is not an array');

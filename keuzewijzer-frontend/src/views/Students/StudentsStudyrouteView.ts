@@ -7,11 +7,15 @@ import { type ISemesterItem } from 'interfaces/iSemesterItems';
 import { type IStudyRoute } from 'interfaces/iStudyRoute';
 import AuthService from 'services/AuthService';
 import { ApiService } from 'services/ApiService';
+import { IUser } from 'interfaces/iUser';
 
 export class StudentsStudyrouteView implements View {
+    public params: Record<string, string> = {};
+    private user= {} as IUser;
     public cohorts: ICohort[] = [];
     public semesterItems: ISemesterItem[] = [];
     public studyRouteItems: IStudyRouteItem[] = [];
+    private studyRoute = {} as IStudyRoute;
     public modules: ISemesterItem[] = [];
     public authService!: AuthService;
     public apiService!: ApiService;
@@ -22,14 +26,10 @@ export class StudentsStudyrouteView implements View {
     }
 
     private async getStudyRouteItem() {
-        if (this.authService.getUserData() !== null) {
-            const response = await this.apiService.get<IStudyRouteItem[]>(`/api/StudyRoute/user/${this.authService.getUserData()!.userId}`); 
-            //const response: any = await getUserStudyRoute('1');
-            const studyRouteItemList: IStudyRouteItem[] = response;
-            return studyRouteItemList;
-        }
-
-        return [];
+        const response = await this.apiService.get<IStudyRouteItem[]>(`/api/StudyRoute/user/${this.params.id}`); 
+        //const response: any = await getUserStudyRoute('1');
+        const studyRouteItemList: IStudyRouteItem[] = response;
+        return studyRouteItemList;
     }
 
     private async getModules() {
@@ -37,10 +37,22 @@ export class StudentsStudyrouteView implements View {
         return modules;
     }
 
+    private async getStudyRoute() {
+        const studyRoute = await this.apiService.get<IStudyRoute>(`/api/StudyRoute/${this.params.id}`);
+        return studyRoute;
+    }
+
+    private async getUser() {
+        const user = await this.apiService.get<IUser>(`/api/User/${this.params.id}`);
+        return user;
+    }
+
     public async fetchAsyncData() {
         console.log('HomeView.fetchAsyncData()');
         this.data.semesterItems = await this.getSemesterItem();
         this.data.studyRouteItems = await this.getStudyRouteItem();
+        this.data.studyRoute = await this.getStudyRoute()
+        this.data.user = await this.getUser();
         this.modules = await this.getModules();
         this.cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
 
@@ -48,6 +60,9 @@ export class StudentsStudyrouteView implements View {
     }
 
     public template = `<div class="container">
+        <div>
+            <h1 id='name'>Naam Achternaam</h1>
+        </div>
         <div class="row">
             <div class="col-sm-12 col-md-8">
                 <div class="row mb-3">
@@ -81,8 +96,6 @@ export class StudentsStudyrouteView implements View {
             </div>
 
             <div class="col-md-4 d-none d-md-block">
-                <input class="form-control mb-2" type="text" placeholder="Zoeken..." aria-label="default input example">
-
                 <div class="accordion accordion-flush droppable" id="accordionFlushExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-headingOne">
@@ -107,9 +120,16 @@ export class StudentsStudyrouteView implements View {
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end">
-              <button type="button" class="create btn btn-primary">Studieroute opgeven</button>
-            </div>
+            <form id="semester-form">
+                <input type="hidden" id="id">
+                <div class="form-group">
+                    <label for="feedback">Feedback:</label>
+                    <textarea class="form-control" id="feedback" rows="3"></textarea>
+                    <div id="feedbackError" class="invalid-feedback"></div>
+                </div>
+                <button type="button" class="approve btn btn-success">Goedkeuren</button>
+                <button type="button" class="reject btn btn-danger">Afkeuren en reminder sturen</button>
+            </form>
         </div>
     </div>
     `;
@@ -118,7 +138,9 @@ export class StudentsStudyrouteView implements View {
         cohorts: this.cohorts,
         semesterItems: this.semesterItems,
         studyRouteItems: this.studyRouteItems,
+        studyRoute: this.studyRoute,
         modules: this.modules,
+        user: this.user,
         years: [
             { year: 1 },
             { year: 2 },
@@ -128,15 +150,17 @@ export class StudentsStudyrouteView implements View {
     };
 
     public setup(): void {
+        
         const self = this;
-
-
+        
+        console.log(self.data.studyRoute);
+        
         $(document).on("click", ".fa-info-circle", function () {
             var semesterItemId = $(this).closest(".box").data("id");
             var clickedSemesterItem = self.data.semesterItems.find(function (semesterItem) {
                 return semesterItem.id === semesterItemId;
             });
-
+            
             if (clickedSemesterItem != null) {
                 const semesterItemName = clickedSemesterItem.name;
                 const semesterItemDescription = clickedSemesterItem.description;
@@ -145,45 +169,12 @@ export class StudentsStudyrouteView implements View {
                 $('#semesterItemInfoModal .modal-body').text(semesterItemDescription);
             }
         });
-
+        
         $(async () => {
             let dropCount = 0;
             let yearCount = 4;
-
-            $('.box').draggable({
-                zIndex: 100,
-                cursor: 'move',
-                helper: 'clone',
-                revert: function (dropped: any) {
-                    if (!dropped) {
-                        // Revert the box to its original position
-                        $(this).data('uiDraggable').originalPosition = {
-                            top: 0,
-                            left: 0
-                        };
-                        return true;
-                    }
-                },
-                containment: 'document',
-                start: function (event, ui) {
-                    const w = $(this).css('width');
-                    const h = $(this).css('height');
-                    ui.helper.css('width', w).css('height', h);
-                }
-            });
-
-            setupDroppable($('.landing-box')); // Set up droppable behavior for existing landing boxes
-
-            function setupDroppable(element: JQuery<HTMLElement>) {
-                element.droppable({
-                    accept: '.box',
-                    drop: (event, ui) => {
-                        const droppedBox: JQuery<HTMLElement> = $(ui.draggable);
-                        const targetBox = $(event.target);
-                        handleDropBox(droppedBox, targetBox);
-                    }
-                });
-            }
+            $('#name').text(self.data.user.name);
+            $('#feedback').text(self.data.studyRoute.note);
 
             if (Array.isArray(self.data.studyRouteItems)) {
                 self.data.studyRouteItems.forEach(function (studyRouteItem) {
@@ -213,9 +204,6 @@ export class StudentsStudyrouteView implements View {
                         'Nieuw semester' +
                         '</div>');
 
-                    setupDroppable(newColumn);
-
-
                     if (latestYear.find('.col-md-4').length >= 2) {
                         
                         const afstuderenBoxClone = afstuderenBox.clone();
@@ -241,47 +229,6 @@ export class StudentsStudyrouteView implements View {
                 const boxClone = droppedBox.clone();
                 boxClone.removeClass('col-md-12 my-2').addClass('col-md-4 m-1');
 
-                const closeButton = $('<button class="remove-box">x</button>');
-                closeButton.click(function () {
-                    const boxToRemove = $(this).parent();
-
-                    targetBox.show();
-                    boxToRemove.remove();
-
-                    const originalBox = $('.box[data-id="' + droppedBox.data('id') + '"]');
-
-                    originalBox.show();
-                    targetBox.show();
-                    droppedBox.show();
-
-                    // If repearatie semester is removed, remove the extra column
-                    if (droppedBox.data('id') === 999) {
-                        const latestYear = $('.year-' + yearCount);
-                        var colElements = latestYear.find('.col-md-4:not(:hidden)');
-                        var latestYearLenght = colElements.length;
-
-                        console.log(latestYearLenght)
-
-                        if (latestYearLenght === 1) {
-                            const yearBefore = $('.year-' + (yearCount - 1));
-                            const latestExtraColumn = yearBefore.find('.col-md-4').last();
-                            const afstuderenBox = $('.year-' + yearCount + ' .row').find('.col-md-4[data-id="afstuderen"]');
-
-                            latestExtraColumn.before(afstuderenBox);
-                            latestExtraColumn.remove();
-                            latestYear.remove();
-                            yearCount--;
-                        }
-
-                        if (latestYearLenght === 2) {
-                            const firstItem = latestYear.find('.col-md-4:not(:hidden):not([data-id="afstuderen"])').first()
-                            const originalBox = $('.box[data-id="' + firstItem.attr('data-id') + '"]');
-                            originalBox.show();
-                            firstItem.remove();
-                        }
-                    }
-                });
-                boxClone.append(closeButton);
                 targetBox.hide().after(boxClone);
 
                 if (droppedBox.data('id') !== 999) {
@@ -314,17 +261,38 @@ export class StudentsStudyrouteView implements View {
                 return studyRouteItemList
             }
 
-            $(".create").click(async () => {
+            $(".approve").click(async () => {
+                const feedbackInput = $('#feedback').val() as string;
+                   
                 const studyRouteItemList = getStudyRouteItemsByAllYears()
 
                 let studyRoute: IStudyRoute = {
-                    userId: "1",
+                    userId: this.params.id,
+                    studyRouteItems: studyRouteItemList,
+                    approved_sb: true,
+                    approved_eb: null,
+                    note: feedbackInput,
+                    send_sb: true,
+                    send_eb: true
+                };
+
+                await this.saveStudyRoute(studyRoute);
+
+            });
+            
+            $(".reject").click(async () => {
+                const feedbackInput = $('#feedback').val() as string;
+
+                const studyRouteItemList = getStudyRouteItemsByAllYears()
+
+                let studyRoute: IStudyRoute = {
+                    userId: this.params.id,
                     studyRouteItems: studyRouteItemList,
                     approved_sb: false,
-                    approved_eb: false,
-                    note: '',
-                    send_sb: false,
-                    send_eb: false
+                    approved_eb: null,
+                    note: feedbackInput,
+                    send_sb: true,
+                    send_eb: null
                 };
 
                 await this.saveStudyRoute(studyRoute);
@@ -336,10 +304,21 @@ export class StudentsStudyrouteView implements View {
     private async saveStudyRoute(studyRoute: IStudyRoute) {
         try {
             // Save StudyRoute via asynchronous API call
-            await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute);
+            const response = await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute);
+            if (response.note === undefined) {
+                Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
+                return;
+              }
             // Perform any further actions after successful save
+            Swal.fire('Feedback is verstuurd naar  ' + this.user.name, '', 'success');
+
+            // Go back to the semester overview wait for 3 seconds
+            setTimeout(function () {
+                window.location.href = '/students';
+            }, 2000);
+
         } catch (error) {
-            // Handle the error, e.g., display an error message to the user
+            Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         }
     }
 }

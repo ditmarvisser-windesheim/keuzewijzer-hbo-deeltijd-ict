@@ -36,9 +36,8 @@ class SidebarPartial {
                     </a>
                 </li>
                 <li>
-                    <a href="/students" class="nav-link px-0 align-middle" data-link>
-                        <i class="fs-4 bi-file-text"></i> <span
-                            class="ms-1 d-none d-sm-inline">Mijn Studenten</span>
+                    <a href="/students" class="nav-link text-white">
+                        <span class="ms-1 d-none d-sm-inline">Mijn Studenten</span>
                     </a>
                 </li>
             </ul>
