@@ -4,12 +4,12 @@ class SidebarPartial {
     private readonly userData: { username: string, email: string } | null;
     private readonly authService: AuthService | undefined;
 
-  constructor (authService: AuthService, userData: { username: string, email: string } | null) {
-    this.authService = authService;
-    this.userData = userData;
-  }
+    constructor(authService: AuthService, userData: { username: string, email: string } | null) {
+        this.authService = authService;
+        this.userData = userData;
+    }
 
-  public template = `
+    public template = `
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top">
             <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-5 d-none d-sm-inline">HBO-ICT</span>
@@ -22,7 +22,7 @@ class SidebarPartial {
                 </li>
                 <li>
                     <a href="/semester" class="nav-link text-white">
-                        <span class="ms-1 d-none d-sm-inline">Semester</span>
+                        <span class="ms-1 d-none d-sm-inline">Module</span>
                     </a>
                 </li>
                 <li>
@@ -74,7 +74,7 @@ class SidebarPartial {
                     if (active.length > 0) {
                         active[0].classList.remove('active');
                     }
-                    
+
                     target.classList.add('active');
                 });
             }

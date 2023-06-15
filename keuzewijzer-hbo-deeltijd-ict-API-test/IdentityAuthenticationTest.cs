@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Microsoft.AspNetCore.Http.Extensions;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API_test
 {
@@ -31,18 +34,42 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
             signInManagerMock.Setup(sm => sm.CheckPasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
 
-            var configurationMock = new Mock<IConfiguration>();
-            configurationMock.SetupGet(x => x["Jwt:Secret"]).Returns("7#f6aj9h*Fn5q!sL2@^kgD4Z$rE&wA8p");
-            configurationMock.SetupGet(x => x["Jwt:ExpireHours"]).Returns("1");
+            var authController = new AuthController(userManagerMock.Object, signInManagerMock.Object);
+            var loginRequest = new LoginRequest { UserName = "admin@example.com", Password = "welkom" };
 
-            var authController = new AuthController(userManagerMock.Object, signInManagerMock.Object, configurationMock.Object);
+            // Mock the HttpContext and set the authentication cookie
+            var httpContext = new DefaultHttpContext();
+            var services = new ServiceCollection();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Events.OnRedirectToLogin = (context) =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                });
+            services.AddLogging();
+            httpContext.RequestServices = services.BuildServiceProvider();
+
+            httpContext.Request.Headers["Host"] = "localhost";
+            authController.ControllerContext = new ControllerContext
+            {
+                HttpContext = httpContext
+            };
 
             // Act
-            var result = await authController.Login(new LoginRequest { UserName = "admin@example.com", Password = "welkom" });
+            var result = await authController.Login(loginRequest);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
+            var okResult = (OkObjectResult)result;
+            Assert.IsType<AuthenticationResponse>(okResult.Value);
+
+            var cookies = httpContext.Response.Headers.FirstOrDefault(x => x.Key == "Set-Cookie");
+            Assert.NotNull(cookies);
         }
+ 
 
         [Fact]
         public async Task Login_Wrong_Password()
@@ -61,11 +88,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
             signInManagerMock.Setup(sm => sm.CheckPasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
 
-            var configurationMock = new Mock<IConfiguration>();
-            configurationMock.SetupGet(x => x["Jwt:Secret"]).Returns("7#f6aj9h*Fn5q!sL2@^kgD4Z$rE&wA8p");
-            configurationMock.SetupGet(x => x["Jwt:ExpireHours"]).Returns("1");
-
-            var authController = new AuthController(userManagerMock.Object, signInManagerMock.Object, configurationMock.Object);
+            var authController = new AuthController(userManagerMock.Object, signInManagerMock.Object);
 
             // Act
             var result = await authController.Login(new LoginRequest { UserName = "admin@example.com", Password = "ditisfout" });
