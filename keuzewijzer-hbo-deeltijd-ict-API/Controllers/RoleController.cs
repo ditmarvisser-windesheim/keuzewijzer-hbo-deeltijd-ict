@@ -22,7 +22,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
 
         // GET: api/role
-        [Authorize(Roles = "Administrator")]
+        /*[Authorize(Roles = "Administrator")]*/
         [HttpGet]
         public async Task<IQueryable<IdentityRole>> GetRoles()
         {

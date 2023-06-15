@@ -62,7 +62,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpGet("{id}/roles")]
         public async Task<IList<string>> GetUserRoles(string id)
         {
-            User user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             return await _userManager.GetRolesAsync(user);
         }

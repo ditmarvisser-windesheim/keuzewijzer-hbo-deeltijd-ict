@@ -25,7 +25,7 @@ export async function updateUserSemesters(id: string, semesterIds: number[]): Pr
     return response;
 }
 
-export async function getUserRoles(id: string): Promise<IRole>{
+export async function getUserRoles(id: string): Promise<string[]>{
   const response = await fetch(baseUrl + `/api/User/${id}/roles`).then((response) => response.json());
   return response;
 }
