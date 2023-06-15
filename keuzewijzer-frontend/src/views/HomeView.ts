@@ -62,7 +62,7 @@ export class HomeView implements View {
                         <div class="col-md-2 align-self-center p-4 text-center">Jaar {{year}}</div>
                         <div class="col-md-4 landing-box align-self-center p-4 m-1 rounded-3 bg-primary text-center">
                             <span>
-                                Aligned flex item
+                                Sleep keuze
                             </span>
                         </div>
                         {{#if (eq year 4)}}
@@ -72,7 +72,7 @@ export class HomeView implements View {
                         {{/if}}
                         {{#if (eq_not year 4)}}
                             <div class="col-md-4 landing-box align-self-center p-4 m-1 rounded-3 bg-primary text-center">
-                                Aligned flex item
+                                Sleep keuze
                             </div>
                         {{/if}}
                     </div>

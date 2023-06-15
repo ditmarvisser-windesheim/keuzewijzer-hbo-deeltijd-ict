@@ -1,3 +1,4 @@
+import { IUserData } from 'interfaces/iUserData';
 import { ApiService } from './ApiService';
 
 interface LoginResult {
@@ -10,9 +11,7 @@ interface AuthResponse {
   userId: string;
   userName: string;
   email: string;
-  accessToken: null | string;
-  refreshToken: null | string;
-  refreshTokenExpiration: string;
+  roles: string;
 }
 
 class AuthService {
@@ -22,12 +21,12 @@ class AuthService {
     this.apiService = apiService;
   }
 
-  public getUserData(): { userId: string; username: string; email: string } | null {
+  public getUserData(): IUserData | null {
     var response = localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
     return response;
   }
 
-  private setUserData(userData: { userId: string; username: string; email: string }): void {
+  private setUserData(userData: IUserData): void {
     localStorage.setItem('user_data', JSON.stringify(userData));
   }
 
@@ -42,7 +41,7 @@ class AuthService {
       } else if (response.status === 429) {
         message = 'Te veel mislukte inlogpogingen, probeer het opnieuw over 1 minuut.';
       } else if (response.status === 200) {
-        this.setUserData({ userId: response.userId, username: response.userName, email: response.email });
+        this.setUserData({ userId: response.userId, username: response.userName, email: response.email, roles: response.roles});
         message = 'Login successful';
       } else {
         message = 'An unknown error occurred';
