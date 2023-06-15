@@ -310,7 +310,7 @@ export class StudentsStudyrouteView implements View {
                 return;
               }
             // Perform any further actions after successful save
-            Swal.fire('Feedback is verstuurd naar  ' + this.user.name, '', 'success');
+            Swal.fire('Feedback is verstuurd naar  ' + this.data.user.name, '', 'success');
 
             // Go back to the semester overview wait for 3 seconds
             setTimeout(function () {
