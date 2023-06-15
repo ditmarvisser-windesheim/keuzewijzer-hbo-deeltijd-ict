@@ -12,8 +12,8 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
 {
     [DbContext(typeof(KeuzewijzerContext))]
-    [Migration("20230612144229_studyroutes")]
-    partial class studyroutes
+    [Migration("20230615120042_first-again")]
+    partial class firstagain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,33 +41,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasData(
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 1
                         },
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 1
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 3
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 4
                         },
                         new
                         {
@@ -78,6 +58,31 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             CohortsId = 4,
                             SemesterItemsId = 4
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 5
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 6
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 7
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 8
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 999
                         });
                 });
 
@@ -590,10 +595,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("SemesterItemId")
+                    b.Property<int?>("SemesterItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudyRouteId")
+                    b.Property<int?>("StudyRouteId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -2072,7 +2077,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "724cedd0-7714-4dfe-b5a3-0800437d187e",
+                            ConcurrencyStamp = "dfd981a0-3fd6-45de-b89a-cd85f06d0433",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Arnold",
@@ -2081,9 +2086,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Arnold Dirk Min",
                             NormalizedEmail = "admin@example.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKS0YsoB9O1rZ8C8TDZxcJbOw/TL7LJqH5miltYAQojrrJknvJIr4kD0SHZBzYXmYQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL+ROUBtkLiDSNeIGB1HeOjf7DtsZjCVFTFPnEyhaomeGWsqmwZ7j3SSryrpA/YrRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af62ba20-3c90-4fe7-9e3d-ef919969e6ec",
+                            SecurityStamp = "fd847846-cb01-44a5-8f22-efd148eac5ed",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -2091,7 +2096,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bec7d7a6-17ab-48f6-a44e-0dd2f48b2c41",
+                            ConcurrencyStamp = "606af473-00b3-41e0-8405-8ba779b2be71",
                             Email = "eugenevanroden@example.com",
                             EmailConfirmed = false,
                             FirstName = "Eugene",
@@ -2100,9 +2105,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Eugene Van Roden",
                             NormalizedEmail = "eugenevanroden@example.com",
                             NormalizedUserName = "eugenevanroden",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKdsUy35c4GgCNoAPEGkyzarl8K9kXRNUK42D/nm/CNc9WJ478tHiq1ftruMvQ+Vvw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOa8Crq6bmhvxJMHrhs1mOgjDXcfY14yp9ROLok6PMIX1Qa1pPhNxsXS7lqQ165Abg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd074a37-0c33-42a7-b5ac-859cd938a01f",
+                            SecurityStamp = "56f67e4a-5a4c-4875-8834-9ac03f770fb0",
                             TwoFactorEnabled = false,
                             UserName = "eugenevanroden"
                         },
@@ -2110,7 +2115,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2994f92-42d0-481d-98df-7474d6ed3006",
+                            ConcurrencyStamp = "e0059fb1-ede0-4638-b4b6-7608d9714acf",
                             Email = "theotan@example.com",
                             EmailConfirmed = false,
                             FirstName = "Theo",
@@ -2119,9 +2124,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Theo Tan",
                             NormalizedEmail = "theotan@example.com",
                             NormalizedUserName = "theotan",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEXnPGvdMOAP2nNqyE+he7Uqk2gkNXd0T9pSpCsoMzDpqR47MsVfgdq20ObkaY2Xww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE8usydppAG5sO3WfjKsGSFNwinjc4g3Z2Fus3BQTwsJslyD8YiIL13x932envGZUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "19410f74-c27d-46dd-bd81-2ad3e5972fe8",
+                            SecurityStamp = "d82785ae-5e13-47bf-a16c-d3b70241f208",
                             TwoFactorEnabled = false,
                             UserName = "theotan"
                         },
@@ -2129,7 +2134,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "49760209-6ac8-44b6-b22c-e70c49862051",
+                            ConcurrencyStamp = "cc85fafc-279d-4847-bfbe-9fbb81840f69",
                             Email = "floruscicek@example.com",
                             EmailConfirmed = false,
                             FirstName = "Florus",
@@ -2139,9 +2144,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Florus Çiçek",
                             NormalizedEmail = "floruscicek@example.com",
                             NormalizedUserName = "floruscicek",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPzOUKG77i9k/ymWPF5cNvOKmbJ8silM3ghPSGi9RxBbojCdQj4gh+9gi5EbDNZUjg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENkxAHW/ydg1TK8SRiTUt2MZRdf1kGfCEWmJC7TZjse9eUtcVXMIVg0GZQfbVsd+oA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f0328fbc-b02a-49af-8d75-3c9dd773d52f",
+                            SecurityStamp = "cfcfef64-68eb-4083-b8de-dedc1c7c2117",
                             TwoFactorEnabled = false,
                             UserName = "floruscicek"
                         },
@@ -2149,7 +2154,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "616c6806-b011-438f-b6c1-6680474611fd",
+                            ConcurrencyStamp = "a0d0d40d-dfd0-4879-8155-e2c7e4a08b36",
                             Email = "marlenewolf@example.com",
                             EmailConfirmed = false,
                             FirstName = "Marlène",
@@ -2159,9 +2164,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Marlène Wolf",
                             NormalizedEmail = "marlenewolf@example.com",
                             NormalizedUserName = "marlenewolf",
-                            PasswordHash = "AQAAAAEAACcQAAAAECMsMLf9k2MtSU39Ce6ancUC6tZQdpENN3Jd/6PvqpTY3tUCArwEB1SAZDrQK5Gn4w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA2KLFEpmL+BLcagmeO3Y5d8fDivBCHcivwTvSVRtLdb3bgCrTg55/UOeO/6rMrg7g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "daeb888e-6dbf-4ba4-a354-afc903d0d678",
+                            SecurityStamp = "ad4021a7-92af-49a7-ab1f-7e5412f792eb",
                             TwoFactorEnabled = false,
                             UserName = "marlenewolf"
                         },
@@ -2169,7 +2174,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c9daba8-5228-40b1-a632-91e9c7cc3734",
+                            ConcurrencyStamp = "d2f007bb-ce34-4d12-b431-54a15c69abdc",
                             Email = "bilalsteentjes@example.com",
                             EmailConfirmed = false,
                             FirstName = "Bilal",
@@ -2179,9 +2184,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Bilal Steentjes",
                             NormalizedEmail = "bilalsteentjes@example.com",
                             NormalizedUserName = "bilalsteentjes",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDPPvF5iNbfR3doC36GosOXKQtyYV653PcVyTJGYVWYwg27psOU7YKFkHl5ZUXoj6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDx5vXXKUeRoqVY648wJxLV4EbPVkKHFPBRY3JG8DSXpGiXeMVdwiFeHDzppVBPKSQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fcd5c3dc-af5e-42ec-a3ef-747419298874",
+                            SecurityStamp = "d516b450-b1bc-4c9f-8935-7257a44e9ee3",
                             TwoFactorEnabled = false,
                             UserName = "bilalsteentjes"
                         },
@@ -2189,7 +2194,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6818bad9-218a-41f2-9eaa-65f7531010b9",
+                            ConcurrencyStamp = "54c09dd5-ad84-4ebf-8f7a-ab8196900bea",
                             Email = "marlijngiebels@example.com",
                             EmailConfirmed = false,
                             FirstName = "Marlijn",
@@ -2199,9 +2204,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Marlijn Giebels",
                             NormalizedEmail = "marlijngiebels@example.com",
                             NormalizedUserName = "marlijngiebels",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDmMzVJyw5X6iQu/Esj/TZYtCYpRFa1/8CoGprnmwbIILMm8Ki4L97bMDAMbJUY5MA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAvXZ95hAnNYma45Qhaskvbk/RvhmJha7bKCdV/ZZrcU8nVJvzpUjah/3bMwtvQ5lg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ac4d0ff9-1110-46d4-8c2f-a53b6096f10e",
+                            SecurityStamp = "0c4a5f91-f33f-43be-aa19-c6a49d2f905a",
                             TwoFactorEnabled = false,
                             UserName = "marlijngiebels"
                         },
@@ -2209,7 +2214,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fbc9224e-dbc1-4d93-b49b-cbad3665a9bb",
+                            ConcurrencyStamp = "7601b56b-a96b-4023-ad5d-dc080f3e94e5",
                             Email = "sabrivandereijk@example.com",
                             EmailConfirmed = false,
                             FirstName = "Sabri",
@@ -2219,9 +2224,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Sabri Van der Eijk",
                             NormalizedEmail = "sabrivandereijk@example.com",
                             NormalizedUserName = "sabrivandereijk",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHPJM0I3roi16MRRigzt68Kdl0J9Me95DNR4oKZ6NHUnEJXUsXqGFZVk8OJW63Hekg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ5dLcxUc7XRjqL1L1uBiY308FZ0UB/uZsD4vdUW9w3ZhlAqIHpJBgI8LIgpqlGEQQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "08bb269f-4215-497a-b13f-36e07414987f",
+                            SecurityStamp = "f8f29961-706c-44cd-8806-d3ca791ecac5",
                             TwoFactorEnabled = false,
                             UserName = "sabrivandereijk"
                         },
@@ -2229,7 +2234,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2ee02ec-1d2c-4a13-aadc-e2b88bee5a9c",
+                            ConcurrencyStamp = "f4a0cf19-001b-48ea-9b45-560c3570eec8",
                             Email = "caseyandriesse@example.com",
                             EmailConfirmed = false,
                             FirstName = "Casey",
@@ -2239,9 +2244,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Casey Andriesse",
                             NormalizedEmail = "caseyandriesse@example.com",
                             NormalizedUserName = "caseyandriesse",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGj0lODmvckviV5ta5ZXNJV7dgLIEhDIaLyeZAQkl1/XaVJoGGsUVPbehqblpfl6UQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJTr7rE4uluHc844A1Nxkhyyt2UacU+/kJXky46NBtmxwtNjQXvo3G1ODzau6SWqZw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9be353c6-c284-478c-830d-5a91d29d52e1",
+                            SecurityStamp = "4e0715e6-f632-4693-8d18-fcf48535a51e",
                             TwoFactorEnabled = false,
                             UserName = "caseyandriesse"
                         },
@@ -2249,7 +2254,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "10",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "95853f14-74f4-4e9e-afde-9390d228b20d",
+                            ConcurrencyStamp = "31ac3516-4249-4405-9c8b-c17cb18247a1",
                             Email = "nikhuijskens@example.com",
                             EmailConfirmed = false,
                             FirstName = "Nik",
@@ -2259,9 +2264,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Nik Huijskens",
                             NormalizedEmail = "nikhuijskens@example.com",
                             NormalizedUserName = "nikhuijskens",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMMoy0qWHl+9qnmd40aoOsTFzej4xv8gTdO/VdUFzIrniCDMh0ozS7MKFG3wnFhbLA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENWt9vG2iF+YIZis0GPC5Hy47IE5irhgKPdD3ODTROO8WKvo8Z0MS95U2S9Uv5b2rg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "037c6fc3-5ef9-42ab-9a4c-0ea047ebdfbf",
+                            SecurityStamp = "7721863b-30f8-4eff-9f84-7ad58bbc42e0",
                             TwoFactorEnabled = false,
                             UserName = "nikhuijskens"
                         },
@@ -2269,7 +2274,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "11",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f14e040-24b4-4f03-82f8-ed459bad57db",
+                            ConcurrencyStamp = "3902a862-9add-4d15-8506-557db06d0360",
                             Email = "duranpetiet@example.com",
                             EmailConfirmed = false,
                             FirstName = "Duran",
@@ -2279,9 +2284,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Duran Petiet",
                             NormalizedEmail = "duranpetiet@example.com",
                             NormalizedUserName = "duranpetiet",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFilVMyBK9irHoeKpQXaRuRhpweRWN73pF2GpAHcKJC7KI0b2lvOEl2uSaf57AZoAg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDKUSCnv8Avt0eu9eXQkbjfiafh+MOPW7WAVMN84ZbgpPvdk3sLWj6iq1kf66dSEWA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4c488a52-5acb-4a31-918e-9737e0001890",
+                            SecurityStamp = "24a0f590-6bcd-45bc-8714-dab42734f4c3",
                             TwoFactorEnabled = false,
                             UserName = "duranpetiet"
                         },
@@ -2289,7 +2294,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "12",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "63222b38-8a9f-468a-8861-e78a10a76bc3",
+                            ConcurrencyStamp = "88ace583-84b0-491e-8f91-32e3b7b37561",
                             Email = "veroniekbravenboer@example.com",
                             EmailConfirmed = false,
                             FirstName = "Veroniek",
@@ -2299,9 +2304,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Veroniek Bravenboer",
                             NormalizedEmail = "veroniekbravenboer@example.com",
                             NormalizedUserName = "veroniekbravenboer",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGNgR90Qu01L773NIghFQLdJSkoXunnW+LG35AAW+vp2oaUTr9nOIIvBqB54Tw68UQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMm/z0yQwwoEHMBVvncSO/MvBdHU5u9c1fFLFXknv+uYY2A8wDo3yMqQfAnwR9mMog==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b5062e6a-90ba-4fae-a383-2c383804985f",
+                            SecurityStamp = "d355b472-875d-4cf1-8ad9-4e93aea767fd",
                             TwoFactorEnabled = false,
                             UserName = "veroniekbravenboer"
                         },
@@ -2309,7 +2314,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "13",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "63665e4b-2b0d-4ef8-a4dd-f031b53d7695",
+                            ConcurrencyStamp = "5b6d0842-af22-4cd1-8b04-19e12a418165",
                             Email = "kaynejagtenberg@example.com",
                             EmailConfirmed = false,
                             FirstName = "Kayne",
@@ -2319,9 +2324,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Kayne Jagtenberg",
                             NormalizedEmail = "kaynejagtenberg@example.com",
                             NormalizedUserName = "kaynejagtenberg",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMEW9KFzV3rfeqBCmbdGLdWkZEkO7eC7XYkOwo0NI2ZcJmGu+V2lYZZAob15ftsfdQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOv2158myP0e9o4jq1Dtg6qzbqG4l+klekxS0mvn+elCW/iXFiFlhLNMvRg8YASA0Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "24fee9e7-8af3-4976-b49b-82abb3af51de",
+                            SecurityStamp = "708c13d0-76ff-4002-a216-9cd47d37710b",
                             TwoFactorEnabled = false,
                             UserName = "kaynejagtenberg"
                         },
@@ -2329,7 +2334,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "14",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5362f944-2c60-4447-bed1-c24e640713d0",
+                            ConcurrencyStamp = "8fbded1b-5bf4-4f38-b6ee-bb8a0db5634e",
                             Email = "siebrigjeabdi@example.com",
                             EmailConfirmed = false,
                             FirstName = "Siebrigje",
@@ -2339,9 +2344,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Siebrigje Abdi",
                             NormalizedEmail = "siebrigjeabdi@example.com",
                             NormalizedUserName = "siebrigjeabdi",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPdop4IivZ6eWA98Sm4xdjaGH9UApg9OWTdMRWJdi8yT+Ax4JAemZoLqtDTXEiv85A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGRx3SzylBbYKjwR3meTRlPmq7/p7tLxrLvBrmZcb2Hv1YZetoK2+G3XkZ4GX3UwDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "961ce991-d329-4192-9fb8-913ac9d417ea",
+                            SecurityStamp = "613ef085-18ab-4d4f-924e-219f825f2733",
                             TwoFactorEnabled = false,
                             UserName = "siebrigjeabdi"
                         },
@@ -2349,7 +2354,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "15",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9356e5f-f0dd-47c1-833a-f5f9bc990de7",
+                            ConcurrencyStamp = "ca95c65e-1c8b-416c-abdf-ef051f925a64",
                             Email = "sterrelambert@example.com",
                             EmailConfirmed = false,
                             FirstName = "Sterre",
@@ -2359,9 +2364,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Sterre Lambert",
                             NormalizedEmail = "sterrelambert@example.com",
                             NormalizedUserName = "sterrelambert",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJwS8+SJrrT2bC5dmioGi05WIxZO3rVmLbLckVRVwCxQ16n23NpQs7P8F0bv9uVqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJIwp4bStZPZnjxhB0LHCMdyKM5axZKF84mJfopWebN9sZqKgTuEsyvh/yhuwNtDRA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8c5be569-e4d7-466b-890f-3ca0f87c978a",
+                            SecurityStamp = "5bc3a158-4611-44f1-88b7-52b86cd8b85a",
                             TwoFactorEnabled = false,
                             UserName = "sterrelambert"
                         },
@@ -2369,7 +2374,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "16",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aa7ebba3-1b00-4966-afb6-5f0cbd07041e",
+                            ConcurrencyStamp = "b674112b-1a3f-4b12-890b-4c1a1e9a41ad",
                             Email = "milicavandergouw@example.com",
                             EmailConfirmed = false,
                             FirstName = "Milica",
@@ -2379,9 +2384,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Milica Van der Gouw",
                             NormalizedEmail = "milicavandergouw@example.com",
                             NormalizedUserName = "milicavandergouw",
-                            PasswordHash = "AQAAAAEAACcQAAAAEORklJcIUtzHEg+4i7vXHQLA8goyFswJosMOYCvjWg3hFj+ETua0OrX6bc7xYCXz6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMTfeNwMkPoo/c62kHax6w/h8mkMQWxY4EzZujeN6oOWv4yYXYqm5MRuFy7LVUoqJg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3bd85c8e-d361-4c2b-9757-cf04f0fbfa90",
+                            SecurityStamp = "d736241c-f0cb-459f-b5c0-51aac4438774",
                             TwoFactorEnabled = false,
                             UserName = "milicavandergouw"
                         },
@@ -2389,7 +2394,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "17",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5c41fc8-b734-4fb4-97d4-11b0076566d3",
+                            ConcurrencyStamp = "06490f37-b512-4108-876a-8cadffdda29d",
                             Email = "yvonbrussaard@example.com",
                             EmailConfirmed = false,
                             FirstName = "Yvon",
@@ -2399,9 +2404,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Yvon Brussaard",
                             NormalizedEmail = "yvonbrussaard@example.com",
                             NormalizedUserName = "yvonbrussaard",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE448col288G5gv6iJeYAPDDfEbyP6j15/2nJdDDXrNXReOoHNCZ3CpxtW1x9dDoGQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGrAMC3XMxGO5v9RaQ8fWP+URgKq1BpO3UPumFEbI0r/9+wKIzP0wMXmNI54GTPhKQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d14d87fd-7e6d-4eed-bcd6-27cacc8c9623",
+                            SecurityStamp = "9fbfecd9-4837-45ee-9b43-984bcb043f2c",
                             TwoFactorEnabled = false,
                             UserName = "yvonbrussaard"
                         },
@@ -2409,7 +2414,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "18",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f3be09e-28c0-4792-976a-d40ed1e29505",
+                            ConcurrencyStamp = "ecf30746-1ffa-4f5f-a36a-76b9fcc5e963",
                             Email = "bodhidatema@example.com",
                             EmailConfirmed = false,
                             FirstName = "Bodhi",
@@ -2419,9 +2424,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Bodhi Datema",
                             NormalizedEmail = "bodhidatema@example.com",
                             NormalizedUserName = "bodhidatema",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHLlvIExrV/istjgEycyOLeHSgvTFgUmlyKWbHiGDtiWnw6u7Vz9Em3aIxIQ76z39w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBkMwMu4y00QuyvgOK2fkOuHpuQt7DgpRkm3JGYjvNOgQMnUJi9FHCQ4+LO7Ig5qYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6d3f1113-89a3-4192-a5d1-c63a2ddb0194",
+                            SecurityStamp = "1f632ebb-7b89-4b05-86aa-3623617739d9",
                             TwoFactorEnabled = false,
                             UserName = "bodhidatema"
                         },
@@ -2429,7 +2434,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "19",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f41b91ec-73a4-4ee1-8636-8e02f5ed1f50",
+                            ConcurrencyStamp = "8c57d659-c88c-4a1c-b9c1-965eee10e79e",
                             Email = "noachschutrups@example.com",
                             EmailConfirmed = false,
                             FirstName = "Noach",
@@ -2439,9 +2444,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Noach Schutrups",
                             NormalizedEmail = "noachschutrups@example.com",
                             NormalizedUserName = "noachschutrups",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMcpSUqc1/u5jTBikVpjDd4jBD1tS22qx5ldzaa1emnUQoVGb2LMrOQMgZ+yuglxxw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED7WA6NlqZvNcj47vyMpsRrJRZfqhHJuZakT7xBx6qEqilQLTYlOn30KZX8wZGoLMA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "97334975-3967-4460-b9da-0e1ba1164305",
+                            SecurityStamp = "b2413fa6-9846-4b5a-9051-c6279a9ae07d",
                             TwoFactorEnabled = false,
                             UserName = "noachschutrups"
                         },
@@ -2449,7 +2454,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "20",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17719d71-c0fc-463d-a2e3-ee02a84f6654",
+                            ConcurrencyStamp = "5b09e73e-a3c8-4adb-a860-929c0d6e9ad4",
                             Email = "ouassimbekking@example.com",
                             EmailConfirmed = false,
                             FirstName = "Ouassim",
@@ -2459,9 +2464,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Ouassim Bekking",
                             NormalizedEmail = "ouassimbekking@example.com",
                             NormalizedUserName = "ouassimbekking",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPS7VibFdF6ttOFlboSTSSgxuSHgc5E320rX2cMs9l5F7FP04KxNwNwK+Qr8qDhM3g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHghsYkoGMmXtuxQSyC3pKUIv2aByeKSbhs/ePOOvnE+Ngy65hrbXDMGeTs06+vTug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2a3cd59a-b41a-4dba-a6be-762c7e83ef2f",
+                            SecurityStamp = "b50e8dab-7364-4f57-8849-58a4d777c714",
                             TwoFactorEnabled = false,
                             UserName = "ouassimbekking"
                         },
@@ -2469,7 +2474,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "21",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "befb623e-a3b6-4dc3-aac8-091f5fc78264",
+                            ConcurrencyStamp = "a76eadf0-11f5-4e00-bb4c-77e903a69c3d",
                             Email = "noervanderkruit@example.com",
                             EmailConfirmed = false,
                             FirstName = "Noer",
@@ -2479,9 +2484,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Noer Van der Kruit",
                             NormalizedEmail = "noervanderkruit@example.com",
                             NormalizedUserName = "noervanderkruit",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPeXaUhXVCE/1r3wvLbd2cmbb9Q5GevMJkqEwx/gzQUpzSVY6prDyOP2HiJ7ekJ9Mw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGxXA04c6V97gN2xuDPcD+e+cuJimz/ihFypYTwEstNstZfi9as431Z1RPDTDhEpeQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0b5985d6-abe7-423e-99b4-5e7d858f2f35",
+                            SecurityStamp = "978e8fd8-de5d-4160-a509-56aeb40f4ba3",
                             TwoFactorEnabled = false,
                             UserName = "noervanderkruit"
                         },
@@ -2489,7 +2494,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "22",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b38108c5-3b75-4321-89b1-749ca699e409",
+                            ConcurrencyStamp = "951be453-6acf-4cc4-b08c-285feca23b5c",
                             Email = "kaanvanmaarseveen@example.com",
                             EmailConfirmed = false,
                             FirstName = "Kaan",
@@ -2499,9 +2504,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Kaan Van Maarseveen",
                             NormalizedEmail = "kaanvanmaarseveen@example.com",
                             NormalizedUserName = "kaanvanmaarseveen",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7BEGrDNzz0dayzyL3I03ehaYSIPkf8xtC9BQs4MtPXNZgIThTRZTeXKBF5BvhbrA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEECm96u34lOxCy1k5fa/4QZrPyw5s/9l01GSzZ9vG7+C/En/qbk3yl6Dwo1zyyOHaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "89180c15-e713-478a-a6e2-d410b3434810",
+                            SecurityStamp = "962ced40-8df1-4f16-be38-6306be58e0e0",
                             TwoFactorEnabled = false,
                             UserName = "kaanvanmaarseveen"
                         },
@@ -2509,7 +2514,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fa44756b-f7ce-453e-9812-aff082020470",
+                            ConcurrencyStamp = "05a4c835-5393-4758-922b-5f174dca9b29",
                             Email = "owenkaal@example.com",
                             EmailConfirmed = false,
                             FirstName = "Owen",
@@ -2519,9 +2524,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Owen Kaal",
                             NormalizedEmail = "owenkaal@example.com",
                             NormalizedUserName = "owenkaal",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKjVCB0RYawTtxwgWPWgrEqoxa5zW44KKSUJt0tm/vyRGX0hILofYx1IxVD30GtPGw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDGLuEjMEDOPM3CrYeU6JwtKv/DBi9isGVZh3lw0NzWRPv9aYvKO4GDtMM+ss/5W0A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "31fcb488-47fa-4591-b24b-184ca515f245",
+                            SecurityStamp = "186a7d28-8756-4cec-8c96-117a296c86ad",
                             TwoFactorEnabled = false,
                             UserName = "owenkaal"
                         },
@@ -2529,7 +2534,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "24",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "882386a5-0477-41b9-aa98-7dae279788d0",
+                            ConcurrencyStamp = "42dde107-260c-468a-af8c-2a26be27b130",
                             Email = "paulinebah@example.com",
                             EmailConfirmed = false,
                             FirstName = "Pauline",
@@ -2539,9 +2544,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Pauline Bah",
                             NormalizedEmail = "paulinebah@example.com",
                             NormalizedUserName = "paulinebah",
-                            PasswordHash = "AQAAAAEAACcQAAAAED+5YhRbDkQdCf2DexYIow0feI8NKuc3EEeiAKgDtc3NoJ1TgKh8IhxPt87QG+kCTg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIeZetD50oi/bKNrfdXVl9h/m7JQNe30lIutVVtm715pO44i7jQsRMxmgbh3htdRgA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "59ff1947-1478-48d5-9868-1249ac4e3f9f",
+                            SecurityStamp = "1bd6414e-c1ca-41f9-8f02-db682f7c5c8a",
                             TwoFactorEnabled = false,
                             UserName = "paulinebah"
                         },
@@ -2549,7 +2554,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "25",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f8254fa7-761e-4d73-8b13-86eae9762954",
+                            ConcurrencyStamp = "f464d61a-01ab-410b-920d-4df09c22f0b5",
                             Email = "caterinatas@example.com",
                             EmailConfirmed = false,
                             FirstName = "Caterina",
@@ -2559,9 +2564,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Caterina Tas",
                             NormalizedEmail = "caterinatas@example.com",
                             NormalizedUserName = "caterinatas",
-                            PasswordHash = "AQAAAAEAACcQAAAAENjN5gj/PxtWniDsBeuQSU+D7V86EzDXmCQP+GWF9pzYEma92jl1XaYSKnzUrrxSCQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPsWVaVN51qEK5fn8BUz+pa3MgfhBfziKVz6sjpsfIhO7L67cVdY7q4lo3eyLsDz6g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b1b3fe7b-d07c-4967-82da-d08b87083d33",
+                            SecurityStamp = "e1dacbfe-bdbc-45e0-a923-c523b206cdb4",
                             TwoFactorEnabled = false,
                             UserName = "caterinatas"
                         },
@@ -2569,7 +2574,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "26",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a15b26d-d7d1-401e-8159-4315aeaf84ff",
+                            ConcurrencyStamp = "550bc9ec-e6bb-4d94-9de4-b0826cec5f05",
                             Email = "edtouw@example.com",
                             EmailConfirmed = false,
                             FirstName = "Ed",
@@ -2579,9 +2584,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Ed Touw",
                             NormalizedEmail = "edtouw@example.com",
                             NormalizedUserName = "edtouw",
-                            PasswordHash = "AQAAAAEAACcQAAAAECbd1+RNbpSHxjlT9gDy5eLAFEzQCvvXUhTNkbOPCBLM7ktyPZWkQfuPPxnfOHf6pQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC5AcDfBR1fJp4r8fgV8bRNtmJBHKC1mrnzQCG/Dx9XaWDgKUyMAin1byqL6kduPcw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a7f1e2cd-7b45-4ed2-8a4b-9af91c47ee0f",
+                            SecurityStamp = "4c556135-4d85-484f-9670-617a0bffa091",
                             TwoFactorEnabled = false,
                             UserName = "edtouw"
                         },
@@ -2589,7 +2594,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "27",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d5ade06-31d8-4b84-9f6c-0912a79e368f",
+                            ConcurrencyStamp = "12169443-d60f-4a86-9f64-52b4ae83627a",
                             Email = "hugofidom@example.com",
                             EmailConfirmed = false,
                             FirstName = "Hugo",
@@ -2599,9 +2604,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Hugo Fidom",
                             NormalizedEmail = "hugofidom@example.com",
                             NormalizedUserName = "hugofidom",
-                            PasswordHash = "AQAAAAEAACcQAAAAENFDCI8vPGOETrMMYsp5cBVW9ZfGmaAACyvzrXlXENt2W3/niwws2KGKdQvxOK4dUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC20T5Q+OiqYI8rcJY+eqkfDyghR/td4bIAwCjQaVY/40MM6kcWGr6N+hrPgyZMBeQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7635d746-14a0-4286-af61-31a70ab92c0b",
+                            SecurityStamp = "946593e6-05ab-4436-8d3a-2b8d67511d8e",
                             TwoFactorEnabled = false,
                             UserName = "hugofidom"
                         },
@@ -2609,7 +2614,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "28",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "097a1d4a-fb68-48b2-8297-90d7458be52e",
+                            ConcurrencyStamp = "7a95b950-c0c5-4126-a55c-676225324bdb",
                             Email = "nannebesseling@example.com",
                             EmailConfirmed = false,
                             FirstName = "Nanne",
@@ -2619,9 +2624,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Nanne Besseling",
                             NormalizedEmail = "nannebesseling@example.com",
                             NormalizedUserName = "nannebesseling",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIjiAUMQWMLhcJLxc72d/18WC//9vm99uf1i/Nhs6R8bzuIZ+Tl9U/SaZ8StNNrOMA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAGv/ILjbkyrfwRrjaN3J7jEusTeQt2hq2ZtLOpybwG721ZotgiuVvHIfG5/iGwF5w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "15c561a9-b6de-4cd1-a048-4ac84e3eb4d0",
+                            SecurityStamp = "ec35b7b7-5b52-4760-bb05-e032a40d9ba1",
                             TwoFactorEnabled = false,
                             UserName = "nannebesseling"
                         },
@@ -2629,7 +2634,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "67c7f8be-605d-4b02-b9de-21861067a0d8",
+                            ConcurrencyStamp = "68f24ba0-d58d-4c85-b9da-34f1002950c4",
                             Email = "teunisjesalden@example.com",
                             EmailConfirmed = false,
                             FirstName = "Teunisje",
@@ -2639,9 +2644,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Teunisje Salden",
                             NormalizedEmail = "teunisjesalden@example.com",
                             NormalizedUserName = "teunisjesalden",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBuG49Y620LPhLyn4nfyYMsnf4vG1jFLEmiCndt2tin9uTdjol2TiSN1vXW8UbT5lA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED6T7X2kwsUBZ/g7gaSbm0jeGQmxsRQvQYnU783D6cct4iNHBm8aQPQmfsYcqbVniA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6a7aaf4-cb30-46ab-941c-9881f4aa7257",
+                            SecurityStamp = "3ef33f23-d4a3-46e2-a88e-5431cc7d37d2",
                             TwoFactorEnabled = false,
                             UserName = "teunisjesalden"
                         },
@@ -2649,7 +2654,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "30",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b09f161f-784e-4202-9067-6068107ff4ff",
+                            ConcurrencyStamp = "a57bb2e8-e47c-40ee-9489-e7c7d67ed2da",
                             Email = "rochedoornink@example.com",
                             EmailConfirmed = false,
                             FirstName = "Roché",
@@ -2659,9 +2664,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Roché Doornink",
                             NormalizedEmail = "rochedoornink@example.com",
                             NormalizedUserName = "rochedoornink",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ7FuMDz4QlET53rEv5LJRJYVXHUc/SwV6DDbs5dxl4+qu6Je24yhdMPof+8YX0lfQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKlpswb3Go7F7tV2sK6etjqrjvs5SuUr2NyXC8u5QY1I3492itziDEmSOnhpbB7uLw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c252ff4c-79f8-4f07-9e1c-240ad3cf09cb",
+                            SecurityStamp = "28b2a89e-c59e-44f0-bacb-81cb05f445bf",
                             TwoFactorEnabled = false,
                             UserName = "rochedoornink"
                         },
@@ -2669,7 +2674,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "31",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "130be79f-481f-4b5f-8c1a-de2f322d7c90",
+                            ConcurrencyStamp = "3025aec5-4d7a-414e-83b0-3d8d2ec63a2a",
                             Email = "yuenboertien@example.com",
                             EmailConfirmed = false,
                             FirstName = "Yuen",
@@ -2679,9 +2684,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Yuen Boertien",
                             NormalizedEmail = "yuenboertien@example.com",
                             NormalizedUserName = "yuenboertien",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAUtq+//7+4dAG/qCkL9j60FevMDfPd5oRcVJObBNy3BhuH+X5HUy0AjgrSvkM2v8Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDUbEEDdgCAjFuvFVGw4O6YH/oRP6c8XXtRmEpt3pAzbMh4j2v0GYEJFgQOcZB94BA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4b0207cc-9e1e-4582-bd36-767cc71b7b4e",
+                            SecurityStamp = "3cec6217-4946-4e5f-abed-60c584cd10ab",
                             TwoFactorEnabled = false,
                             UserName = "yuenboertien"
                         },
@@ -2689,7 +2694,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "32",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a5c4a5e7-566e-49cb-a170-e8c57b2aead6",
+                            ConcurrencyStamp = "ffb1ddb2-7db0-4b6e-ae1a-66ca94c22bdd",
                             Email = "heinrichmook@example.com",
                             EmailConfirmed = false,
                             FirstName = "Heinrich",
@@ -2699,9 +2704,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Heinrich Mook",
                             NormalizedEmail = "heinrichmook@example.com",
                             NormalizedUserName = "heinrichmook",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEegZcrmHEC2rbrSfNa6f4fNDVKttRlc5ix7PmHFSbb2j8H++pQBK59XeqQRlmdR/A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK2triXmKjTIueXmCechEGF5mXrWwZp5jyAlII5WpRYEs7mScPa/sE74hUVvn1e0VQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ee53bd6-7ee6-4c04-b88b-0360fbb1355d",
+                            SecurityStamp = "64199c28-3f0d-488e-a4cf-4fe4eb0a6315",
                             TwoFactorEnabled = false,
                             UserName = "heinrichmook"
                         },
@@ -2709,7 +2714,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "33",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e034d17-a0a6-467d-a81d-15a1bf6d8cb2",
+                            ConcurrencyStamp = "06f5acdd-86f3-43d9-af3a-2432d2cf672b",
                             Email = "keriantonisse@example.com",
                             EmailConfirmed = false,
                             FirstName = "Keri",
@@ -2719,9 +2724,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Keri Antonisse",
                             NormalizedEmail = "keriantonisse@example.com",
                             NormalizedUserName = "keriantonisse",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAg0GwLdID5Gl+89J8aE/1jpIRPTx5BrPERAaJ0RVJ0vo9thlah8DUxet4v/7PLFtw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHJjysNOjTzf7AnJmdn89LalLfmNobyL+Uh+xouCqfcRg3hamGb8B5466jPxWTfhaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6e475f91-2586-47b6-841e-e860aa58bf83",
+                            SecurityStamp = "ca551573-bcd1-4886-a813-6d9e3322d0e6",
                             TwoFactorEnabled = false,
                             UserName = "keriantonisse"
                         },
@@ -2729,7 +2734,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "34",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccbcc0c0-63fb-4aeb-8a2e-4de919c046ba",
+                            ConcurrencyStamp = "d3588fc8-cd73-40e4-affa-85678afdab80",
                             Email = "beerrebergen@example.com",
                             EmailConfirmed = false,
                             FirstName = "Beer",
@@ -2739,9 +2744,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Beer Rebergen",
                             NormalizedEmail = "beerrebergen@example.com",
                             NormalizedUserName = "beerrebergen",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMNYsAy7jvmwFHsn20pJA2vOcc7OZQHI5BI+pIifLHqmlU7PTUSqEQ/Pssy0YTYPEw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEISDxH26/7m5aofACTr4iQwj2f1BF0bTpdgNcVVkPScUMyucmJwrdf1PmGrnQbefIw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0bd0cefc-bb89-4f09-ac65-b58cb07fda69",
+                            SecurityStamp = "8350796c-646c-4082-b05a-ae851cb1a023",
                             TwoFactorEnabled = false,
                             UserName = "beerrebergen"
                         },
@@ -2749,7 +2754,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "35",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f140e5ab-6840-4d54-bec6-bae0888f2ae0",
+                            ConcurrencyStamp = "4facae5a-46a2-444c-ba4d-ebfc843e2a98",
                             Email = "kainvandergun@example.com",
                             EmailConfirmed = false,
                             FirstName = "Kaïn",
@@ -2759,9 +2764,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Kaïn Van der Gun",
                             NormalizedEmail = "kainvandergun@example.com",
                             NormalizedUserName = "kainvandergun",
-                            PasswordHash = "AQAAAAEAACcQAAAAEONZ/glsb3oWnyjiKwDGt6SdsGX6Sk6elf+flq/5LBKDzmgBdo3GIZV4KIUuag4zrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA0NEEKZ+aKJZfBs255+xcgpYC0wRFDn9LrgpsF5q0bEYZpn0W5Ag0Yt2WlKA8lNjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "41136fb0-2c7e-45a1-b00d-9e93d4a29ba1",
+                            SecurityStamp = "123366ad-ca7a-4d25-9998-f0752f02cc18",
                             TwoFactorEnabled = false,
                             UserName = "kainvandergun"
                         },
@@ -2769,7 +2774,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "36",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd912c76-34b0-4524-9384-2aa476e02906",
+                            ConcurrencyStamp = "aab5eee8-eeb2-46f9-a873-36c6e7ba8630",
                             Email = "marloeswesterdijk@example.com",
                             EmailConfirmed = false,
                             FirstName = "Marloes",
@@ -2779,9 +2784,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Marloes Westerdijk",
                             NormalizedEmail = "marloeswesterdijk@example.com",
                             NormalizedUserName = "marloeswesterdijk",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF0kUPvXykhZc5xfD51uJF7IfF651Q/HuGOBxnvWrL7Z/HJStBADFOA4Sq37lu+5PQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJEd5ZVxG0zYWxHN7mFgGkoqfbwDfWvj9ij2XwISqBoTENaQzxCnH8lAJWNflt+blw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "414fad6e-292a-47b8-8d87-5596f8851793",
+                            SecurityStamp = "9fd1f682-4012-4ca8-87b5-13a11516d1d8",
                             TwoFactorEnabled = false,
                             UserName = "marloeswesterdijk"
                         },
@@ -2789,7 +2794,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "37",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e1fc4d51-270f-4fa4-b8e4-ae816b38785d",
+                            ConcurrencyStamp = "aeed10e5-3f45-44eb-ab30-ae2e3b7c84f0",
                             Email = "aurelieesajas@example.com",
                             EmailConfirmed = false,
                             FirstName = "Aurélie",
@@ -2799,9 +2804,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Aurélie Esajas",
                             NormalizedEmail = "aurelieesajas@example.com",
                             NormalizedUserName = "aurelieesajas",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM0bbI4eAxzfBy2SOhUJ9b/EKvABrhuDB0oBYMsScG1ULrELkkx/lLp2zUNUwIzoJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED6/A0wkuUZtKmC8RZ60/Mv7zGJeHSusTMO6+D8qK5+SfgQBme4wMrAZcY6ikhxj1w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "859ba544-09cd-40ac-929e-8ae1b9b8d161",
+                            SecurityStamp = "b74f7c36-4c7f-4126-9272-c1a32385c6fb",
                             TwoFactorEnabled = false,
                             UserName = "aurelieesajas"
                         },
@@ -2809,7 +2814,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "38",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20493c73-6d0a-4dd9-8a58-283a460104db",
+                            ConcurrencyStamp = "b7b2463b-f87c-452d-9e9f-3ef245e831f8",
                             Email = "gerlindenooijens@example.com",
                             EmailConfirmed = false,
                             FirstName = "Gerlinde",
@@ -2819,9 +2824,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Gerlinde Nooijens",
                             NormalizedEmail = "gerlindenooijens@example.com",
                             NormalizedUserName = "gerlindenooijens",
-                            PasswordHash = "AQAAAAEAACcQAAAAELfl429B32SIsGxj+oItN2tw9moybDWS86RwjB9NBI0WUHSDKcf+vQuDj4O41JhAhA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED5uQQNS7fKnXkyGuUx00y1zSkl48mZ1tLtUuXKrTFuUU9Nunp8/Px1rwWlqxZ1+Fg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "95b05b9a-76c2-4a00-b57d-c72533302000",
+                            SecurityStamp = "f2724833-9e99-42c5-ba19-914ff9a862ff",
                             TwoFactorEnabled = false,
                             UserName = "gerlindenooijens"
                         },
@@ -2829,7 +2834,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "39",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c985b31c-eeab-436c-9cc4-a2f6ebb87bda",
+                            ConcurrencyStamp = "a5840a49-c45d-4e2b-b056-005fee7aa313",
                             Email = "summerbrinkhuis@example.com",
                             EmailConfirmed = false,
                             FirstName = "Summer",
@@ -2839,9 +2844,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Summer Brinkhuis",
                             NormalizedEmail = "summerbrinkhuis@example.com",
                             NormalizedUserName = "summerbrinkhuis",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGL4717789f0XD/Hvt5Orfg0HTRNhMewUVElJZktSR0m1PF3biebPM7qtxYPQ9gKrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOQtz+aVJ5fgel/qn3e3JyUD7j6ixEuV1ao9a9MIrsI++4Y5Euo2GmHI3zk+QspARw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "43944c9a-35e3-438d-ac0f-37047bebcb23",
+                            SecurityStamp = "0e98d88f-7dcb-4a2a-b139-1abd4d9c1eb3",
                             TwoFactorEnabled = false,
                             UserName = "summerbrinkhuis"
                         },
@@ -2849,7 +2854,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "40",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "694e66d3-5384-4705-a5df-da06d7b4cf36",
+                            ConcurrencyStamp = "29785fd1-6701-41d6-893e-e5abcacec683",
                             Email = "quirinavandusschoten@example.com",
                             EmailConfirmed = false,
                             FirstName = "Quirina",
@@ -2859,9 +2864,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Quirina Van Dusschoten",
                             NormalizedEmail = "quirinavandusschoten@example.com",
                             NormalizedUserName = "quirinavandusschoten",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIXZ7XOZ+mw2+Ja7ut2AQgzF8PmQqntbMsXQeX/1doY7F2QaDiTDBHIDoihpah/DiQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ6RiMLasTQlrmFFWifqXStaa8lS2DNoyrJRnj1ArwA/BntHzhLj5UMt3/b5XonBFw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f59a6404-7244-4f62-9608-a90440a08d32",
+                            SecurityStamp = "0a15c053-ba92-4073-ab7b-efa21e25369c",
                             TwoFactorEnabled = false,
                             UserName = "quirinavandusschoten"
                         },
@@ -2869,7 +2874,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "41",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d79ab8f7-badc-49b3-988e-0d4ec48501a8",
+                            ConcurrencyStamp = "2f68c509-0301-4b3b-a22e-f8a3041b2096",
                             Email = "emmelienhandels@example.com",
                             EmailConfirmed = false,
                             FirstName = "Emmelien",
@@ -2879,9 +2884,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Emmelien Handels",
                             NormalizedEmail = "emmelienhandels@example.com",
                             NormalizedUserName = "emmelienhandels",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJshtXF91lMSSFHNkIBKz1Vzmx8wiiU+1sZSGB11n7Pd9GRTEupAnio37/Acn0NJcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELh9oOgeug70q4IPKnJxZgoXc2R3KC0Ok75oIW+fnZsMozYJ0T5djMWKv+XgRjhGJQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "31a3d5d2-997c-4016-a57f-cbcdb41a9caa",
+                            SecurityStamp = "4e0b9179-c1a3-4c66-92cc-6ee158847da3",
                             TwoFactorEnabled = false,
                             UserName = "emmelienhandels"
                         },
@@ -2889,7 +2894,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "42",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "172ec3ce-6d6b-410a-87cd-388d2656b885",
+                            ConcurrencyStamp = "c52a7ba2-a23b-4595-b644-030c45492815",
                             Email = "wensleycurvers@example.com",
                             EmailConfirmed = false,
                             FirstName = "Wensley",
@@ -2899,9 +2904,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Wensley Curvers",
                             NormalizedEmail = "wensleycurvers@example.com",
                             NormalizedUserName = "wensleycurvers",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBLRAh852r6yWP5TWiJyCUX8Q+VkRpX4ll/4N6jtFEk0AHLWcZrJopheIZ4CLdAeHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJDeEymZ8jTnORFdSKds9fuazPTf4Rm4T+SBvOSuZ6OIoKa5YaVyTXJR5D9jM0vmmw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3004d348-dbe5-4317-b1ba-d9a4dd4c53ff",
+                            SecurityStamp = "ace60c04-083c-4b1e-b1f6-e5d5b877d66a",
                             TwoFactorEnabled = false,
                             UserName = "wensleycurvers"
                         },
@@ -2909,7 +2914,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             Id = "43",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "935cd1ef-fe8a-4517-8402-c0f4a40e15d0",
+                            ConcurrencyStamp = "19bc5e8f-d5e6-4547-8ae8-7047daada006",
                             Email = "dawidvanaart@example.com",
                             EmailConfirmed = false,
                             FirstName = "Dawid",
@@ -2919,9 +2924,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                             Name = "Dawid Van Aart",
                             NormalizedEmail = "dawidvanaart@example.com",
                             NormalizedUserName = "dawidvanaart",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKiVkxONAqfDup7wqLeE57qlPFUM6gXAUMygNJAMMRYCbhGADpfLYSKJG/ze2PFqDg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIuwbNLiYM1JmWW1Idpb95Rzcq+K6GqRAAZMlrbEHhRSrybrF3qX3MzhziMOPMZVUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4676080c-cd94-46f2-9d81-bd4a9ad8584e",
+                            SecurityStamp = "21e79225-655c-4aa0-945a-652aa67215ea",
                             TwoFactorEnabled = false,
                             UserName = "dawidvanaart"
                         });
@@ -2962,28 +2967,28 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "de803e5a-305f-4085-af8d-c105c004d606",
+                            ConcurrencyStamp = "e48c9f7f-0d77-407f-8a0d-4e5638a664c0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8180e354-86eb-4395-8cfc-98017ee53aa8",
+                            ConcurrencyStamp = "00b02d67-b14f-4ad5-858d-2d3a23ab1b64",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "f9dad75a-2562-45eb-954e-f2f1a6485fa8",
+                            ConcurrencyStamp = "476b1539-4e00-420f-b6b0-496988629f84",
                             Name = "Studiebegeleider",
                             NormalizedName = "STUDIEBEGELEIDER"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "549dcba6-0cfa-48da-91fb-67c9c54a62ad",
+                            ConcurrencyStamp = "8605eada-4a82-404c-8aa0-c1d32faa5b8a",
                             Name = "Moduleverantwoordelijke",
                             NormalizedName = "MODULEVERANTWOORDELIJKE"
                         });
@@ -3411,15 +3416,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 {
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
                         .WithMany()
-                        .HasForeignKey("SemesterItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SemesterItemId");
 
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
                         .WithMany("StudyRouteItems")
-                        .HasForeignKey("StudyRouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudyRouteId");
 
                     b.Navigation("SemesterItem");
 
