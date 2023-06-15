@@ -10,6 +10,8 @@ using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 //EXAMPLE
@@ -30,6 +32,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/User
         [HttpGet]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             if (_context.Users == null)
@@ -56,6 +59,18 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             }
 
             return user;
+        }
+
+        // GET: api/User
+        [HttpGet("students/{id}")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
+        public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            return await _context.Users.Include(u => u.StudyRoute).Where(u => u.MentorId == id).ToListAsync();
         }
 
         // GET: api/User/5

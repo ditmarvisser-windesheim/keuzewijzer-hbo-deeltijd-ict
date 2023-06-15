@@ -35,6 +35,11 @@ class SidebarPartial {
                         <span class="ms-1 d-none d-sm-inline">Gebruikers</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/students" class="nav-link text-white">
+                        <span class="ms-1 d-none d-sm-inline">Mijn Studenten</span>
+                    </a>
+                </li>
             </ul>
             <hr>
             {{#if (eq isAuthenticated true)}}

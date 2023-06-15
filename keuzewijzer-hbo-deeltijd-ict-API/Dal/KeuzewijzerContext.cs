@@ -44,6 +44,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                            .WithMany(s => s.Users)
                            .UsingEntity(join => join.ToTable("UserSemesterItems"));
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Students)
+                .WithOne(u => u.Mentor)
+                .HasForeignKey(u => u.MentorId);
+
 
             // Your other configurations...
             base.OnModelCreating(modelBuilder);
@@ -106,6 +111,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Florus Çiçek",
                     FirstName = "Florus",
                     LastName = "Çiçek",
+                    MentorId= "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -118,6 +124,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marlène Wolf",
                     FirstName = "Marlène",
                     LastName = "Wolf",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -130,6 +137,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Bilal Steentjes",
                     FirstName = "Bilal",
                     LastName = "Steentjes",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -142,6 +150,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marlijn Giebels",
                     FirstName = "Marlijn",
                     LastName = "Giebels",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -154,6 +163,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Sabri Van der Eijk",
                     FirstName = "Sabri",
                     LastName = "Van der Eijk",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -166,6 +176,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Casey Andriesse",
                     FirstName = "Casey",
                     LastName = "Andriesse",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -178,6 +189,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Nik Huijskens",
                     FirstName = "Nik",
                     LastName = "Huijskens",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -190,6 +202,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Duran Petiet",
                     FirstName = "Duran",
                     LastName = "Petiet",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -202,6 +215,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Veroniek Bravenboer",
                     FirstName = "Veroniek",
                     LastName = "Bravenboer",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -214,6 +228,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kayne Jagtenberg",
                     FirstName = "Kayne",
                     LastName = "Jagtenberg",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -226,6 +241,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Siebrigje Abdi",
                     FirstName = "Siebrigje",
                     LastName = "Abdi",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -238,6 +254,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Sterre Lambert",
                     FirstName = "Sterre",
                     LastName = "Lambert",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -250,6 +267,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Milica Van der Gouw",
                     FirstName = "Milica",
                     LastName = "Van der Gouw",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -262,6 +280,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Yvon Brussaard",
                     FirstName = "Yvon",
                     LastName = "Brussaard",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -274,6 +293,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Bodhi Datema",
                     FirstName = "Bodhi",
                     LastName = "Datema",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -286,6 +306,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Noach Schutrups",
                     FirstName = "Noach",
                     LastName = "Schutrups",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -298,6 +319,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Ouassim Bekking",
                     FirstName = "Ouassim",
                     LastName = "Bekking",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -310,6 +332,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Noer Van der Kruit",
                     FirstName = "Noer",
                     LastName = "Van der Kruit",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -322,6 +345,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kaan Van Maarseveen",
                     FirstName = "Kaan",
                     LastName = "Van Maarseveen",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -334,6 +358,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Owen Kaal",
                     FirstName = "Owen",
                     LastName = "Kaal",
+                    MentorId = "2",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -346,6 +371,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Pauline Bah",
                     FirstName = "Pauline",
                     LastName = "Bah",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -358,6 +384,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Caterina Tas",
                     FirstName = "Caterina",
                     LastName = "Tas",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -370,6 +397,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Ed Touw",
                     FirstName = "Ed",
                     LastName = "Touw",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -382,6 +410,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Hugo Fidom",
                     FirstName = "Hugo",
                     LastName = "Fidom",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -394,6 +423,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Nanne Besseling",
                     FirstName = "Nanne",
                     LastName = "Besseling",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -406,6 +436,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Teunisje Salden",
                     FirstName = "Teunisje",
                     LastName = "Salden",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -418,6 +449,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Roché Doornink",
                     FirstName = "Roché",
                     LastName = "Doornink",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -430,6 +462,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Yuen Boertien",
                     FirstName = "Yuen",
                     LastName = "Boertien",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -442,6 +475,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Heinrich Mook",
                     FirstName = "Heinrich",
                     LastName = "Mook",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -454,6 +488,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Keri Antonisse",
                     FirstName = "Keri",
                     LastName = "Antonisse",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -466,6 +501,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Beer Rebergen",
                     FirstName = "Beer",
                     LastName = "Rebergen",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -478,6 +514,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Kaïn Van der Gun",
                     FirstName = "Kaïn",
                     LastName = "Van der Gun",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -490,6 +527,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Marloes Westerdijk",
                     FirstName = "Marloes",
                     LastName = "Westerdijk",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -502,6 +540,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Aurélie Esajas",
                     FirstName = "Aurélie",
                     LastName = "Esajas",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -514,6 +553,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Gerlinde Nooijens",
                     FirstName = "Gerlinde",
                     LastName = "Nooijens",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -526,6 +566,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Summer Brinkhuis",
                     FirstName = "Summer",
                     LastName = "Brinkhuis",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -538,6 +579,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Quirina Van Dusschoten",
                     FirstName = "Quirina",
                     LastName = "Van Dusschoten",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -550,6 +592,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Emmelien Handels",
                     FirstName = "Emmelien",
                     LastName = "Handels",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -562,6 +605,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Wensley Curvers",
                     FirstName = "Wensley",
                     LastName = "Curvers",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }, new User
@@ -574,13 +618,53 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                     Name = "Dawid Van Aart",
                     FirstName = "Dawid",
                     LastName = "Van Aart",
+                    MentorId = "3",
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PasswordHash = passwordHasher.HashPassword(null, "welkom")
                 }
             );
 
             modelBuilder.Entity<StudyRoute>().HasData(
-                new StudyRoute { Id = 1, Approved_sb = true, Approved_eb = true, Note = "This is a note", Send_sb = true, Send_eb = true, UserId = "1" }
+                new StudyRoute { Id = 4, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "4" },
+                new StudyRoute { Id = 5, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "5" },
+                new StudyRoute { Id = 6, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "6" },
+                new StudyRoute { Id = 7, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "7" },
+                new StudyRoute { Id = 8, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "8" },
+                new StudyRoute { Id = 9, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "9" },
+                new StudyRoute { Id = 10, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "10" },
+                new StudyRoute { Id = 11, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "11" },
+                new StudyRoute { Id = 12, Send_sb = true, Approved_sb = true, Send_eb = true, Approved_eb = false, UserId = "12" },
+                new StudyRoute { Id = 13, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "13" },
+                new StudyRoute { Id = 14, Send_sb = true, Approved_sb = false, Send_eb = false, Approved_eb = null, UserId = "14" },
+                new StudyRoute { Id = 15, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "15" },
+                new StudyRoute { Id = 16, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "16" },
+                new StudyRoute { Id = 17, Send_sb = true, Approved_sb = false, Send_eb = false, Approved_eb = null, UserId = "17" },
+                new StudyRoute { Id = 18, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "18" },
+                new StudyRoute { Id = 19, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "19" },
+                new StudyRoute { Id = 20, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "20" },
+                new StudyRoute { Id = 21, Send_sb = true, Approved_sb = false, Send_eb = false, Approved_eb = null, UserId = "21" },
+                new StudyRoute { Id = 22, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "22" },
+                new StudyRoute { Id = 23, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "23" },
+                new StudyRoute { Id = 24, Send_sb = true, Approved_sb = true, Send_eb = true, Approved_eb = false, UserId = "24" },
+                new StudyRoute { Id = 25, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "25" },
+                new StudyRoute { Id = 26, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "26" },
+                new StudyRoute { Id = 27, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "27" },
+                new StudyRoute { Id = 28, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "28" },
+                new StudyRoute { Id = 29, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "29" },
+                new StudyRoute { Id = 30, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "30" },
+                new StudyRoute { Id = 31, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "31" },
+                new StudyRoute { Id = 32, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "32" },
+                new StudyRoute { Id = 33, Send_sb = true, Approved_sb = false, Send_eb = false, Approved_eb = null, UserId = "33" },
+                new StudyRoute { Id = 34, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "34" },
+                new StudyRoute { Id = 35, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "35" },
+                new StudyRoute { Id = 36, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "36" },
+                new StudyRoute { Id = 37, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "37" },
+                new StudyRoute { Id = 38, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "38" },
+                new StudyRoute { Id = 39, Send_sb = false, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "39" },
+                new StudyRoute { Id = 40, Send_sb = true, Approved_sb = true, Send_eb = true, Approved_eb = false, UserId = "40" },
+                new StudyRoute { Id = 41, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "41" },
+                new StudyRoute { Id = 42, Send_sb = true, Approved_sb = false, Send_eb = false, Approved_eb = null, UserId = "42" },
+                new StudyRoute { Id = 43, Send_sb = true, Approved_sb = null, Send_eb = null, Approved_eb = null, UserId = "43" }
             );
 
             modelBuilder.Entity<SemesterItem>().HasData(
@@ -781,14 +865,178 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
 
 
             modelBuilder.Entity<StudyRouteItem>().HasData(
-                new StudyRouteItem { Id = 1, Year = 1, Semester = 1, StudyRouteId = 1, SemesterItemId = 1 },
-                new StudyRouteItem { Id = 2, Year = 1, Semester = 2, StudyRouteId = 1, SemesterItemId = 2 },
-                new StudyRouteItem { Id = 3, Year = 2, Semester = 1, StudyRouteId = 1, SemesterItemId = 3 },
-                new StudyRouteItem { Id = 4, Year = 2, Semester = 2, StudyRouteId = 1, SemesterItemId = 4 },
-                new StudyRouteItem { Id = 5, Year = 3, Semester = 1, StudyRouteId = 1, SemesterItemId = 5 },
-                new StudyRouteItem { Id = 6, Year = 3, Semester = 2, StudyRouteId = 1, SemesterItemId = 6 },
-                new StudyRouteItem { Id = 7, Year = 4, Semester = 1, StudyRouteId = 1, SemesterItemId = 7 }
-                );
+                new StudyRouteItem { Id = 1, Year = 1, Semester = 1, StudyRouteId = 4, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 2, Year = 1, Semester = 2, StudyRouteId = 4, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 3, Year = 2, Semester = 1, StudyRouteId = 4, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 4, Year = 2, Semester = 2, StudyRouteId = 4, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 5, Year = 1, Semester = 1, StudyRouteId = 5, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 6, Year = 1, Semester = 2, StudyRouteId = 5, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 7, Year = 1, Semester = 1, StudyRouteId = 6, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 8, Year = 1, Semester = 2, StudyRouteId = 6, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 9, Year = 2, Semester = 1, StudyRouteId = 6, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 10, Year = 2, Semester = 2, StudyRouteId = 6, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 11, Year = 1, Semester = 1, StudyRouteId = 7, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 12, Year = 1, Semester = 2, StudyRouteId = 7, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 13, Year = 1, Semester = 1, StudyRouteId = 8, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 14, Year = 1, Semester = 2, StudyRouteId = 8, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 15, Year = 1, Semester = 1, StudyRouteId = 9, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 16, Year = 1, Semester = 2, StudyRouteId = 9, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 17, Year = 2, Semester = 1, StudyRouteId = 9, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 18, Year = 2, Semester = 2, StudyRouteId = 9, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 19, Year = 1, Semester = 1, StudyRouteId = 10, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 20, Year = 1, Semester = 2, StudyRouteId = 10, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 21, Year = 2, Semester = 1, StudyRouteId = 10, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 22, Year = 2, Semester = 2, StudyRouteId = 10, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 23, Year = 3, Semester = 1, StudyRouteId = 10, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 24, Year = 3, Semester = 2, StudyRouteId = 10, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 25, Year = 1, Semester = 1, StudyRouteId = 11, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 26, Year = 1, Semester = 2, StudyRouteId = 11, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 27, Year = 2, Semester = 1, StudyRouteId = 11, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 28, Year = 1, Semester = 1, StudyRouteId = 12, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 29, Year = 1, Semester = 2, StudyRouteId = 12, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 30, Year = 2, Semester = 1, StudyRouteId = 12, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 31, Year = 2, Semester = 2, StudyRouteId = 12, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 32, Year = 3, Semester = 1, StudyRouteId = 12, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 33, Year = 1, Semester = 1, StudyRouteId = 13, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 34, Year = 1, Semester = 2, StudyRouteId = 13, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 35, Year = 2, Semester = 1, StudyRouteId = 13, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 36, Year = 2, Semester = 2, StudyRouteId = 13, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 37, Year = 3, Semester = 1, StudyRouteId = 13, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 38, Year = 3, Semester = 2, StudyRouteId = 13, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 39, Year = 1, Semester = 1, StudyRouteId = 14, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 40, Year = 1, Semester = 2, StudyRouteId = 14, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 41, Year = 1, Semester = 1, StudyRouteId = 15, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 42, Year = 1, Semester = 2, StudyRouteId = 15, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 43, Year = 2, Semester = 1, StudyRouteId = 15, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 44, Year = 2, Semester = 2, StudyRouteId = 15, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 45, Year = 3, Semester = 1, StudyRouteId = 15, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 46, Year = 3, Semester = 2, StudyRouteId = 15, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 47, Year = 4, Semester = 1, StudyRouteId = 15, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 48, Year = 1, Semester = 1, StudyRouteId = 16, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 49, Year = 1, Semester = 2, StudyRouteId = 16, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 50, Year = 2, Semester = 1, StudyRouteId = 16, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 51, Year = 2, Semester = 2, StudyRouteId = 16, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 52, Year = 1, Semester = 1, StudyRouteId = 17, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 53, Year = 1, Semester = 2, StudyRouteId = 17, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 54, Year = 1, Semester = 1, StudyRouteId = 18, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 55, Year = 1, Semester = 2, StudyRouteId = 18, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 56, Year = 2, Semester = 1, StudyRouteId = 18, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 57, Year = 1, Semester = 1, StudyRouteId = 19, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 58, Year = 1, Semester = 2, StudyRouteId = 19, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 59, Year = 2, Semester = 1, StudyRouteId = 19, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 60, Year = 2, Semester = 2, StudyRouteId = 19, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 61, Year = 3, Semester = 1, StudyRouteId = 19, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 62, Year = 3, Semester = 2, StudyRouteId = 19, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 63, Year = 1, Semester = 1, StudyRouteId = 20, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 64, Year = 1, Semester = 2, StudyRouteId = 20, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 65, Year = 2, Semester = 1, StudyRouteId = 20, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 66, Year = 2, Semester = 2, StudyRouteId = 20, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 67, Year = 3, Semester = 1, StudyRouteId = 20, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 68, Year = 3, Semester = 2, StudyRouteId = 20, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 69, Year = 1, Semester = 1, StudyRouteId = 21, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 70, Year = 1, Semester = 2, StudyRouteId = 21, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 71, Year = 2, Semester = 1, StudyRouteId = 21, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 72, Year = 1, Semester = 1, StudyRouteId = 22, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 73, Year = 1, Semester = 2, StudyRouteId = 22, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 74, Year = 2, Semester = 1, StudyRouteId = 22, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 75, Year = 2, Semester = 2, StudyRouteId = 22, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 76, Year = 3, Semester = 1, StudyRouteId = 22, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 77, Year = 1, Semester = 1, StudyRouteId = 23, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 78, Year = 1, Semester = 2, StudyRouteId = 23, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 79, Year = 2, Semester = 1, StudyRouteId = 23, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 80, Year = 1, Semester = 1, StudyRouteId = 24, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 81, Year = 1, Semester = 2, StudyRouteId = 24, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 82, Year = 1, Semester = 1, StudyRouteId = 25, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 83, Year = 1, Semester = 2, StudyRouteId = 25, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 84, Year = 1, Semester = 1, StudyRouteId = 26, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 85, Year = 1, Semester = 2, StudyRouteId = 26, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 86, Year = 2, Semester = 1, StudyRouteId = 26, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 87, Year = 2, Semester = 2, StudyRouteId = 26, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 88, Year = 3, Semester = 1, StudyRouteId = 26, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 89, Year = 1, Semester = 1, StudyRouteId = 27, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 90, Year = 1, Semester = 2, StudyRouteId = 27, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 91, Year = 1, Semester = 1, StudyRouteId = 28, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 92, Year = 1, Semester = 2, StudyRouteId = 28, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 93, Year = 2, Semester = 1, StudyRouteId = 28, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 94, Year = 1, Semester = 1, StudyRouteId = 29, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 95, Year = 1, Semester = 2, StudyRouteId = 29, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 96, Year = 2, Semester = 1, StudyRouteId = 29, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 97, Year = 2, Semester = 2, StudyRouteId = 29, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 98, Year = 3, Semester = 1, StudyRouteId = 29, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 99, Year = 3, Semester = 2, StudyRouteId = 29, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 100, Year = 1, Semester = 1, StudyRouteId = 30, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 101, Year = 1, Semester = 2, StudyRouteId = 30, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 102, Year = 2, Semester = 1, StudyRouteId = 30, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 103, Year = 2, Semester = 2, StudyRouteId = 30, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 104, Year = 3, Semester = 1, StudyRouteId = 30, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 105, Year = 3, Semester = 2, StudyRouteId = 30, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 106, Year = 4, Semester = 1, StudyRouteId = 30, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 107, Year = 1, Semester = 1, StudyRouteId = 31, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 108, Year = 1, Semester = 2, StudyRouteId = 31, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 109, Year = 2, Semester = 1, StudyRouteId = 31, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 110, Year = 2, Semester = 2, StudyRouteId = 31, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 111, Year = 1, Semester = 1, StudyRouteId = 32, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 112, Year = 1, Semester = 2, StudyRouteId = 32, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 113, Year = 2, Semester = 1, StudyRouteId = 32, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 114, Year = 2, Semester = 2, StudyRouteId = 32, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 115, Year = 3, Semester = 1, StudyRouteId = 32, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 116, Year = 3, Semester = 2, StudyRouteId = 32, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 117, Year = 4, Semester = 1, StudyRouteId = 32, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 118, Year = 1, Semester = 1, StudyRouteId = 33, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 119, Year = 1, Semester = 2, StudyRouteId = 33, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 120, Year = 2, Semester = 1, StudyRouteId = 33, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 121, Year = 2, Semester = 2, StudyRouteId = 33, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 122, Year = 1, Semester = 1, StudyRouteId = 34, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 123, Year = 1, Semester = 2, StudyRouteId = 34, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 124, Year = 2, Semester = 1, StudyRouteId = 34, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 125, Year = 2, Semester = 2, StudyRouteId = 34, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 126, Year = 3, Semester = 1, StudyRouteId = 34, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 127, Year = 3, Semester = 2, StudyRouteId = 34, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 128, Year = 4, Semester = 1, StudyRouteId = 34, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 129, Year = 1, Semester = 1, StudyRouteId = 35, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 130, Year = 1, Semester = 2, StudyRouteId = 35, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 131, Year = 2, Semester = 1, StudyRouteId = 35, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 132, Year = 1, Semester = 1, StudyRouteId = 36, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 133, Year = 1, Semester = 2, StudyRouteId = 36, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 134, Year = 1, Semester = 1, StudyRouteId = 37, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 135, Year = 1, Semester = 2, StudyRouteId = 37, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 136, Year = 2, Semester = 1, StudyRouteId = 37, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 137, Year = 2, Semester = 2, StudyRouteId = 37, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 138, Year = 3, Semester = 1, StudyRouteId = 37, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 139, Year = 3, Semester = 2, StudyRouteId = 37, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 140, Year = 4, Semester = 1, StudyRouteId = 37, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 141, Year = 1, Semester = 1, StudyRouteId = 38, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 142, Year = 1, Semester = 2, StudyRouteId = 38, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 143, Year = 2, Semester = 1, StudyRouteId = 38, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 144, Year = 1, Semester = 1, StudyRouteId = 39, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 145, Year = 1, Semester = 2, StudyRouteId = 39, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 146, Year = 2, Semester = 1, StudyRouteId = 39, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 147, Year = 2, Semester = 2, StudyRouteId = 39, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 148, Year = 3, Semester = 1, StudyRouteId = 39, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 149, Year = 3, Semester = 2, StudyRouteId = 39, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 150, Year = 4, Semester = 1, StudyRouteId = 39, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 151, Year = 1, Semester = 1, StudyRouteId = 40, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 152, Year = 1, Semester = 2, StudyRouteId = 40, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 153, Year = 2, Semester = 1, StudyRouteId = 40, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 154, Year = 1, Semester = 1, StudyRouteId = 41, SemesterItemId = 4 },
+                new StudyRouteItem { Id = 155, Year = 1, Semester = 2, StudyRouteId = 41, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 156, Year = 2, Semester = 1, StudyRouteId = 41, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 157, Year = 2, Semester = 2, StudyRouteId = 41, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 158, Year = 3, Semester = 1, StudyRouteId = 41, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 159, Year = 3, Semester = 2, StudyRouteId = 41, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 160, Year = 1, Semester = 1, StudyRouteId = 42, SemesterItemId = 8 },
+                new StudyRouteItem { Id = 161, Year = 1, Semester = 2, StudyRouteId = 42, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 162, Year = 2, Semester = 1, StudyRouteId = 42, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 163, Year = 2, Semester = 2, StudyRouteId = 42, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 164, Year = 3, Semester = 1, StudyRouteId = 42, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 165, Year = 1, Semester = 1, StudyRouteId = 43, SemesterItemId = 2 },
+                new StudyRouteItem { Id = 166, Year = 1, Semester = 2, StudyRouteId = 43, SemesterItemId = 6 },
+                new StudyRouteItem { Id = 167, Year = 2, Semester = 1, StudyRouteId = 43, SemesterItemId = 7 },
+                new StudyRouteItem { Id = 168, Year = 2, Semester = 2, StudyRouteId = 43, SemesterItemId = 3 },
+                new StudyRouteItem { Id = 169, Year = 3, Semester = 1, StudyRouteId = 43, SemesterItemId = 1 },
+                new StudyRouteItem { Id = 170, Year = 3, Semester = 2, StudyRouteId = 43, SemesterItemId = 5 },
+                new StudyRouteItem { Id = 171, Year = 4, Semester = 1, StudyRouteId = 43, SemesterItemId = 4 }
+            );
 
         }
     }
