@@ -42,7 +42,7 @@ export class UserIndexView implements View {
 
       if (Array.isArray(users)) {
         users.forEach(async (user) => {
-          var roles = await this.apiService.get<string[]>('/api/role');
+          var roles =await this.apiService.get<string[]>(`/api/User/${user.id}/roles`)
           var rolesText = '';
           if (Array.isArray(roles)) {
             rolesText = roles.toString();

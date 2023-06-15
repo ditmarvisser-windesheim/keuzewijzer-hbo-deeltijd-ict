@@ -112,7 +112,7 @@ export class UserUpdateRoleView implements View {
 
     try {
       // Make the PUT request to the server
-      const response = await this.apiService.put<IUser>(id, roles);
+      const response = await this.apiService.put<IUser>(`/api/User/${id}/roles`, roles);
       console.log(response);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
