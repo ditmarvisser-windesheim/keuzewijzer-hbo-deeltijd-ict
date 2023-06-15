@@ -2,11 +2,13 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { getAllUsers } from '../../api/user';
 import { IUser } from 'interfaces/iUser';
-import { createCohort } from '../../api/cohort';
+import { ApiService } from '../../services/ApiService';
+import { ICohort } from 'interfaces/iCohort';
 
 export class CohortCreateView implements View {
+  public apiService!: ApiService;
+  
   public template = `
   <div class="container mt-2 mb-2">
     <div class="row">
@@ -54,7 +56,7 @@ export class CohortCreateView implements View {
   private async updateUsers (): Promise<void> {
     const userSelect = $('#user');
 
-    await getAllUsers()
+    await this.apiService.get<IUser[]>('/api/User')
       .then((response) => {
         response.forEach((user: IUser) => {
           userSelect.append(`<option value="${user.id}">${user.name}</option>`);
@@ -106,7 +108,8 @@ export class CohortCreateView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await createCohort(cohort)
+
+      const response = await this.apiService.post<ICohort>('/api/Cohort', cohort)
         .then((response) => {
           Swal.fire('Cohort ' + response.name + ' Aangemaakt!', '', 'success');
         })

@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using keuzewijzer_hbo_deeltijd_ict_API.Request;
 using keuzewijzer_hbo_deeltijd_ict_API.ViewModels;
 using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -19,13 +16,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
         }
 
         [HttpPost("login")]
@@ -48,52 +43,43 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var accessToken = GenerateAccessToken(user, userRoles);
+            var roleClaims = new List<Claim>();
+
+            foreach (var role in userRoles)
+            {
+                roleClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(type: ClaimTypes.Email, value: user.Email),
+                new Claim(type: ClaimTypes.Name,value: user.Name)
+            }.Concat(roleClaims);
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity),
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    AllowRefresh = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                });
 
             return Ok(new AuthenticationResponse(
                 200,
                 user.Id,
                 user.UserName,
-                user.Email,
-                accessToken,
-                accessToken,
-                DateTime.Now
+                user.Email
             ));
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok();
-        }
-
-        private string GenerateAccessToken(User user, IList<string> roles)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
-
-            var roleClaims = new List<Claim>();
-
-            foreach (var role in roles)
-            {
-                roleClaims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email)
-                }.Concat(roleClaims)),
-
-                Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["Jwt:ExpireHours"])),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }

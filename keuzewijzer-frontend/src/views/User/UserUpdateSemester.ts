@@ -1,14 +1,14 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { getOneUser, updateUserSemesters } from 'api/user';
 import { IUser } from 'interfaces/iUser';
-import { getAllSemesters } from 'api/semesterItem';
 import { ISemester } from 'interfaces/iSemester';
+import { ApiService } from 'services/ApiService';
 
 export class UserUpdateSemester implements View {
   private readonly Id = 1; // TODO: get the id form the url FIX DEZE
   private user: IUser | null = null;
+  public apiService!: ApiService;
 
   public template = `
     <div class="container mt-2 mb-2">
@@ -37,7 +37,7 @@ export class UserUpdateSemester implements View {
   public data = {};
 
   public async setup (): Promise<void> {
-    this.user = await getOneUser(this.Id.toString());
+    this.user = await this.apiService.get<IUser>(`/api/User/${this.Id}`);
     this.updateSemesters();
 
     const userForm = $('#user-form');
@@ -46,7 +46,7 @@ export class UserUpdateSemester implements View {
 
   private async updateSemesters (): Promise<void> {
     const SemesterSelect = $('#semesters');
-    const Semesters = await getAllSemesters();
+    const Semesters = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     // TODO: check which of the semester items are already selected
 
@@ -72,7 +72,8 @@ export class UserUpdateSemester implements View {
 
     try {
       // Make the POST request to the server
-      const response = await updateUserSemesters(this.Id.toString(), semesterIds);
+      const response = await this.apiService.put<any>(`/api/User/UpdateSemesters/${this.Id.toString()}`, semesterIds);
+
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

@@ -39,7 +39,7 @@ class SidebarPartial {
             <hr>
             {{#if (eq isAuthenticated true)}}
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fixed-bottom">
-                    <p>Ingelogd als: {{username}}</p>
+                    <p>Ingelogd als: {{userData.email}}</p>
                     <li>
                         <a href="/logout" id="logout" class="nav-link px-0 align-middle" data-link>
                             <span class="ms-1 d-none d-sm-inline">Uitloggen</span>
@@ -84,10 +84,10 @@ class SidebarPartial {
 
     private async logout(): Promise<void> {
         try {
-            console.log('Logout');
-            const logout = await this.authService?.logout();
+            await this.authService?.logout().then(() => {
+                window.location.href = '/';
+            });
 
-            window.location.href = '/';
         } catch (error) {
             console.error('Logout failed:', error);
         }

@@ -1,47 +1,39 @@
 import Swal from 'sweetalert2';
 
 import { type View } from './View';
-import { getCohort, getCohorts } from '../api/cohort';
 import { type ICohort } from 'interfaces/iCohort';
 import { type IStudyRouteItem } from 'interfaces/iStudyRouteItem';
 import { type ISemesterItem } from 'interfaces/iSemesterItems';
 import { type IStudyRoute } from 'interfaces/iStudyRoute';
-import { createStudyRoute, getUserStudyRoute } from '../api/studyRoute';
-
-interface Module {
-    id: number
-    cohorts: ICohort[] | null
-    dependentSemesterItem: any[] | null
-    description: string
-    modules: any[] | null
-    name: string
-    requiredSemesterItem: any[] | null
-    requiredSemesterItemId: number | null
-    semester: number
-    users: any[] | null
-    year: number[]
-    yearJson: string
-};
+import AuthService from 'services/AuthService';
+import { ApiService } from 'services/ApiService';
 
 export class HomeView implements View {
     public cohorts: ICohort[] = [];
-    public semesterItems!: ISemesterItem[];
+    public semesterItems: ISemesterItem[] = [];
     public studyRouteItems: IStudyRouteItem[] = [];
     public modules: ISemesterItem[] = [];
+    public authService!: AuthService;
+    public apiService!: ApiService;
 
     private async getSemesterItem() {
-        const semesterItems = await getCohort(2023);
+        const semesterItems = await this.apiService.get<ISemesterItem[]>('/api/SemesterItem/cohort/2023'); 
         return semesterItems;
     }
 
     private async getStudyRouteItem() {
-        const response: any = await getUserStudyRoute('1');
-        const studyRouteItemList: IStudyRouteItem[] = response;
-        return studyRouteItemList;
+        if (this.authService.getUserData() !== null) {
+            const response = await this.apiService.get<IStudyRouteItem[]>(`/api/StudyRoute/user/${this.authService.getUserData()!.userId}`); 
+            //const response: any = await getUserStudyRoute('1');
+            const studyRouteItemList: IStudyRouteItem[] = response;
+            return studyRouteItemList;
+        }
+
+        return [];
     }
 
     private async getModules() {
-        const modules = await getCohort(2021);
+        const modules = await this.apiService.get<ISemesterItem[]>('/api/SemesterItem/cohort/2023');
         return modules;
     }
 
@@ -50,7 +42,9 @@ export class HomeView implements View {
         this.data.semesterItems = await this.getSemesterItem();
         this.data.studyRouteItems = await this.getStudyRouteItem();
         this.modules = await this.getModules();
-        this.cohorts = await getCohorts();
+        this.cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
+
+        console.log(this.data);
     }
 
     public template = `<div class="container">
@@ -320,7 +314,7 @@ export class HomeView implements View {
                 return studyRouteItemList
             }
 
-            $(".create").click(async function () {
+            $(".create").click(async () => {
                 const studyRouteItemList = getStudyRouteItemsByAllYears()
 
                 let studyRoute: IStudyRoute = {
@@ -333,14 +327,19 @@ export class HomeView implements View {
                     send_eb: false
                 };
 
-                try {
-                    // Save StudyRoute via asynchronous API call
-                    await createStudyRoute(studyRoute);
-                    // Perform any further actions after successful save
-                } catch (error) {
-                    // Handle the error, e.g., display an error message to the user
-                }
+                await this.saveStudyRoute(studyRoute);
+
             });
         });
+    }
+
+    private async saveStudyRoute(studyRoute: IStudyRoute) {
+        try {
+            // Save StudyRoute via asynchronous API call
+            await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute);
+            // Perform any further actions after successful save
+        } catch (error) {
+            // Handle the error, e.g., display an error message to the user
+        }
     }
 }
