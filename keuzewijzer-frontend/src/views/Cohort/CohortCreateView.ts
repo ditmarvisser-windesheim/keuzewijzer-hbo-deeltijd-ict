@@ -1,9 +1,10 @@
-import { View } from '../View';
+
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import { Cohort } from 'Models/Cohort';
-import Api from '../../js/api/api';
-import { User } from 'Models/User';
+
+import { type View } from '../View';
+import { getAllUsers } from '../../api/user';
+import { IUser } from 'interfaces/iUser';
+import { createCohort } from '../../api/cohort';
 
 export class CohortCreateView implements View {
   public template = `
@@ -41,23 +42,27 @@ export class CohortCreateView implements View {
 
   public data = {};
 
-  public setup(): void {
-    this.updateUsers();
+  public setup (): void {
+    this.updateUsers().catch((error) => {
+      console.error(error);
+    });
 
     const cohortForm = $('#cohort-form');
     cohortForm.on('submit', this.handleCohortCreate.bind(this));
   }
 
-  private async updateUsers(): Promise<void> {
-    const userSelect = $('#user') as JQuery<HTMLSelectElement>;
-    const users = await Api.get('/api/user') as User[];
+  private async updateUsers (): Promise<void> {
+    const userSelect = $('#user');
 
-    users.forEach((user: User) => {
-      userSelect.append(`<option value="${user.id}">${user.name}</option>`);
-    });
+    await getAllUsers()
+      .then((response) => {
+        response.forEach((user: IUser) => {
+          userSelect.append(`<option value="${user.id}">${user.name}</option>`);
+        });
+      });
   }
 
-  private async handleCohortCreate(event: Event): Promise<void> {
+  private async handleCohortCreate (event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const yearSelect = $('#year');
@@ -67,13 +72,12 @@ export class CohortCreateView implements View {
     const year = parseInt(yearSelect.val() as string);
     const userId = parseInt(userSelect.val() as string);
 
-
     const nameError = $('#nameError');
     const yearError = $('#yearError');
     const userError = $('#userError');
 
-    if (name.length < 4 || name.length > 100) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+    if (name.length < 4 || name.length > 254) {
+      nameError.text('Semester item naam moet tussen de 4 en 254 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
@@ -93,33 +97,31 @@ export class CohortCreateView implements View {
     $('#submit').attr('disabled', 'disabled');
 
     const cohort = {
-      name: name,
-      Year: year,
+      name,
+      year: year,
       semesterItems: [],
       UserId: userId,
-      User: null,
+      User: null
     };
 
     try {
       // Make the POST request to the server
-      const response = await Api.post('/api/Cohort', cohort);
-      if (response.name === undefined) {
-        Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
-        return;
-      }
-
-      Swal.fire('Cohort ' + response.name + ' Aangemaakt!', '', 'success');
+      const response = await createCohort(cohort)
+        .then((response) => {
+          Swal.fire('Cohort ' + response.name + ' Aangemaakt!', '', 'success');
+        })
+        .catch(() => {
+          Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
+        });
 
       // Go back to the semester overview wait for 3 seconds
-      setTimeout(function () {
+      setTimeout(() => {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/cohort';
       }, 2000);
-
     } catch (error) {
       $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
-
 }

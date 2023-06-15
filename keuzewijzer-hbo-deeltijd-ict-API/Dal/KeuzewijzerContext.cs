@@ -38,7 +38,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("CohortSemesterItems");
                 });
-            
 
             modelBuilder.Entity<User>()
                            .HasMany(u => u.SemesterItems)
@@ -708,7 +707,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
-                 },
+                 }, 
                  new SemesterItem
                  {
                      Id = 5,
@@ -728,7 +727,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
-                 },
+                 },  
                  new SemesterItem
                  {
                      Id = 7,
@@ -738,7 +737,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Semester = 2,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
-                 },
+                 },   
                  new SemesterItem
                  {
                      Id = 8,
@@ -754,7 +753,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                      Id = 999,
                      Name = "Reparatiesemester",
                      Description = "Reparatiesemester",
-                     Year = new List<int> { 1, 2 },
+                     Year = new List<int> { 1,2 },
                      Semester = 1,
                      RequiredSemesterItem = new List<SemesterItem>(),
                      DependentSemesterItem = new List<SemesterItem>()
@@ -837,14 +836,15 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Dal
                 {
                     j.ToTable("CohortSemesterItems");
                     j.HasData(
-                        new { CohortsId = 1, SemesterItemsId = 1 },
-                        new { CohortsId = 1, SemesterItemsId = 2 },
-                        new { CohortsId = 2, SemesterItemsId = 1 },
-                        new { CohortsId = 2, SemesterItemsId = 2 },
-                        new { CohortsId = 3, SemesterItemsId = 3 },
-                        new { CohortsId = 3, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 1 },
+                        new { CohortsId = 4, SemesterItemsId = 2 },
                         new { CohortsId = 4, SemesterItemsId = 3 },
-                        new { CohortsId = 4, SemesterItemsId = 4 }
+                        new { CohortsId = 4, SemesterItemsId = 4 },
+                        new { CohortsId = 4, SemesterItemsId = 5 },
+                        new { CohortsId = 4, SemesterItemsId = 6 },
+                        new { CohortsId = 4, SemesterItemsId = 7 },
+                        new { CohortsId = 4, SemesterItemsId = 8 },
+                        new { CohortsId = 4, SemesterItemsId = 999 }
                     );
                 });
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
@@ -19,6 +19,31 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/StudyRoute
         [Authorize(Roles = "Administrator")]
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
+        {
+            //1. get the studyroute with the correct userid
+            var studyRoute = await _context.StudyRoutes.Where(c => c.UserId == userId).FirstOrDefaultAsync();
+            //2. check if the studyRoute exists
+            if (studyRoute == null) return NotFound();
+
+            //3. if the studyRouteItems exists, get the modules from the cohort
+            var studyRouteItems = await _context.StudyRouteItems
+                .Where(m => m.StudyRouteId == studyRoute.Id)
+                .ToListAsync();
+
+            //4. check if there are any studyRouteItems
+            if (studyRouteItems == null) return NotFound();
+
+            //5. return the studyRouteItems including the cohort and the required modules
+
+            return studyRouteItems;
+
+
+            return NotFound();
+        }
+
+        // GET: api/StudyRoute
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudyRoute>>> GetStudyRoute()
         {
@@ -54,10 +79,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudyRoute(int id, StudyRoute @studyRoute)
         {
-            if (id != @studyRoute.Id)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(@studyRoute).State = EntityState.Modified;
 
@@ -84,23 +105,39 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = "Administrator,Student")]
         [HttpPost]
-        public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute @studyRoute)
+        public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute studyRoute)
         {
             if (_context.StudyRoutes == null)
             {
                 return Problem("Entity set 'KeuzewijzerContext.StudyRoute' is null.");
             }
 
-            if (@studyRoute.StudyRouteItems == null || @studyRoute.StudyRouteItems.Count < 8)
+            if (studyRoute.StudyRouteItems == null || studyRoute.StudyRouteItems.Count < 7)
             {
-                return BadRequest("The 'Posts' collection must contain at least 8 items.");
+                return BadRequest("The 'Posts' collection must contain at least 7 items.");
             }
 
-            _context.StudyRoutes.Add(@studyRoute);
+            var existingStudyRoute = await _context.StudyRoutes
+                .Include(sr => sr.StudyRouteItems)
+                .FirstOrDefaultAsync(sr => sr.UserId == studyRoute.UserId);
+
+            if (existingStudyRoute != null)
+            {
+                // Update the existing study route with the new data
+                _context.StudyRouteItems.RemoveRange(existingStudyRoute.StudyRouteItems);
+                existingStudyRoute.StudyRouteItems = studyRoute.StudyRouteItems;
+            }
+            else
+            {
+                // Add a new study route
+                _context.StudyRoutes.Add(studyRoute);
+            }
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudyRoute", new { id = @studyRoute.Id }, @studyRoute);
+            return CreatedAtAction("GetStudyRoute", new { id = studyRoute.Id }, studyRoute);
         }
+
 
         // DELETE: api/StudyRoute/5
         [Authorize(Roles = "Administrator,Student")]

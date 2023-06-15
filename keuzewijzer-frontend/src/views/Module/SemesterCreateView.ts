@@ -1,8 +1,10 @@
-import { View } from '../View';
 import Swal from 'sweetalert2';
-import { Semester } from 'Models/Semester';
-import { Cohort } from 'Models/Cohort';
-import Api from '../../js/api/api';
+
+import { type View } from '../View';
+import { createSemester, getAllSemesters } from '../../api/semesterItem';
+import { ISemester } from 'interfaces/iSemester';
+import { getCohorts } from '../../api/cohort';
+import { ICohort } from 'interfaces/iCohort';
 
 export class SemesterCreateView implements View {
   public template = `
@@ -59,34 +61,33 @@ export class SemesterCreateView implements View {
 
   public data = {};
 
-  public setup(): void {
+  public setup (): void {
     this.updateRequiredSemesterItem();
     this.updateCohorts();
-
 
     const semesterForm = $('#semester-form');
     semesterForm.on('submit', this.handleSemesterCreate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
-    const cohortSelect = $('#cohorts') as JQuery<HTMLSelectElement>;
-    const cohorts = await Api.get('/api/cohort') as Cohort[];
+  private async updateCohorts (): Promise<void> {
+    const cohortSelect = $('#cohorts');
+    const cohorts = await getCohorts();
 
-    cohorts.forEach((cohort: Cohort) => {
+    cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
-    const requiredSemesterItemSelect = $('#requiredSemesterItem') as JQuery<HTMLSelectElement>;
-    const requiredSemesterItem = await Api.get('/api/semesterItem') as Semester[];
+  private async updateRequiredSemesterItem (): Promise<void> {
+    const requiredSemesterItemSelect = $('#requiredSemesterItem');
+    const requiredSemesterItem = await getAllSemesters();
 
-    requiredSemesterItem.forEach((semesterItem: Semester) => {
+    requiredSemesterItem.forEach((semesterItem: ISemester) => {
       requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
 
-  private async handleSemesterCreate(event: Event): Promise<void> {
+  private async handleSemesterCreate (event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const descriptionInput = $('#description');
@@ -105,14 +106,20 @@ export class SemesterCreateView implements View {
     const semesterError = $('#semesterError');
     const yearError = $('#yearError');
 
-    if (name.length < 4 || name.length > 100) {
+    if (name.length < 1 || name.length > 244) {
       nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
 
-    if (!description) {
+    if (!description && description.length < 1500) {
       descriptionError.text('Vul alle verplichte velden in.');
+      descriptionError.addClass('d-block');
+      return;
+    }
+
+    if (cohort.length === 0) {
+      descriptionError.text('Selecteer minimaal 1 cohort.');
       descriptionError.addClass('d-block');
       return;
     }
@@ -135,7 +142,7 @@ export class SemesterCreateView implements View {
       return;
     }
 
-    //check if the year in the year array are unique and between 1 and 4
+    // check if the year in the year array are unique and between 1 and 4
     const uniqueYear = [...new Set(year)];
     if (uniqueYear.length !== year.length) {
       yearError.text('Selecteer unieke jaren.');
@@ -154,20 +161,20 @@ export class SemesterCreateView implements View {
     $('#submit').attr('disabled', 'disabled');
 
     const semesterItem = {
-      name: name,
-      description: description,
-      semester: semester,
-      Year: year,
-      Cohorts: [],
-      CohortsId: cohortInt,
-      RequiredSemesterItemId: requiredSemesterItemInt,
-      RequiredSemesterItem: [],
-      DependentSemesterItem: []
+      name,
+      description,
+      semester,
+      year: year,
+      cohorts: null,
+      cohortsId: cohortInt,
+      requiredSemesterItemId: requiredSemesterItemInt,
+      requiredSemesterItem: null,
+      dependentSemesterItem: null
     };
 
     try {
       // Make the POST request to the server
-      const response = await Api.post('/api/semesterItem', semesterItem);
+      const response = await createSemester(semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
@@ -180,11 +187,9 @@ export class SemesterCreateView implements View {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/semester';
       }, 2000);
-
     } catch (error) {
       $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
-
 }

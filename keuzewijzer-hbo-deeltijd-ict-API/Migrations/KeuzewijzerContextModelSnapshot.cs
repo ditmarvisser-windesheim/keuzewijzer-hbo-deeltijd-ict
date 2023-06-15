@@ -39,33 +39,13 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.HasData(
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 1
                         },
                         new
                         {
-                            CohortsId = 1,
+                            CohortsId = 4,
                             SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 1
-                        },
-                        new
-                        {
-                            CohortsId = 2,
-                            SemesterItemsId = 2
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 3
-                        },
-                        new
-                        {
-                            CohortsId = 3,
-                            SemesterItemsId = 4
                         },
                         new
                         {
@@ -76,6 +56,31 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                         {
                             CohortsId = 4,
                             SemesterItemsId = 4
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 5
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 6
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 7
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 8
+                        },
+                        new
+                        {
+                            CohortsId = 4,
+                            SemesterItemsId = 999
                         });
                 });
 
@@ -588,10 +593,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int>("SemesterItemId")
+                    b.Property<int?>("SemesterItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudyRouteId")
+                    b.Property<int?>("StudyRouteId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -3409,15 +3414,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Migrations
                 {
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.SemesterItem", "SemesterItem")
                         .WithMany()
-                        .HasForeignKey("SemesterItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SemesterItemId");
 
                     b.HasOne("keuzewijzer_hbo_deeltijd_ict_API.Models.StudyRoute", "StudyRoute")
                         .WithMany("StudyRouteItems")
-                        .HasForeignKey("StudyRouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudyRouteId");
 
                     b.Navigation("SemesterItem");
 

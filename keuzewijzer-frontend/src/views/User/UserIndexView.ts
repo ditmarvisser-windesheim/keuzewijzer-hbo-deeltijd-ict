@@ -1,7 +1,5 @@
-import { View } from '../View';
-import Api from '../../js/api/api';
-import Swal from 'sweetalert2';
-import {User} from '../../../Models/User'
+import { type View } from '../View';
+import { getAllUsers, getUserRoles } from '../../api/user';
 import { Role } from '../../../Models/Role';
 
 export class UserIndexView implements View {
@@ -34,20 +32,20 @@ export class UserIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
-      var users = await Api.get('/api/User');
+      const users = await getAllUsers();
       
       if (Array.isArray(users)) {
         users.forEach(async (user) => {
-          var roles = await Api.get(`/api/User/${user.id}/roles`)
+          var roles = await getUserRoles(user.id)
           var rolesText = '';
           if (Array.isArray(roles)) {
             rolesText = roles.toString();
           }
-          var tableBody = document.getElementById('users');
-          if (tableBody) {
-            var row = $('<tr>').append(
+          const tableBody = document.getElementById('users');
+          if (tableBody != null) {
+            const row = $('<tr>').append(
               $('<td>').text(user.name),
               $('<td>').text(rolesText),
               $('<td>').append(
