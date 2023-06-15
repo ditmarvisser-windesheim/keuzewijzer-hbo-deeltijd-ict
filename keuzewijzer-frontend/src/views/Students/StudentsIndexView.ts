@@ -1,8 +1,6 @@
 import { View } from '../View';
 import { ApiService } from 'services/ApiService';
 import Swal from 'sweetalert2';
-import {User} from '../../../Models/User'
-import { Role } from '../../../Models/Role';
 import { IUser } from 'interfaces/iUser';
 
 export class StudentsIndexView implements View {
