@@ -24,8 +24,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         [HttpPost("login")]
-        // Limit login tries to 5 times per minute
-        [RateLimitFilter(5, 60)]
+        // Limit login tries to 3 times per minute
+        [RateLimitFilter(3, 60)]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.UserName);

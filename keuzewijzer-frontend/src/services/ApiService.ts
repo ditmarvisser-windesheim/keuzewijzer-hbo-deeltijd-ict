@@ -12,7 +12,7 @@ export class ApiService {
   private async handleUnauthorizedResponse(response: Response): Promise<void> {
     if (response.status === 401) {
       // Redirect the user to the login page
-      window.location.href = LOGIN_PAGE_URL;
+      // window.location.href = LOGIN_PAGE_URL;
     } else {
       // If the response is not 401, throw an error
       throw new Error(`Request failed with status ${response.status}`);
@@ -24,6 +24,7 @@ export class ApiService {
       credentials: "include"
     })
     .then(response => {
+      console.log('ÚRL STRING IS ', url);
       if (response.status === 401) {
         return this.handleUnauthorizedResponse(response)
           .then(() => Promise.reject(`Request failed with status ${response.status}`));
@@ -31,13 +32,9 @@ export class ApiService {
       
       return response.json();
     })
-    .then(data => {
-      console.log(data); // Handle the response data here
-      return data; // Return the data to the caller
-    })
     .catch(error => {
-      console.log(error); // Handle the error here
-      throw error; // Rethrow the error to the caller
+      console.log('catch', error);
+      throw error;
     });
   }
 
@@ -51,7 +48,8 @@ export class ApiService {
       credentials: "include"
     });
 
-    if (!response.ok) {
+    // If url is not login and response is not ok, redirect to login page
+    if (!response.ok && url !== '/api/Auth/login') {
       await this.handleUnauthorizedResponse(response);
     }
 

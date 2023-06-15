@@ -38,7 +38,9 @@ class AuthService {
       var message: string = '';
 
       if (response.status === 401) {
-        message = 'Invalid username or password';
+        message = 'Combinatie van gebruikersnaam en wachtwoord is onjuist.';
+      } else if (response.status === 429) {
+        message = 'Te veel mislukte inlogpogingen, probeer het opnieuw over 1 minuut.';
       } else if (response.status === 200) {
         this.setUserData({ userId: response.userId, username: response.userName, email: response.email });
         message = 'Login successful';
