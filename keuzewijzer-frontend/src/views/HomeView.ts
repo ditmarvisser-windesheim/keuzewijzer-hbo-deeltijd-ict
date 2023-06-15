@@ -94,8 +94,8 @@ export class HomeView implements View {
                         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                <div class="row">
-                                    {{#each semesterItems}}
+                                  <div class="row" style="max-height: 400px; overflow-y: auto;">
+                                     {{#each semesterItems}}
                                     <div class="box align-self-center my-2 p-4 rounded-3 bg-danger text-center" data-id="{{id}}">
                                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#semesterItemInfoModal"></i>
                                         {{name}}
@@ -318,7 +318,7 @@ export class HomeView implements View {
                 const studyRouteItemList = getStudyRouteItemsByAllYears()
 
                 let studyRoute: IStudyRoute = {
-                    userId: "1",
+                    userId: this.authService.getUserData()!.userId,
                     studyRouteItems: studyRouteItemList,
                     approved_sb: false,
                     approved_eb: false,
@@ -335,11 +335,9 @@ export class HomeView implements View {
 
     private async saveStudyRoute(studyRoute: IStudyRoute) {
         try {
-            // Save StudyRoute via asynchronous API call
-            await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute);
-            // Perform any further actions after successful save
+            await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute).then(() => Swal.fire('Gelukt!', 'Jouw studieroute is opgeslagen.', 'success'));
         } catch (error) {
-            // Handle the error, e.g., display an error message to the user
+            Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         }
     }
 }
