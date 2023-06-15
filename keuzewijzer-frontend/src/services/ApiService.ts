@@ -12,7 +12,7 @@ export class ApiService {
   private async handleUnauthorizedResponse(response: Response): Promise<void> {
     if (response.status === 401) {
       // Redirect the user to the login page
-      // window.location.href = LOGIN_PAGE_URL;
+      window.location.href = LOGIN_PAGE_URL;
     } else {
       // If the response is not 401, throw an error
       throw new Error(`Request failed with status ${response.status}`);
