@@ -6,15 +6,15 @@ import { ISemester } from 'interfaces/iSemester';
 
 export class SemesterIndexView implements View {
   public apiService!: ApiService;
-  
+
   public template = `
     <div class="container mt-2">
       <div class="row">
         <div class="col-9">
-          <h1>Semesters</h1>
+          <h1>Module</h1>
         </div>
         <div class="col-3 d-flex justify-content-end">
-          <a href="/semester/create" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Semester aanmaken</a>
+          <a href="/semester/create" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Module aanmaken</a>
         </div>
       </div>  
 
@@ -39,7 +39,7 @@ export class SemesterIndexView implements View {
 
   public data = {};
 
-  public async setup (): Promise<void> {
+  public async setup(): Promise<void> {
     try {
       const study_semesters = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
@@ -79,7 +79,7 @@ export class SemesterIndexView implements View {
     });
   }
 
-  private async handleDeleteButtonClick (event: Event): Promise<void> {
+  private async handleDeleteButtonClick(event: Event): Promise<void> {
     try {
       const button = event.target as HTMLButtonElement;
       const moduleId = button.dataset.id;

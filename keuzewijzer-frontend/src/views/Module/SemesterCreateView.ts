@@ -15,7 +15,7 @@ export class SemesterCreateView implements View {
         <a href="/semester" data-link class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Terug</a>
       </div>
       <div class="col-9">
-        <h1>Semester toevoegen</h1>
+        <h1>Module toevoegen</h1>
       </div>
     </div>
     
