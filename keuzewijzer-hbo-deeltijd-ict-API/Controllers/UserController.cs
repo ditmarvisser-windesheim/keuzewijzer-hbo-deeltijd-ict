@@ -63,7 +63,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/User
         [HttpGet("students/{id}")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
         public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
         {
             if (_context.Users == null)

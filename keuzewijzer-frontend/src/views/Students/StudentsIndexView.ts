@@ -2,10 +2,12 @@ import { View } from '../View';
 import { ApiService } from 'services/ApiService';
 import Swal from 'sweetalert2';
 import { IUser } from 'interfaces/iUser';
+import AuthService from 'services/AuthService';
 
 export class StudentsIndexView implements View {
   public apiService!: ApiService;
   public params: Record<string, string> = {};
+  public authService!: AuthService;
   public template = `
     <div class="container mt-2">
       <div class="row">
@@ -91,7 +93,7 @@ export class StudentsIndexView implements View {
 
   public async setup(): Promise<void> {
     try {
-      var students = await this.apiService.get<IUser[]>(`/api/User/students/${this.params?.id}`);
+      var students = await this.apiService.get<IUser[]>(`/api/User/students/${this.authService.getUserData()!.userId}`);
 
       if (Array.isArray(students)) {
         var routesApprovedBySV = 0;
@@ -126,11 +128,11 @@ export class StudentsIndexView implements View {
             var row = $('<tr>').append(
               $('<td>').text(student.name),
               $('<td>').append(
-                $('<a>').attr('href', '/user/update/semester/' + student.id)
+                $('<a>').attr('href', '/student/studyroute/' + student.id)
                 .addClass('btn btn-primary btn-sm active')
                 .attr('role', 'button')
                 .attr('aria-pressed', 'true')
-                .text('Semester toewijzen')
+                .text('Studieroute bekijken')
                 )
                 )
                 
