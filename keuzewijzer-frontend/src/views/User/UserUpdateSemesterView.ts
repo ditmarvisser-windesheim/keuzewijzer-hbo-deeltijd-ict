@@ -1,13 +1,13 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { getAllSemesters } from '../../api/semesterItem';
 import { ISemester } from 'interfaces/iSemester';
-import { getOneUser, updateUserSemesters } from '../../api/user';
 import { IUser } from 'interfaces/iUser';
+import { ApiService } from 'services/ApiService';
 
 export class UserUpdateSemesterView implements View {
   private readonly user: IUser | null = null;
+  public apiService!: ApiService;
 
   public template = `
     <div class="container mt-2 mb-2">
@@ -37,7 +37,8 @@ export class UserUpdateSemesterView implements View {
   public params: Record<string, string> = {};
 
   public async setup (): Promise<void> {
-    const response = await getOneUser(this.params?.id);
+    const response = await this.apiService.get<IUser>(`/api/User/${this.params?.id}`);
+
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -80,7 +81,7 @@ export class UserUpdateSemesterView implements View {
 
   private async updateSemesters (): Promise<void> {
     const SemesterSelect = $('#semesters');
-    const Semesters = await getAllSemesters();
+    const Semesters = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     Semesters.forEach((semesterItem: ISemester) => {
       SemesterSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
@@ -103,9 +104,7 @@ export class UserUpdateSemesterView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await updateUserSemesters(this.params?.id, semesterIds).catch((error) => {
-        console.log(error);
-      });
+      const response = await this.apiService.put<any>(`/api/User/UpdateSemesters/${this.params?.id}`, semesterIds);
 
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');

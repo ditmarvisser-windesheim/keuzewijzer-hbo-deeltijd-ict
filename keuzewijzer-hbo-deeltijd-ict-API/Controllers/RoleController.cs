@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -18,7 +19,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         /*
         // GET: api/role
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetRole()
+        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRole()
         {
           if (_context.Roles == null)
           {
@@ -29,7 +30,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/role/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Role>> GetRole(int id)
+        public async Task<ActionResult<IdentityRole>> GetRole(int id)
         {
           if (_context.Roles == null)
           {
@@ -48,7 +49,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // PUT: api/role/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, Role @role)
+        public async Task<IActionResult> PutRole(int id, IdentityRole @role)
         {
             if (id != @role.Id)
             {
@@ -79,7 +80,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // POST: api/role
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Role>> PostRole(Role @role)
+        public async Task<ActionResult<IdentityRole>> PostRole(IdentityRole @role)
         {
           if (_context.Roles == null)
           {
@@ -115,7 +116,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         {
             return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-    }
         */
     }
 }

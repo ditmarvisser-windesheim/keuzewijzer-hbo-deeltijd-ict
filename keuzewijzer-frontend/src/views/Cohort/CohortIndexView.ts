@@ -1,9 +1,12 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { getCohorts, removeCohort } from '../../api/cohort';
+import { ApiService } from 'services/ApiService';
+import { ICohort } from 'interfaces/iCohort';
 
 export class CohortIndexView implements View {
+  public apiService!: ApiService;
+
   public template = `
     <div class="container mt-2">
       <div class="row">
@@ -38,7 +41,7 @@ export class CohortIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const cohorts = await getCohorts();
+      const cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
       $('#loading').remove();
 
       if (Array.isArray(cohorts)) {
@@ -85,7 +88,7 @@ export class CohortIndexView implements View {
         });
         if (result.isConfirmed) {
           // Make the API call to delete the module
-          const response = await removeCohort(cohortId);
+          const response = await this.apiService.delete(`/api/Cohort/${cohortId}`);
           if (response.status === 204) {
             // Success! Remove the corresponding row from the table
             const row = button.closest('tr');

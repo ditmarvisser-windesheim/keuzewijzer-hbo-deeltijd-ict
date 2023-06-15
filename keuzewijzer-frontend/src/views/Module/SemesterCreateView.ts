@@ -1,12 +1,13 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { createSemester, getAllSemesters } from '../../api/semesterItem';
 import { ISemester } from 'interfaces/iSemester';
-import { getCohorts } from '../../api/cohort';
 import { ICohort } from 'interfaces/iCohort';
+import { ApiService } from 'services/ApiService';
 
 export class SemesterCreateView implements View {
+  public apiService!: ApiService;
+  
   public template = `
   <div class="container mt-2 mb-2">
     <div class="row">
@@ -71,7 +72,7 @@ export class SemesterCreateView implements View {
 
   private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
-    const cohorts = await getCohorts();
+    const cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
 
     cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
@@ -80,7 +81,7 @@ export class SemesterCreateView implements View {
 
   private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    const requiredSemesterItem = await getAllSemesters();
+    const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     requiredSemesterItem.forEach((semesterItem: ISemester) => {
       requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
@@ -174,7 +175,7 @@ export class SemesterCreateView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await createSemester(semesterItem);
+      const response = await this.apiService.post<ISemester>('/api/semesterItem', semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
