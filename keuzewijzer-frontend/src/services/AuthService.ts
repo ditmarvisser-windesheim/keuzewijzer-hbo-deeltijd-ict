@@ -40,7 +40,7 @@ class AuthService {
       if (response.status === 401) {
         message = 'Invalid username or password';
       } else if (response.status === 200) {
-        this.setUserData({ userId: response.userId, username: username, email: username + '@test.nl' });
+        this.setUserData({ userId: response.userId, username: response.userName, email: response.email });
         message = 'Login successful';
       } else {
         message = 'An unknown error occurred';

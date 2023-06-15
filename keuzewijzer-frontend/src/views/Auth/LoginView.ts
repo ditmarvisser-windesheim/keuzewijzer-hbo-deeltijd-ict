@@ -6,11 +6,11 @@ export class LoginView implements View {
     <p id="errorText" class="text-danger"></p>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="emailInput" placeholder="name@example.com">
+      <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required> 
       <label for="emailInput">Email address</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+      <input type="password" class="form-control" id="passwordInput" placeholder="Password" required>
       <label for="passwordInput">Password</label>
     </div>
 
