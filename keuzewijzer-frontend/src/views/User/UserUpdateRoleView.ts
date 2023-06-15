@@ -1,12 +1,14 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
 import { getAllRoles } from '../../api/role';
-import { getOneUser, getUserRoles, updateUserRoles } from '../../api/user'
+import { ApiService } from 'services/ApiService';
 import { IUser } from 'interfaces/iUser';
+import { IRole } from 'interfaces/iRole';
 
 export class UserUpdateRoleView implements View {
+  
+  public apiService!: ApiService;
 
-  // private Id = 5; //TODO: get the id form the url
   public params: Record<string, string> = {};
   
   private user= {} as IUser;
@@ -52,7 +54,7 @@ export class UserUpdateRoleView implements View {
     console.log("p");
 
     //Search for the user item with the id
-    var updateUser = await getOneUser(id);
+    var updateUser = await this.apiService.get<IUser>(`/api/User/${id}`);
     console.log(this.user);
     this.user = updateUser;
     console.log(this.user);
@@ -62,7 +64,7 @@ export class UserUpdateRoleView implements View {
 
 
     // var rolesArray = updateUser.roles.map(r => r.id)
-    var rolesArray = await getUserRoles(this.user.id)
+    var rolesArray = await this.apiService.get<string[]>(`/api/User/${this.user.id}/roles`);
 
     const roles = await getAllRoles();
 
@@ -110,7 +112,7 @@ export class UserUpdateRoleView implements View {
 
     try {
       // Make the PUT request to the server
-      const response = await updateUserRoles(id, roles);
+      const response = await this.apiService.put<IUser>(id, roles);
       console.log(response);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');

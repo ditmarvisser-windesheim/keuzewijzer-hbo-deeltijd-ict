@@ -1,10 +1,12 @@
 import { View } from '../View';
-import Api from '../../js/api/api';
+import { ApiService } from 'services/ApiService';
 import Swal from 'sweetalert2';
 import {User} from '../../../Models/User'
 import { Role } from '../../../Models/Role';
+import { IUser } from 'interfaces/iUser';
 
 export class StudentsIndexView implements View {
+  public apiService!: ApiService;
   public params: Record<string, string> = {};
   public template = `
     <div class="container mt-2">
@@ -91,7 +93,7 @@ export class StudentsIndexView implements View {
 
   public async setup(): Promise<void> {
     try {
-      var students = await Api.get(`/api/User/students/${this.params?.id}`);
+      var students = await this.apiService.get<IUser[]>(`/api/User/students/${this.params?.id}`);
 
       if (Array.isArray(students)) {
         var routesApprovedBySV = 0;
