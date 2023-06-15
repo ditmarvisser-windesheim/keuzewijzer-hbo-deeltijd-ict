@@ -1,3 +1,4 @@
+import { type ApiService } from 'services/ApiService';
 import type AuthService from '../services/AuthService';
 
 export interface View {
@@ -8,4 +9,5 @@ export interface View {
   fetchAsyncData?: () => Promise<void>
   authService?: AuthService
   requiresAuth?: boolean
+  apiService?: ApiService
 }

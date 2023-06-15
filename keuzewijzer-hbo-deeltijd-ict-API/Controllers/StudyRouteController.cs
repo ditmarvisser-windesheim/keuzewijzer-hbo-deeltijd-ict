@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -18,7 +19,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
-        [Authorize(Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
         {
@@ -44,6 +45,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudyRoute>>> GetStudyRoute()
         {
@@ -55,7 +57,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute/5
-        [Authorize(Roles = "Administrator,Studiebegeleider,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpGet("{id}")]
         public async Task<ActionResult<StudyRoute>> GetStudyRoute(int id)
         {
@@ -75,7 +77,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // PUT: api/StudyRoute/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator,Studiebegeleider,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudyRoute(int id, StudyRoute @studyRoute)
         {
@@ -103,7 +105,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // POST: api/StudyRoute
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Student")]
         [HttpPost]
         public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute studyRoute)
         {
@@ -140,7 +142,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
 
         // DELETE: api/StudyRoute/5
-        [Authorize(Roles = "Administrator,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Student")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyRoute(int id)
         {

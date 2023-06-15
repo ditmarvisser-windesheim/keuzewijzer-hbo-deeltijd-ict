@@ -1,12 +1,13 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { getCohorts } from '../../api/cohort';
 import { ICohort } from 'interfaces/iCohort';
-import { getAllSemesters, getOneSemester, updateSemester } from '../../api/semesterItem';
 import { ISemester } from 'interfaces/iSemester';
+import { ApiService } from 'services/ApiService';
 
 export class SemesterUpdateView implements View {
+  public apiService!: ApiService;
+  
   public params: Record<string, string> = {};
 
   public template = `
@@ -76,7 +77,7 @@ export class SemesterUpdateView implements View {
 
   private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
-    const cohorts = await getCohorts();
+    const cohorts = await this.apiService.get<ICohort[]>('/api/cohort');
 
     cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
@@ -85,7 +86,7 @@ export class SemesterUpdateView implements View {
 
   private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    const requiredSemesterItem = await getAllSemesters();
+    const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     requiredSemesterItem.forEach((semesterItem: ISemester) => {
       if(semesterItem.id !== null && semesterItem.id !== undefined) {
@@ -98,7 +99,8 @@ export class SemesterUpdateView implements View {
   private async setForm (): Promise<void> {
     const id = this.params?.id;
 
-    const response = await getOneSemester(id) as ISemester;
+    const response = await this.apiService.get<ISemester>(`/api/semesterItem/${id}`);
+    
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -239,7 +241,7 @@ export class SemesterUpdateView implements View {
 
     try {
       // Make the POST request to the server
-      const response = await updateSemester(id, semesterItem);
+      const response = await this.apiService.put<ISemester>(`/api/semesterItem/${id}`, semesterItem);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;

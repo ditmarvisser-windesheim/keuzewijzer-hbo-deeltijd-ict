@@ -1,8 +1,10 @@
 import { type View } from '../View';
-import { getAllUsers, getUserRoles } from '../../api/user';
-import { Role } from '../../../Models/Role';
+import { ApiService } from 'services/ApiService';
+import { IUser } from 'interfaces/iUser';
 
 export class UserIndexView implements View {
+  public apiService!: ApiService;
+  
   public template = `
     <div class="container mt-2">
       <div class="row">
@@ -34,8 +36,10 @@ export class UserIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const users = await getAllUsers();
-      
+      const users = await this.apiService.get<IUser[]>('/api/User');
+
+      $('#loading').remove();
+
       if (Array.isArray(users)) {
         users.forEach(async (user) => {
           var roles = await getUserRoles(user.id)

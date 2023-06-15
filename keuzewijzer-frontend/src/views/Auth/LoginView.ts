@@ -33,7 +33,10 @@ export class LoginView implements View {
         const password = passwordInput.value;
 
         this.login(email, password).catch((error) => {
-          console.error(error);
+          console.error('login failed: ', error);
+          
+          const errorText = document.getElementById('errorText');
+          errorText!.innerText = "Helaas is er iets fout gegaan. Probeer het later opnieuw.";
         });
       });
     }
@@ -54,8 +57,9 @@ export class LoginView implements View {
     } catch (error) {
       // An error occurred during the login process
       console.error('Login failed:', error);
-      // Display an error message to the user
-      // ...
+
+      const errorText = document.getElementById('errorText');
+      errorText!.innerText = "Helaas is er iets fout gegaan. Probeer het later opnieuw.";
     }
   }
 }

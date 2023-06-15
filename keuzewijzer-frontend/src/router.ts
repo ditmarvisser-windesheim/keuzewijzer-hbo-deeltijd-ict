@@ -4,17 +4,21 @@ import type AuthService from './services/AuthService';
 import { type View } from './views/View';
 import { registerHelpers } from './helpers/handlebars';
 import SidebarPartial from './views/Partials/SidebarPartial';
+import { ApiService } from 'services/ApiService';
 
 export class Router {
   private readonly routes: Map<string, View>;
   private currentView: View | null;
   private authService: AuthService;
+  private apiService: ApiService;
   private readonly sidebarPartial: SidebarPartial | undefined;
 
-  constructor (authService: AuthService) {
+  constructor (authService: AuthService, apiService: ApiService) {
     this.routes = new Map();
     this.currentView = null;
+
     this.authService = authService;
+    this.apiService = apiService;
   }
 
   // Add route to the router
@@ -35,15 +39,15 @@ export class Router {
     registerHelpers();
     // Listen for changes to the URL
     window.addEventListener('popstate', () => {
+      console.log(window.location.pathname);
       this.handleUrlChange(window.location.pathname).catch((error) => {
         console.log('Error handling initial URL: ', error);
       });
     });
 
+    console.log(window.location.pathname);
     // Handle the initial URL
-    this.handleUrlChange(window.location.pathname).catch((error) => {
-      console.log('Error handling initial URL: ', error);
-    });
+    this.handleUrlChange(window.location.pathname);
   }
 
   private async handleUrlChange (path: string): Promise<void> {
@@ -72,6 +76,7 @@ export class Router {
         if (match) {
           this.currentView = routeView;
           this.currentView.authService = this.authService;
+          this.currentView.apiService = this.apiService;
           this.currentView.params = params;
           break;
         }
@@ -90,9 +95,6 @@ export class Router {
       this.showAuthenticationError();
       return;
     }
-
-    // Pass the authService instance to the view
-    this.currentView.authService = this.authService;
 
     // Fetch the view's data from API project
     if (this.currentView.fetchAsyncData != null) {
@@ -130,6 +132,8 @@ export class Router {
     if (sidebarContainer != null) {
       const isAuthenticated = this.authService.isAuthenticated();
       const userData = this.authService.getUserData();
+
+      console.log('isAuthenticated', isAuthenticated);
 
       const sidebarData = {
         isAuthenticated: isAuthenticated,
