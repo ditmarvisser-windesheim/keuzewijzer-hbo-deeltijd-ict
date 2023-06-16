@@ -108,7 +108,7 @@ export class SemesterCreateView implements View {
     const yearError = $('#yearError');
 
     if (name.length < 1 || name.length > 244) {
-      nameError.text('Module naam moet tussen de 4 en 100 karakters zijn.');
+      nameError.text('Module naam moet tussen de 1 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }

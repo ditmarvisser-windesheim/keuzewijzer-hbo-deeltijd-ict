@@ -180,8 +180,8 @@ export class SemesterUpdateView implements View {
     const semesterError = $('#semesterError');
     const yearError = $('#yearError');
 
-    if (name.length < 4 || name.length > 100) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+    if (name.length < 1 || name.length > 100) {
+      nameError.text('Semester item naam moet tussen de 1 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
