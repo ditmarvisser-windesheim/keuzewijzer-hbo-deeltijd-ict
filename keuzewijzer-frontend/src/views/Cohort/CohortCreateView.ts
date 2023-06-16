@@ -8,7 +8,7 @@ import { ICohort } from 'interfaces/iCohort';
 
 export class CohortCreateView implements View {
   public apiService!: ApiService;
-  
+
   public template = `
   <div class="container mt-2 mb-2">
     <div class="row">
@@ -44,7 +44,7 @@ export class CohortCreateView implements View {
 
   public data = {};
 
-  public setup (): void {
+  public setup(): void {
     this.updateUsers().catch((error) => {
       console.error(error);
     });
@@ -53,7 +53,7 @@ export class CohortCreateView implements View {
     cohortForm.on('submit', this.handleCohortCreate.bind(this));
   }
 
-  private async updateUsers (): Promise<void> {
+  private async updateUsers(): Promise<void> {
     const userSelect = $('#user');
 
     await this.apiService.get<IUser[]>('/api/User')
@@ -64,7 +64,7 @@ export class CohortCreateView implements View {
       });
   }
 
-  private async handleCohortCreate (event: Event): Promise<void> {
+  private async handleCohortCreate(event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const yearSelect = $('#year');
@@ -79,7 +79,7 @@ export class CohortCreateView implements View {
     const userError = $('#userError');
 
     if (name.length < 4 || name.length > 254) {
-      nameError.text('Semester item naam moet tussen de 4 en 254 karakters zijn.');
+      nameError.text('Cohort naam moet tussen de 4 en 254 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
@@ -117,7 +117,7 @@ export class CohortCreateView implements View {
           Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         });
 
-      // Go back to the semester overview wait for 3 seconds
+      // Go back to the cohort overview wait for 3 seconds
       setTimeout(() => {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/cohort';

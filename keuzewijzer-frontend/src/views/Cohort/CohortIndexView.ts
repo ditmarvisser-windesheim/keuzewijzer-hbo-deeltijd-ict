@@ -26,7 +26,7 @@ export class CohortIndexView implements View {
             <th scope="col">Acties</th>
           </tr>
         </thead>
-        <tbody id="semesterItems">
+        <tbody id="cohorts">
           <div id="loading" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
               <span class="sr-only"></span>
@@ -39,14 +39,14 @@ export class CohortIndexView implements View {
 
   public data = {};
 
-  public async setup (): Promise<void> {
+  public async setup(): Promise<void> {
     try {
       const cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
       $('#loading').remove();
 
       if (Array.isArray(cohorts)) {
         cohorts.forEach((cohort) => {
-          const tableBody = document.getElementById('semesterItems');
+          const tableBody = document.getElementById('cohorts');
           if (tableBody != null && cohort.id != null) {
             const row = $('<tr>').append(
               $('<td>').text(cohort.name),
@@ -73,7 +73,7 @@ export class CohortIndexView implements View {
     });
   }
 
-  private async handleDeleteButtonClick (event: Event): Promise<void> {
+  private async handleDeleteButtonClick(event: Event): Promise<void> {
     try {
       const button = event.target as HTMLButtonElement;
       const cohortId = button.dataset.id;

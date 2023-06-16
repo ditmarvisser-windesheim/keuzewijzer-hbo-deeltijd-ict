@@ -108,7 +108,7 @@ export class SemesterCreateView implements View {
     const yearError = $('#yearError');
 
     if (name.length < 1 || name.length > 244) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+      nameError.text('Module naam moet tussen de 4 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
@@ -173,24 +173,30 @@ export class SemesterCreateView implements View {
       dependentSemesterItem: []
     };
 
-    try {
-      // Make the POST request to the server
-      const response = await this.apiService.post<ISemester>('/api/semesterItem', semesterItem);
-      if (response.name === undefined) {
-        Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
-        return;
-      }
+    const success = await this.submitSemester(semesterItem);
 
-      Swal.fire('Semester ' + response.name + ' Aangemaakt!', '', 'success');
+    if (success) {
+      Swal.fire('Module ' + semesterItem.name + ' Aangemaakt!', '', 'success');
 
-      // Go back to the semester overview wait for 3 seconds
+      // Go back to the semester overview after a 3-second delay
       setTimeout(function () {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/semester';
       }, 2000);
-    } catch (error) {
+    } else {
       $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
+
+  public async submitSemester(semesterItem: ISemester): Promise<boolean> {
+    try {
+      // Make the POST request to the server
+      const response = await this.apiService.post<ISemester>('/api/semesterItem', semesterItem);
+      return response !== undefined && response.name !== undefined;
+    } catch (error) {
+      return false;
+    }
+  }
+
 }
