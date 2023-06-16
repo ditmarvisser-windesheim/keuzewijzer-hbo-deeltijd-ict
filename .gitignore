@@ -186,3 +186,5 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/keuzewijzer-hbo-deeltijd-ict-API/.vs/keuzewijzer-hbo-deeltijd-ict-API/v17/TestStore/0/001.testlog
+/keuzewijzer-hbo-deeltijd-ict-API/.vs/keuzewijzer-hbo-deeltijd-ict-API/v17/TestStore/0/001.testlog
