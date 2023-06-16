@@ -24,8 +24,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         [HttpPost("login")]
-        // Limit login tries to 5 times per minute
-        [RateLimitFilter(5, 60)]
+        // Limit login tries to 3 times per minute
+        [RateLimitFilter(3, 60)]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.UserName);
@@ -44,10 +44,12 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             var userRoles = await _userManager.GetRolesAsync(user);
 
             var roleClaims = new List<Claim>();
+            var roleString = "";
 
             foreach (var role in userRoles)
             {
                 roleClaims.Add(new Claim(ClaimTypes.Role, role));
+                roleString += role + ",";
             }
 
             var claims = new List<Claim>
@@ -71,7 +73,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 200,
                 user.Id,
                 user.UserName,
-                user.Email
+                user.Email,
+                roleString.TrimEnd(',')
             ));
         }
 

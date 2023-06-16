@@ -7,7 +7,7 @@ import { ApiService } from 'services/ApiService';
 
 export class SemesterUpdateView implements View {
   public apiService!: ApiService;
-  
+
   public params: Record<string, string> = {};
 
   public template = `
@@ -17,7 +17,7 @@ export class SemesterUpdateView implements View {
         <a href="/semester" data-link class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Terug</a>
       </div>
       <div class="col-9">
-        <h1>Semester aanpassen</h1>
+        <h1>Module aanpassen</h1>
       </div>
     </div>
     
@@ -65,7 +65,7 @@ export class SemesterUpdateView implements View {
 
   public data = {};
 
-  public async setup (): Promise<void> {
+  public async setup(): Promise<void> {
     await this.updateRequiredSemesterItem();
     await this.updateCohorts();
 
@@ -75,7 +75,7 @@ export class SemesterUpdateView implements View {
     semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
   }
 
-  private async updateCohorts (): Promise<void> {
+  private async updateCohorts(): Promise<void> {
     const cohortSelect = $('#cohorts');
     const cohorts = await this.apiService.get<ICohort[]>('/api/cohort');
 
@@ -84,23 +84,23 @@ export class SemesterUpdateView implements View {
     });
   }
 
-  private async updateRequiredSemesterItem (): Promise<void> {
+  private async updateRequiredSemesterItem(): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     requiredSemesterItem.forEach((semesterItem: ISemester) => {
-      if(semesterItem.id !== null && semesterItem.id !== undefined) {
+      if (semesterItem.id !== null && semesterItem.id !== undefined) {
         if (semesterItem.id.toString() === this.params?.id ?? '-1') return;
         requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
       }
     });
   }
 
-  private async setForm (): Promise<void> {
+  private async setForm(): Promise<void> {
     const id = this.params?.id;
 
     const response = await this.apiService.get<ISemester>(`/api/semesterItem/${id}`);
-    
+
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
@@ -116,7 +116,7 @@ export class SemesterUpdateView implements View {
       return;
     }
 
-    if(response && response.id !== null && response.id !== undefined) {
+    if (response && response.id !== null && response.id !== undefined) {
       // set the values of the form
       $('#name').val(response.name);
       $('#description').val(response.description);
@@ -134,7 +134,7 @@ export class SemesterUpdateView implements View {
 
     if (response.requiredSemesterItem !== null) {
       response.requiredSemesterItem.forEach((semesterItem: ISemester) => {
-        if(semesterItem.id !== null && semesterItem.id !== undefined) {
+        if (semesterItem.id !== null && semesterItem.id !== undefined) {
           selectedRequiredSemesterItemValues.push(semesterItem.id.toString());
         }
       });
@@ -148,7 +148,7 @@ export class SemesterUpdateView implements View {
 
     if (response.cohorts !== null) {
       response.cohorts.forEach((cohort: ICohort) => {
-        if(cohort.id !== null && cohort.id !== undefined) {
+        if (cohort.id !== null && cohort.id !== undefined) {
           selectedCohortValues.push(cohort.id.toString());
         }
       });
@@ -157,7 +157,7 @@ export class SemesterUpdateView implements View {
     cohortSelect.val(selectedCohortValues);
   }
 
-  private async handleSemesterUpdate (event: Event): Promise<void> {
+  private async handleSemesterUpdate(event: Event): Promise<void> {
     event.preventDefault();
 
     const nameInput = $('#name');
@@ -232,11 +232,11 @@ export class SemesterUpdateView implements View {
       description,
       semester,
       year: year,
-      cohorts: null,
+      cohorts: [],
       cohortsId: cohortInt,
       requiredSemesterItemId: requiredSemesterItemInt,
-      requiredSemesterItem: null,
-      dependentSemesterItem: null
+      requiredSemesterItem: [],
+      dependentSemesterItem: []
     };
 
     try {

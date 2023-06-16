@@ -5,6 +5,7 @@ import { type View } from './views/View';
 import { registerHelpers } from './helpers/handlebars';
 import SidebarPartial from './views/Partials/SidebarPartial';
 import { ApiService } from 'services/ApiService';
+import { IUserData } from 'interfaces/iUserData';
 
 export class Router {
   private readonly routes: Map<string, View>;
@@ -39,13 +40,11 @@ export class Router {
     registerHelpers();
     // Listen for changes to the URL
     window.addEventListener('popstate', () => {
-      console.log(window.location.pathname);
       this.handleUrlChange(window.location.pathname).catch((error) => {
-        console.log('Error handling initial URL: ', error);
+        this.show404();
       });
     });
 
-    console.log(window.location.pathname);
     // Handle the initial URL
     this.handleUrlChange(window.location.pathname);
   }
@@ -99,7 +98,7 @@ export class Router {
     // Fetch the view's data from API project
     if (this.currentView.fetchAsyncData != null) {
       if (app != null) { // TODO: change if app
-        app.innerHTML = '<h1>Loading...</h1>';
+        app.innerHTML = '<h1>Laden...</h1>';
       }
 
       await this.currentView.fetchAsyncData().catch((error) => {
@@ -131,9 +130,7 @@ export class Router {
 
     if (sidebarContainer != null) {
       const isAuthenticated = this.authService.isAuthenticated();
-      const userData = this.authService.getUserData();
-
-      console.log('isAuthenticated', isAuthenticated);
+      const userData: IUserData | null = this.authService.getUserData();
 
       const sidebarData = {
         isAuthenticated: isAuthenticated,

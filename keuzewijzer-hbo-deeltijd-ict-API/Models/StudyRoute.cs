@@ -8,11 +8,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
     public class StudyRoute
     {
         public int Id { get; set; }
-        public bool Approved_sb { get; set; }
-        public bool Approved_eb { get; set; }
-        public string Note { get; set; }
         public bool Send_sb { get; set; }
-        public bool Send_eb { get; set; }
+        public bool? Approved_sb { get; set; }
+        public bool? Send_eb { get; set; }
+        public bool? Approved_eb { get; set; }
+        public string? Note { get; set; }
         public string? UserId { get; set; }
 
         [NotMapped]

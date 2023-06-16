@@ -11,10 +11,14 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public ICollection<IdentityRole>? Roles { get; set; }
         public StudyRoute? StudyRoute { get; set; }
         public Cohort? Cohort { get; set; }
         public DateTime? TimedOut { get; set; }
         public List<SemesterItem>? SemesterItems { get; set; }
+        public string? MentorId { get; set; }
+        public User? Mentor { get; set; }
+        public List<User>? Students { get; set; }
 
         [NotMapped]
         public List<int> SemesterItemsId { get; set; }
