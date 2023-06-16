@@ -2,7 +2,7 @@ import { type View } from '../View';
 
 export class LoginView implements View {
   public template = `<form>
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">Login met uw account</h1>
     <p id="errorText" class="text-danger"></p>
 
     <div class="form-floating">

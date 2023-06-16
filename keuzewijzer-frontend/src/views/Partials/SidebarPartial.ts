@@ -1,10 +1,11 @@
+import { IUserData } from "interfaces/iUserData";
 import AuthService from "services/AuthService";
 
 class SidebarPartial {
-    private readonly userData: { username: string, email: string } | null;
+    private readonly userData: IUserData| null;
     private readonly authService: AuthService | undefined;
 
-    constructor(authService: AuthService, userData: { username: string, email: string } | null) {
+    constructor(authService: AuthService, userData: IUserData | null) {
         this.authService = authService;
         this.userData = userData;
     }
@@ -17,44 +18,51 @@ class SidebarPartial {
             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li class="nav-item">
                     <a href="#" class="nav-link text-white">
-                        <span class="ms-1 d-none d-sm-inline">Home</span>
+                        <span class="ms-1 d-none d-sm-inline">Studieroute</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/semester" class="nav-link text-white">
-                        <span class="ms-1 d-none d-sm-inline">Module</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/cohort" class="nav-link text-white">
-                        <span class="ms-1 d-none d-sm-inline">Cohort</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/user" class="nav-link text-white">
-                        <span class="ms-1 d-none d-sm-inline">Gebruikers</span>
-                    </a>
-                </li>
+                {{#if (eq isAuthenticated true)}}
+                    {{#if (contains_role userData.roles "Moduleverantwoordelijke,Administrator")}}
+                    <li>
+                        <a href="/semester" class="nav-link text-white">
+                            <span class="ms-1 d-none d-sm-inline">Module</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/cohort" class="nav-link text-white">
+                            <span class="ms-1 d-none d-sm-inline">Cohort</span>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if (contains_role userData.roles "Administrator")}}
+                    <li>
+                        <a href="/user" class="nav-link text-white">
+                            <span class="ms-1 d-none d-sm-inline">Gebruikers</span>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if (contains_role userData.roles "Docent")}}
+                    <li>
+                        <a href="/students" class="nav-link text-white">
+                            <span class="ms-1 d-none d-sm-inline">Mijn Studenten</span>
+                        </a>
+                    </li>
+                    {{/if}}
+                {{/if}}
             </ul>
             <hr>
+            <div class="nav nav-pills mb-0 px-3 align-items-center row fixed-bottom">
             {{#if (eq isAuthenticated true)}}
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fixed-bottom">
-                    <p>Ingelogd als: {{userData.email}}</p>
-                    <li>
-                        <a href="/logout" id="logout" class="nav-link px-0 align-middle" data-link>
-                            <span class="ms-1 d-none d-sm-inline">Uitloggen</span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="col-sm-12  text-white">Ingelogd als: <b>{{userData.email}}</b></div>
+                <a href="/logout" id="logout" class="align-middle col-sm-12">
+                    Uitloggen
+                </a>
             {{else}}
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fixed-bottom">
-                    <li>
-                        <a href="/login" class="nav-link px-0 align-middle" data-link>
-                            <span class="ms-1 d-none d-sm-inline">Inloggen</span>
-                        </a>
-                    </li>
-                </ul>
+                <a href="/login" class="col-sm-12" data-link>
+                    Inloggen
+                </a>
             {{/if}}
+            </div>
         </div>
       `;
 

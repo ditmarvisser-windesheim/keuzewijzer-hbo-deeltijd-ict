@@ -1,10 +1,11 @@
 import { ISemester } from "./iSemester";
+import { IStudyRoute } from "./iStudyRoute";
 
 export interface IUser {
     name: string;
     firstName: string;
     lastName: string;
-    studyRoute: string | null;
+    studyRoute: IStudyRoute;
     cohort: string | null;
     timedOut: boolean | null;
     semesterItems: ISemester[] | null;
