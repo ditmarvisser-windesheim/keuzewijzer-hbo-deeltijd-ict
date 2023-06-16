@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -9,27 +12,27 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly KeuzewijzerContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RoleController(KeuzewijzerContext context)
+
+        public RoleController(RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
-        /*
+
+
         // GET: api/role
+        /*[Authorize(Roles = "Administrator")]*/
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetRole()
+        public async Task<IQueryable<IdentityRole>> GetRoles()
         {
-          if (_context.Roles == null)
-          {
-              return NotFound();
-          }
-            return await _context.Roles.ToListAsync();
+            return _roleManager.Roles;
         }
 
+        /*
         // GET: api/role/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Role>> GetRole(int id)
+        public async Task<ActionResult<IdentityRole>> GetRole(int id)
         {
           if (_context.Roles == null)
           {
@@ -48,7 +51,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // PUT: api/role/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, Role @role)
+        public async Task<IActionResult> PutRole(int id, IdentityRole @role)
         {
             if (id != @role.Id)
             {
@@ -79,7 +82,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         // POST: api/role
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Role>> PostRole(Role @role)
+        public async Task<ActionResult<IdentityRole>> PostRole(IdentityRole @role)
         {
           if (_context.Roles == null)
           {
@@ -115,7 +118,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         {
             return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-    }
-        */
+    */
     }
 }

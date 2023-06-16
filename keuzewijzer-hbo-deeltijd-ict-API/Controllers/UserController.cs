@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Data;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 //EXAMPLE
@@ -17,14 +22,17 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly KeuzewijzerContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public UserController(KeuzewijzerContext context)
+        public UserController(KeuzewijzerContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/User
         [HttpGet]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             if (_context.Users == null)
@@ -43,7 +51,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users.Include(u => u.Roles).Include(u => u.SemesterItems).FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -53,6 +61,53 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             return user;
         }
 
+        // GET: api/User
+        [HttpGet("students/{id}")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
+        public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            return await _context.Users.Include(u => u.StudyRoute).Where(u => u.MentorId == id).ToListAsync();
+        }
+
+        // GET: api/User/5
+        [HttpGet("{id}/roles")]
+        public async Task<IList<string>> GetUserRoles(string id)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            return await _userManager.GetRolesAsync(user);
+        }
+
+
+
+        // PUT: api/User/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}/roles")]
+        public async Task<IActionResult> PutUserRoles(string id, List<string> roles)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            List<string> removedRoles = (from role in currentRoles 
+                                         where !(roles.Contains(role)) 
+                                         select role)
+                                         .ToList();
+            List<string> addedRoles = (from role in roles
+                                       where !(currentRoles.Contains(role))
+                                       select role)
+                                       .ToList();
+
+
+            await _userManager.AddToRolesAsync(user, addedRoles);
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+            return CreatedAtAction("PutUserRoles", new { id = id }, user);
+        }
+        
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

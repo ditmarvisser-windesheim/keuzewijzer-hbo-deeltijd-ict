@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
     [Route("api/[controller]")]
@@ -48,7 +48,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // PUT: api/cohort/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCohort(int id, Cohort @cohort)
         {
@@ -80,7 +80,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // POST: api/cohort
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Cohort>> PostCohort(Cohort cohort)
         {
@@ -95,7 +95,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // DELETE: api/cohort/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCohort(int id)
         {

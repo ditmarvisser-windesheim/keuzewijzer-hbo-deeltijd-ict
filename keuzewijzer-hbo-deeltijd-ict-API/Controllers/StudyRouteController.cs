@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 {
@@ -18,7 +19,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
-        [Authorize(Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
         {
@@ -44,6 +45,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudyRoute>>> GetStudyRoute()
         {
@@ -55,7 +57,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute/5
-        [Authorize(Roles = "Administrator,Studiebegeleider,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpGet("{id}")]
         public async Task<ActionResult<StudyRoute>> GetStudyRoute(int id)
         {
@@ -75,7 +77,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // PUT: api/StudyRoute/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator,Studiebegeleider,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudyRoute(int id, StudyRoute @studyRoute)
         {
@@ -103,7 +105,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // POST: api/StudyRoute
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpPost]
         public async Task<ActionResult<StudyRoute>> PostStudyRoute(StudyRoute studyRoute)
         {
@@ -112,10 +114,10 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 return Problem("Entity set 'KeuzewijzerContext.StudyRoute' is null.");
             }
 
-            if (studyRoute.StudyRouteItems == null || studyRoute.StudyRouteItems.Count < 7)
+            /*if (studyRoute.StudyRouteItems == null || studyRoute.StudyRouteItems.Count < 7)
             {
                 return BadRequest("The 'Posts' collection must contain at least 7 items.");
-            }
+            }*/
 
             var existingStudyRoute = await _context.StudyRoutes
                 .Include(sr => sr.StudyRouteItems)
@@ -126,6 +128,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
                 // Update the existing study route with the new data
                 _context.StudyRouteItems.RemoveRange(existingStudyRoute.StudyRouteItems);
                 existingStudyRoute.StudyRouteItems = studyRoute.StudyRouteItems;
+                existingStudyRoute.Send_sb = studyRoute.Send_sb;
+                existingStudyRoute.Send_eb = studyRoute.Send_eb;
+                existingStudyRoute.Approved_sb = studyRoute.Approved_sb;
+                existingStudyRoute.Approved_eb= studyRoute.Approved_eb;
+                existingStudyRoute.Note= studyRoute.Note;
             }
             else
             {
@@ -140,7 +147,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
 
         // DELETE: api/StudyRoute/5
-        [Authorize(Roles = "Administrator,Student")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Student")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyRoute(int id)
         {

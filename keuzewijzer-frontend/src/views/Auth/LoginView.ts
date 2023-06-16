@@ -2,15 +2,15 @@ import { type View } from '../View';
 
 export class LoginView implements View {
   public template = `<form>
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">Login met uw account</h1>
     <p id="errorText" class="text-danger"></p>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="emailInput" placeholder="name@example.com">
+      <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required> 
       <label for="emailInput">Email address</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+      <input type="password" class="form-control" id="passwordInput" placeholder="Password" required>
       <label for="passwordInput">Password</label>
     </div>
 
@@ -33,7 +33,10 @@ export class LoginView implements View {
         const password = passwordInput.value;
 
         this.login(email, password).catch((error) => {
-          console.error(error);
+          console.error('login failed: ', error);
+          
+          const errorText = document.getElementById('errorText');
+          errorText!.innerText = "Helaas is er iets fout gegaan. Probeer het later opnieuw.";
         });
       });
     }
@@ -54,8 +57,9 @@ export class LoginView implements View {
     } catch (error) {
       // An error occurred during the login process
       console.error('Login failed:', error);
-      // Display an error message to the user
-      // ...
+
+      const errorText = document.getElementById('errorText');
+      errorText!.innerText = "Helaas is er iets fout gegaan. Probeer het later opnieuw.";
     }
   }
 }

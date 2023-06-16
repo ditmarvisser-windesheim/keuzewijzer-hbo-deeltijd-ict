@@ -1,12 +1,13 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { createSemester, getAllSemesters } from '../../api/semesterItem';
 import { ISemester } from 'interfaces/iSemester';
-import { getCohorts } from '../../api/cohort';
 import { ICohort } from 'interfaces/iCohort';
+import { ApiService } from 'services/ApiService';
 
 export class SemesterCreateView implements View {
+  public apiService!: ApiService;
+
   public template = `
   <div class="container mt-2 mb-2">
     <div class="row">
@@ -14,7 +15,7 @@ export class SemesterCreateView implements View {
         <a href="/semester" data-link class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Terug</a>
       </div>
       <div class="col-9">
-        <h1>Semester toevoegen</h1>
+        <h1>Module toevoegen</h1>
       </div>
     </div>
     
@@ -61,7 +62,7 @@ export class SemesterCreateView implements View {
 
   public data = {};
 
-  public setup (): void {
+  public setup(): void {
     this.updateRequiredSemesterItem();
     this.updateCohorts();
 
@@ -69,25 +70,25 @@ export class SemesterCreateView implements View {
     semesterForm.on('submit', this.handleSemesterCreate.bind(this));
   }
 
-  private async updateCohorts (): Promise<void> {
+  private async updateCohorts(): Promise<void> {
     const cohortSelect = $('#cohorts');
-    const cohorts = await getCohorts();
+    const cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
 
     cohorts.forEach((cohort: ICohort) => {
       cohortSelect.append(`<option value="${cohort.id}">${cohort.name}</option>`);
     });
   }
 
-  private async updateRequiredSemesterItem (): Promise<void> {
+  private async updateRequiredSemesterItem(): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
-    const requiredSemesterItem = await getAllSemesters();
+    const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
     requiredSemesterItem.forEach((semesterItem: ISemester) => {
       requiredSemesterItemSelect.append(`<option value="${semesterItem.id}">${semesterItem.name}</option>`);
     });
   }
 
-  private async handleSemesterCreate (event: Event): Promise<void> {
+  private async handleSemesterCreate(event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const descriptionInput = $('#description');
@@ -107,7 +108,7 @@ export class SemesterCreateView implements View {
     const yearError = $('#yearError');
 
     if (name.length < 1 || name.length > 244) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+      nameError.text('Module naam moet tussen de 1 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
@@ -165,31 +166,37 @@ export class SemesterCreateView implements View {
       description,
       semester,
       year: year,
-      cohorts: null,
+      cohorts: [],
       cohortsId: cohortInt,
       requiredSemesterItemId: requiredSemesterItemInt,
-      requiredSemesterItem: null,
-      dependentSemesterItem: null
+      requiredSemesterItem: [],
+      dependentSemesterItem: []
     };
 
-    try {
-      // Make the POST request to the server
-      const response = await createSemester(semesterItem);
-      if (response.name === undefined) {
-        Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
-        return;
-      }
+    const success = await this.submitSemester(semesterItem);
 
-      Swal.fire('Semester ' + response.name + ' Aangemaakt!', '', 'success');
+    if (success) {
+      Swal.fire('Module ' + semesterItem.name + ' Aangemaakt!', '', 'success');
 
-      // Go back to the semester overview wait for 3 seconds
+      // Go back to the semester overview after a 3-second delay
       setTimeout(function () {
         $('#submit').attr('disabled', 'disabled');
         window.location.href = '/semester';
       }, 2000);
-    } catch (error) {
+    } else {
       $('#submit').removeAttr('disabled');
       Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
     }
   }
+
+  public async submitSemester(semesterItem: ISemester): Promise<boolean> {
+    try {
+      // Make the POST request to the server
+      const response = await this.apiService.post<ISemester>('/api/semesterItem', semesterItem);
+      return response !== undefined && response.name !== undefined;
+    } catch (error) {
+      return false;
+    }
+  }
+
 }

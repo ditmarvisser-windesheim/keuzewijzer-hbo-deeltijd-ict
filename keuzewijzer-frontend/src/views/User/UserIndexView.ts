@@ -1,15 +1,15 @@
 import { type View } from '../View';
-import { getAllUsers } from '../../api/user';
+import { ApiService } from 'services/ApiService';
+import { IUser } from 'interfaces/iUser';
 
 export class UserIndexView implements View {
+  public apiService!: ApiService;
+  
   public template = `
     <div class="container mt-2">
       <div class="row">
         <div class="col-9">
           <h1>Gebruikers</h1>
-        </div>
-        <div class="col-3 d-flex justify-content-end">
-          <a href="/user" data-link class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Gebruiker aanmaken</a>
         </div>
       </div>  
 
@@ -17,6 +17,7 @@ export class UserIndexView implements View {
         <thead>
           <tr>
             <th scope="col">Name</th>
+            <th scope="col">Rollen</th>
             <th scope="col">Acties</th>
           </tr>
         </thead>
@@ -35,33 +36,47 @@ export class UserIndexView implements View {
 
   public async setup (): Promise<void> {
     try {
-      const users = await getAllUsers();
+      const users = await this.apiService.get<IUser[]>('/api/User');
+
       $('#loading').remove();
 
       if (Array.isArray(users)) {
-        users.forEach((user) => {
-          console.log(user);
+        users.forEach(async (user) => {
+          var roles =await this.apiService.get<string[]>(`/api/User/${user.id}/roles`)
+          var rolesText = '';
+          if (Array.isArray(roles)) {
+            rolesText = roles.toString();
+          }
           const tableBody = document.getElementById('users');
           if (tableBody != null) {
             const row = $('<tr>').append(
               $('<td>').text(user.name),
+              $('<td>').text(rolesText),
               $('<td>').append(
-                $('<a>').attr('href', '/user/update/semester/' + user.id)
-                  .addClass('btn btn-primary btn-sm active')
+                $('<a>').attr('href', '/user/update/' + user.id)
+                .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
-                  .text('Semester toewijzen')
-              )
-
-            );
-            row.appendTo(tableBody);
+                  .text('Rollen aanpassen'),
+                $('<a>').attr('href', '/user/update/semester/' + user.id)
+                .addClass('btn btn-primary btn-sm active')
+                .attr('role', 'button')
+                .attr('aria-pressed', 'true')
+                .text('Semester toewijzen')
+                )
+                )
+                
+                row.appendTo(tableBody);
+              }
+            });
+          } else {
+            console.error('Users is not an array');
           }
-        });
-      } else {
-        console.error('Users is not an array');
-      }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      $('#loading').remove();
+        
+
   }
 }

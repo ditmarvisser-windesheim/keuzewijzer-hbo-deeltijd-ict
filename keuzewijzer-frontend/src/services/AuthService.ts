@@ -1,81 +1,84 @@
-import { login, logout } from '../api/auth';
+import { IUserData } from 'interfaces/iUserData';
+import { ApiService } from './ApiService';
 
 interface LoginResult {
   status: number;
   message: string;
 }
 
+interface AuthResponse {
+  status: number;
+  userId: string;
+  userName: string;
+  email: string;
+  roles: string;
+}
+
 class AuthService {
-  private setAuthToken(token: string): void {
-    localStorage.setItem('access_token', token);
+  private readonly apiService: ApiService;
+
+  constructor(apiService: ApiService) {
+    this.apiService = apiService;
   }
 
-  public getAuthToken(): string | null {
-    return localStorage.getItem('access_token');
+  public getUserData(): IUserData | null {
+    var response = localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
+    return response;
   }
 
-  public getUserData(): { userId: string, username: string, email: string } | null {
-    return localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
-  }
-
-  private setUserData(userData: { userId: string, username: string, email: string }): void {
+  private setUserData(userData: IUserData): void {
     localStorage.setItem('user_data', JSON.stringify(userData));
   }
 
   public async login(username: string, password: string): Promise<LoginResult> {
-    // Make an API request to authenticate the user
-    // Example implementation:
+    try {
+      const response = await this.apiService.post<AuthResponse>('/api/Auth/login', { UserName: username, Password: password });
 
-    return await login({ UserName: username, Password: password })
-      .then((response) => {
-        var message: string = '';
+      var message: string = '';
 
-        if (response.status === 401) {
-          message = 'Invalid username or password';
-        } else if (response.status === 200) {
-          const accessToken = response.accessToken;
+      if (response.status === 401) {
+        message = 'Combinatie van gebruikersnaam en wachtwoord is onjuist.';
+      } else if (response.status === 429) {
+        message = 'Te veel mislukte inlogpogingen, probeer het opnieuw over 1 minuut.';
+      } else if (response.status === 200) {
+        this.setUserData({ userId: response.userId, username: response.userName, email: response.email, roles: response.roles});
+        message = 'Login successful';
+      } else {
+        message = 'An unknown error occurred';
+      }
 
-          this.setAuthToken(accessToken);
-          this.setUserData({ userId: response.userId, username: username, email: username + '@test.nl' });
-          message = 'Login successful';
-        } else {
-          message = 'An unknown error occurred';
-        }
+      return {
+        status: response.status,
+        message: message
+      };
+    } catch (error) {
+      console.error('Error login', error);
 
-        return {
-          status: response.status,
-          message: message
-        };
-      }).catch((error) => {
-        console.error('Error login', error);
-        return {
-          status: 500,
-          message: error
-        };
-      });
+      return {
+        status: 500,
+        message: 'An unknown error occurred'
+      };
+    }
   }
 
   public async logout(): Promise<void> {
-    localStorage.removeItem('access_token');
-    return await logout({})
-      .then((response) => {
-        console.log(response);
-        localStorage.removeItem('access_token');
+    localStorage.removeItem('user_data');
 
-      }).catch((error) => {
-        console.error('Error login', error);
-      });
+    try {
+      await this.apiService.post('/api/Auth/logout', {});
+    } catch (error) {
+      console.error('Error logout', error);
+    }
   }
 
   public isAuthenticated(): boolean {
-    // Check if the user is authenticated based on the access token stored in local storage
-    const accessToken = this.getAuthToken();
-    console.log('accessToken', accessToken);
-    console.log(typeof accessToken);
-    console.log('accessToken != null', accessToken != null);
-    console.log('accessToken != undefined', accessToken != undefined);
-
-    return accessToken != null && accessToken != undefined && accessToken !== 'undefined';
+    try {
+      const userData = this.getUserData();
+      return userData !== null;
+    } catch (error) {
+      console.log('isAuthenticated', error);
+      return false;
+    }
   }
 }
 

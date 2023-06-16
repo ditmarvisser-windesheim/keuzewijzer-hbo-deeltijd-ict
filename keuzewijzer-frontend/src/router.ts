@@ -4,17 +4,22 @@ import type AuthService from './services/AuthService';
 import { type View } from './views/View';
 import { registerHelpers } from './helpers/handlebars';
 import SidebarPartial from './views/Partials/SidebarPartial';
+import { ApiService } from 'services/ApiService';
+import { IUserData } from 'interfaces/iUserData';
 
 export class Router {
   private readonly routes: Map<string, View>;
   private currentView: View | null;
   private authService: AuthService;
+  private apiService: ApiService;
   private readonly sidebarPartial: SidebarPartial | undefined;
 
-  constructor (authService: AuthService) {
+  constructor (authService: AuthService, apiService: ApiService) {
     this.routes = new Map();
     this.currentView = null;
+
     this.authService = authService;
+    this.apiService = apiService;
   }
 
   // Add route to the router
@@ -36,14 +41,12 @@ export class Router {
     // Listen for changes to the URL
     window.addEventListener('popstate', () => {
       this.handleUrlChange(window.location.pathname).catch((error) => {
-        console.log('Error handling initial URL: ', error);
+        this.show404();
       });
     });
 
     // Handle the initial URL
-    this.handleUrlChange(window.location.pathname).catch((error) => {
-      console.log('Error handling initial URL: ', error);
-    });
+    this.handleUrlChange(window.location.pathname);
   }
 
   private async handleUrlChange (path: string): Promise<void> {
@@ -72,6 +75,7 @@ export class Router {
         if (match) {
           this.currentView = routeView;
           this.currentView.authService = this.authService;
+          this.currentView.apiService = this.apiService;
           this.currentView.params = params;
           break;
         }
@@ -91,13 +95,10 @@ export class Router {
       return;
     }
 
-    // Pass the authService instance to the view
-    this.currentView.authService = this.authService;
-
     // Fetch the view's data from API project
     if (this.currentView.fetchAsyncData != null) {
       if (app != null) { // TODO: change if app
-        app.innerHTML = '<h1>Loading...</h1>';
+        app.innerHTML = '<h1>Laden...</h1>';
       }
 
       await this.currentView.fetchAsyncData().catch((error) => {
@@ -129,7 +130,7 @@ export class Router {
 
     if (sidebarContainer != null) {
       const isAuthenticated = this.authService.isAuthenticated();
-      const userData = this.authService.getUserData();
+      const userData: IUserData | null = this.authService.getUserData();
 
       const sidebarData = {
         isAuthenticated: isAuthenticated,

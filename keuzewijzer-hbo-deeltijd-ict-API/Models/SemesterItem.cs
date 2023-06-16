@@ -8,8 +8,9 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required, MaxLength(254), MinLength(1)]
         public string Name { get; set; }
+        [Required, MaxLength(1500), MinLength(1)]
         public string Description { get; set; }
 
 
