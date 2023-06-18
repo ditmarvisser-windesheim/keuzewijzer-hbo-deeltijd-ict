@@ -1,16 +1,16 @@
-import { IUserData } from "interfaces/iUserData";
-import AuthService from "services/AuthService";
+import { type IUserData } from 'interfaces/iUserData';
+import type AuthService from 'services/AuthService';
 
 class SidebarPartial {
-    private readonly userData: IUserData| null;
-    private readonly authService: AuthService | undefined;
+  private readonly userData: IUserData | null;
+  private readonly authService: AuthService | undefined;
 
-    constructor(authService: AuthService, userData: IUserData | null) {
-        this.authService = authService;
-        this.userData = userData;
-    }
+  constructor (authService: AuthService, userData: IUserData | null) {
+    this.authService = authService;
+    this.userData = userData;
+  }
 
-    public template = `
+  public template = `
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top">
             <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-5 d-none d-sm-inline">HBO-ICT</span>
@@ -66,40 +66,39 @@ class SidebarPartial {
         </div>
       `;
 
-    public setup(): void {
-        $(async () => {
-            const menu = document.getElementById('menu');
-            if (menu != null) {
-                menu.addEventListener('click', (event) => {
-                    const target = event.target as HTMLElement;
-                    const active = document.getElementsByClassName('active');
+  public setup (): void {
+    $(async () => {
+      const menu = document.getElementById('menu');
+      if (menu != null) {
+        menu.addEventListener('click', (event) => {
+          const target = event.target as HTMLElement;
+          const active = document.getElementsByClassName('active');
 
-                    if (active.length > 0) {
-                        active[0].classList.remove('active');
-                    }
+          if (active.length > 0) {
+            active[0].classList.remove('active');
+          }
 
-                    target.classList.add('active');
-                });
-            }
-
-            const logout = document.getElementById('logout');
-            logout?.addEventListener('click', (event) => {
-                event.preventDefault();
-                this.logout();
-            });
+          target.classList.add('active');
         });
-    }
+      }
 
-    private async logout(): Promise<void> {
-        try {
-            await this.authService?.logout().then(() => {
-                window.location.href = '/';
-            });
+      const logout = document.getElementById('logout');
+      logout?.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.logout();
+      });
+    });
+  }
 
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
+  private async logout (): Promise<void> {
+    try {
+      await this.authService?.logout().then(() => {
+        window.location.href = '/';
+      });
+    } catch (error) {
+      console.error('Logout failed:', error);
     }
+  }
 }
 
 export default SidebarPartial;

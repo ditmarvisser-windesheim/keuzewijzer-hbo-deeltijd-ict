@@ -1,8 +1,8 @@
-import { View } from '../View';
-import { ApiService } from 'services/ApiService';
+import { type View } from '../View';
+import { type ApiService } from 'services/ApiService';
 import Swal from 'sweetalert2';
-import { IUser } from 'interfaces/iUser';
-import AuthService from 'services/AuthService';
+import { type IUser } from 'interfaces/iUser';
+import type AuthService from 'services/AuthService';
 
 export class StudentsIndexView implements View {
   public apiService!: ApiService;
@@ -91,122 +91,120 @@ export class StudentsIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
-      var students = await this.apiService.get<IUser[]>(`/api/User/students/${this.authService.getUserData()!.userId}`);
+      const students = await this.apiService.get<IUser[]>(`/api/User/students/${this.authService.getUserData()!.userId}`);
 
       if (Array.isArray(students)) {
-        var routesApprovedBySV = 0;
-        var routesRejectedBySV = 0;
-        var routesRejectedBySB = 0;
-        var routesApprovedWaitingForSV = 0;
-        var routesToApprove = 0;
-        var routesOther = 0;
+        let routesApprovedBySV = 0;
+        let routesRejectedBySV = 0;
+        let routesRejectedBySB = 0;
+        let routesApprovedWaitingForSV = 0;
+        let routesToApprove = 0;
+        let routesOther = 0;
         students.forEach(async (student) => {
-          var tableBody;
-          var button = $();
+          let tableBody;
+          let button = $();
 
-          if (student.studyRoute.approved_eb == true){
+          if (student.studyRoute.approved_eb == true) {
             tableBody = document.getElementById('routesApprovedBySV');
             routesApprovedBySV++;
-          } else if (student.studyRoute.approved_eb == false){
+          } else if (student.studyRoute.approved_eb == false) {
             tableBody = document.getElementById('routesRejectedBySV');
             routesRejectedBySV++;
             button = $('<a>').addClass('btn btn-danger btn-sm active reminder')
-            .attr('role', 'button')
-            .attr('aria-pressed', 'true')
-            .text('Reminder sturen')
-          } else if (student.studyRoute.approved_sb == false){
+              .attr('role', 'button')
+              .attr('aria-pressed', 'true')
+              .text('Reminder sturen');
+          } else if (student.studyRoute.approved_sb == false) {
             tableBody = document.getElementById('routesRejectedBySB');
             routesRejectedBySB++;
             button = $('<a>').addClass('btn btn-warning btn-sm active reminder')
-            .attr('role', 'button')
-            .attr('aria-pressed', 'true')
-            .text('Reminder sturen')
-          } else if (student.studyRoute.send_eb == true){
+              .attr('role', 'button')
+              .attr('aria-pressed', 'true')
+              .text('Reminder sturen');
+          } else if (student.studyRoute.send_eb == true) {
             tableBody = document.getElementById('routesApprovedWaitingForSV');
             routesApprovedWaitingForSV++;
-          } else if (student.studyRoute.send_sb == true){
+          } else if (student.studyRoute.send_sb) {
             tableBody = document.getElementById('routesToApprove');
             routesToApprove++;
             button = $('<a>').attr('href', '/students/studyroute/' + student.id)
-            .addClass('btn btn-success btn-sm active')
-            .attr('role', 'button')
-            .attr('aria-pressed', 'true')
-            .text('Studieroute bekijken')
+              .addClass('btn btn-success btn-sm active')
+              .attr('role', 'button')
+              .attr('aria-pressed', 'true')
+              .text('Studieroute bekijken');
           } else {
             tableBody = document.getElementById('routesOther');
             routesOther++;
             button = $('<a>').addClass('btn btn-warning btn-sm active reminder')
-            .attr('role', 'button')
-            .attr('aria-pressed', 'true')
-            .text('Reminder sturen')
+              .attr('role', 'button')
+              .attr('aria-pressed', 'true')
+              .text('Reminder sturen');
           }
 
-          if (tableBody) {
-            var row = $('<tr>').append(
+          if (tableBody != null) {
+            const row = $('<tr>').append(
               $('<td>').text(student.name),
               $('<td>').append(
                 button
-                )
-                )
-                
-                row.appendTo(tableBody);
-              }
-            });
-        
-        var tableBody;
-        
-        if(!routesApprovedBySV){
+              )
+            );
+
+            row.appendTo(tableBody);
+          }
+        });
+
+        let tableBody;
+
+        if (!routesApprovedBySV) {
           tableBody = document.getElementById('routesApprovedBySV')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes goedgekeurd door StudieVoortgang").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes goedgekeurd door StudieVoortgang').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        if(!routesRejectedBySV){
+        if (!routesRejectedBySV) {
           tableBody = document.getElementById('routesRejectedBySV')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes afgekeurd door StudieVoortgang").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes afgekeurd door StudieVoortgang').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        if(!routesRejectedBySB){
+        if (!routesRejectedBySB) {
           tableBody = document.getElementById('routesRejectedBySB')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes afgekeurd door de Studiebegeleider").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes afgekeurd door de Studiebegeleider').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        if(!routesApprovedWaitingForSV){
+        if (!routesApprovedWaitingForSV) {
           tableBody = document.getElementById('routesApprovedWaitingForSV')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes die wachten op beoordeling door StudieVoortgang").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes die wachten op beoordeling door StudieVoortgang').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        if(!routesToApprove){
+        if (!routesToApprove) {
           tableBody = document.getElementById('routesToApprove')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes die wachten op beoordeling door de Studiebegeleider").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes die wachten op beoordeling door de Studiebegeleider').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        if(!routesOther){
+        if (!routesOther) {
           tableBody = document.getElementById('routesOther')!;
           var row = $('<tr>').append(
-            $('<td>').text("Er zijn geen studieroutes die nog niet zijn opgestuurd voor beoordeling").addClass("text-center"),
-            $('<td>').text("")
-              )
+            $('<td>').text('Er zijn geen studieroutes die nog niet zijn opgestuurd voor beoordeling').addClass('text-center'),
+            $('<td>').text('')
+          );
           row.appendTo(tableBody);
         }
-        
-
       } else {
         console.error('Users is not an array');
       }
@@ -214,7 +212,5 @@ export class StudentsIndexView implements View {
       console.error('Error fetching users:', error);
     }
     $('.loading').remove();
-        
-
   }
 }

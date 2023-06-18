@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { ICohort } from 'interfaces/iCohort';
-import { ISemester } from 'interfaces/iSemester';
-import { ApiService } from 'services/ApiService';
+import { type ICohort } from 'interfaces/iCohort';
+import { type ISemester } from 'interfaces/iSemester';
+import { type ApiService } from 'services/ApiService';
 
 export class SemesterUpdateView implements View {
   public apiService!: ApiService;
@@ -65,7 +65,7 @@ export class SemesterUpdateView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     await this.updateRequiredSemesterItem();
     await this.updateCohorts();
 
@@ -75,7 +75,7 @@ export class SemesterUpdateView implements View {
     semesterForm.on('submit', this.handleSemesterUpdate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
+  private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
     const cohorts = await this.apiService.get<ICohort[]>('/api/cohort');
 
@@ -84,7 +84,7 @@ export class SemesterUpdateView implements View {
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
+  private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
@@ -96,7 +96,7 @@ export class SemesterUpdateView implements View {
     });
   }
 
-  private async setForm(): Promise<void> {
+  private async setForm (): Promise<void> {
     const id = this.params?.id;
 
     const response = await this.apiService.get<ISemester>(`/api/semesterItem/${id}`);
@@ -157,7 +157,7 @@ export class SemesterUpdateView implements View {
     cohortSelect.val(selectedCohortValues);
   }
 
-  private async handleSemesterUpdate(event: Event): Promise<void> {
+  private async handleSemesterUpdate (event: Event): Promise<void> {
     event.preventDefault();
 
     const nameInput = $('#name');
@@ -231,7 +231,7 @@ export class SemesterUpdateView implements View {
       name,
       description,
       semester,
-      year: year,
+      year,
       cohorts: [],
       cohortsId: cohortInt,
       requiredSemesterItemId: requiredSemesterItemInt,

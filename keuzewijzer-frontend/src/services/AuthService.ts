@@ -1,47 +1,47 @@
-import { IUserData } from 'interfaces/iUserData';
-import { ApiService } from './ApiService';
+import { type IUserData } from 'interfaces/iUserData';
+import { type ApiService } from './ApiService';
 
 interface LoginResult {
-  status: number;
-  message: string;
+  status: number
+  message: string
 }
 
 interface AuthResponse {
-  status: number;
-  userId: string;
-  userName: string;
-  email: string;
-  roles: string;
+  status: number
+  userId: string
+  userName: string
+  email: string
+  roles: string
 }
 
 class AuthService {
   private readonly apiService: ApiService;
 
-  constructor(apiService: ApiService) {
+  constructor (apiService: ApiService) {
     this.apiService = apiService;
   }
 
-  public getUserData(): IUserData | null {
-    var response = localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
+  public getUserData (): IUserData | null {
+    const response = localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')!) : null;
     return response;
   }
 
-  private setUserData(userData: IUserData): void {
+  private setUserData (userData: IUserData): void {
     localStorage.setItem('user_data', JSON.stringify(userData));
   }
 
-  public async login(username: string, password: string): Promise<LoginResult> {
+  public async login (username: string, password: string): Promise<LoginResult> {
     try {
       const response = await this.apiService.post<AuthResponse>('/api/Auth/login', { UserName: username, Password: password });
 
-      var message: string = '';
+      let message: string = '';
 
       if (response.status === 401) {
         message = 'Combinatie van gebruikersnaam en wachtwoord is onjuist.';
       } else if (response.status === 429) {
         message = 'Te veel mislukte inlogpogingen, probeer het opnieuw over 1 minuut.';
       } else if (response.status === 200) {
-        this.setUserData({ userId: response.userId, username: response.userName, email: response.email, roles: response.roles});
+        this.setUserData({ userId: response.userId, username: response.userName, email: response.email, roles: response.roles });
         message = 'Login successful';
       } else {
         message = 'An unknown error occurred';
@@ -49,7 +49,7 @@ class AuthService {
 
       return {
         status: response.status,
-        message: message
+        message
       };
     } catch (error) {
       console.error('Error login', error);
@@ -61,7 +61,7 @@ class AuthService {
     }
   }
 
-  public async logout(): Promise<void> {
+  public async logout (): Promise<void> {
     localStorage.removeItem('user_data');
 
     try {
@@ -71,7 +71,7 @@ class AuthService {
     }
   }
 
-  public isAuthenticated(): boolean {
+  public isAuthenticated (): boolean {
     try {
       const userData = this.getUserData();
       return userData !== null;

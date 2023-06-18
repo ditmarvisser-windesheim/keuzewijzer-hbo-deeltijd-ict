@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { ISemester } from 'interfaces/iSemester';
-import { ICohort } from 'interfaces/iCohort';
-import { ApiService } from 'services/ApiService';
+import { type ISemester } from 'interfaces/iSemester';
+import { type ICohort } from 'interfaces/iCohort';
+import { type ApiService } from 'services/ApiService';
 
 export class SemesterCreateView implements View {
   public apiService!: ApiService;
@@ -62,7 +62,7 @@ export class SemesterCreateView implements View {
 
   public data = {};
 
-  public setup(): void {
+  public setup (): void {
     this.updateRequiredSemesterItem();
     this.updateCohorts();
 
@@ -70,7 +70,7 @@ export class SemesterCreateView implements View {
     semesterForm.on('submit', this.handleSemesterCreate.bind(this));
   }
 
-  private async updateCohorts(): Promise<void> {
+  private async updateCohorts (): Promise<void> {
     const cohortSelect = $('#cohorts');
     const cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
 
@@ -79,7 +79,7 @@ export class SemesterCreateView implements View {
     });
   }
 
-  private async updateRequiredSemesterItem(): Promise<void> {
+  private async updateRequiredSemesterItem (): Promise<void> {
     const requiredSemesterItemSelect = $('#requiredSemesterItem');
     const requiredSemesterItem = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
@@ -88,7 +88,7 @@ export class SemesterCreateView implements View {
     });
   }
 
-  private async handleSemesterCreate(event: Event): Promise<void> {
+  private async handleSemesterCreate (event: Event): Promise<void> {
     event.preventDefault();
     const nameInput = $('#name');
     const descriptionInput = $('#description');
@@ -165,7 +165,7 @@ export class SemesterCreateView implements View {
       name,
       description,
       semester,
-      year: year,
+      year,
       cohorts: [],
       cohortsId: cohortInt,
       requiredSemesterItemId: requiredSemesterItemInt,
