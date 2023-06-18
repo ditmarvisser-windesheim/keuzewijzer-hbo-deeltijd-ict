@@ -4,12 +4,13 @@ import { ApiService } from 'services/ApiService';
 import { IUser } from 'interfaces/iUser';
 import { IRole } from 'interfaces/iRole';
 import AuthService from 'services/AuthService';
+import { IUserData } from 'interfaces/iUserData';
 
 export class UserUpdateRoleView implements View {
   
   public apiService!: ApiService;
 
-  public authService?: AuthService;
+  public authService!: AuthService;
 
   public params: Record<string, string> = {};
   
@@ -83,25 +84,19 @@ export class UserUpdateRoleView implements View {
     $('#id').val(updateUser.id);
   }
 
-  private validateInput(roles: string[], id: string){
+  public validateInputStudents(roles: string[], id: string){
     // Check if student has any other roles
-    const studentError = $('#studentError');
     if (roles.includes("Student") && (roles.length > 1)) {
-      studentError.text('Een student kan geen andere rollen hebben.');
-      studentError.addClass('d-block');
       return false;
     }
+    return true
+  }
 
+  public validateInputAdmin(roles: string[], id: string, userdata: IUserData | null){
     // Check if admin is removing himself from the admin role
-    const userdata = this.authService?.getUserData();
-    const roleError = $('#studentError');
     if(id == userdata?.userId && !roles.includes("Administrator")){
-      roleError.text('Een admin kan de admin role niet bij zichzelf verwijderen.');
-      roleError.addClass('d-block');
       return false;
     }
-
-    // If all validation passes return true
     return true
   }
 
@@ -120,7 +115,20 @@ export class UserUpdateRoleView implements View {
     
     const id = $('#id').val() as string;
 
-    if (!this.validateInput(roles, id)){
+    // Validate inputs
+    if (!this.validateInputStudents(roles, id)){
+      const studentError = $('#studentError');
+      studentError.text('Een student kan geen andere rollen hebben.');
+      studentError.addClass('d-block');
+      return
+    }
+
+    const userdata = this.authService?.getUserData();
+
+    if (!this.validateInputAdmin(roles, id, userdata)){
+      const roleError = $('#studentError');
+      roleError.text('Een admin kan de admin role niet bij zichzelf verwijderen.');
+      roleError.addClass('d-block');
       return
     }
 
