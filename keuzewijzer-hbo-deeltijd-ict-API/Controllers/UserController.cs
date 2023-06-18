@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using System.Data;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Authorization;
@@ -66,6 +67,11 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
         public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
         {
+            string userid = User.FindFirstValue(ClaimTypes.Sid);
+            if (userid != id)
+            {
+                return Unauthorized();
+            }
             if (_context.Users == null)
             {
                 return NotFound();

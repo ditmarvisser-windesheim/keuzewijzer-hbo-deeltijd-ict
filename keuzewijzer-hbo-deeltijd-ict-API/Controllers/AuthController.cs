@@ -55,7 +55,8 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(type: ClaimTypes.Email, value: user.Email),
-                new Claim(type: ClaimTypes.Name,value: user.Name)
+                new Claim(type: ClaimTypes.Name,value: user.Name),
+                new Claim(type: ClaimTypes.Sid,value: user.Id)
             }.Concat(roleClaims);
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
