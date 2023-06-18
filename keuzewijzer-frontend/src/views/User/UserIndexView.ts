@@ -1,10 +1,10 @@
 import { type View } from '../View';
-import { ApiService } from 'services/ApiService';
-import { IUser } from 'interfaces/iUser';
+import { type ApiService } from 'services/ApiService';
+import { type IUser } from 'interfaces/iUser';
 
 export class UserIndexView implements View {
   public apiService!: ApiService;
-  
+
   public template = `
     <div class="container mt-2">
       <div class="row">
@@ -42,8 +42,8 @@ export class UserIndexView implements View {
 
       if (Array.isArray(users)) {
         users.forEach(async (user) => {
-          var roles =await this.apiService.get<string[]>(`/api/User/${user.id}/roles`)
-          var rolesText = '';
+          const roles = await this.apiService.get<string[]>(`/api/User/${user.id}/roles`);
+          let rolesText = '';
           if (Array.isArray(roles)) {
             rolesText = roles.toString();
           }
@@ -54,29 +54,27 @@ export class UserIndexView implements View {
               $('<td>').text(rolesText),
               $('<td>').append(
                 $('<a>').attr('href', '/user/update/' + user.id)
-                .addClass('btn btn-primary btn-sm active')
+                  .addClass('btn btn-primary btn-sm active')
                   .attr('role', 'button')
                   .attr('aria-pressed', 'true')
                   .text('Rollen aanpassen'),
                 $('<a>').attr('href', '/user/update/semester/' + user.id)
-                .addClass('btn btn-primary btn-sm active')
-                .attr('role', 'button')
-                .attr('aria-pressed', 'true')
-                .text('Semester toewijzen')
-                )
-                )
-                
-                row.appendTo(tableBody);
-              }
-            });
-          } else {
-            console.error('Users is not an array');
-          }
-        } catch (error) {
-          console.error('Error fetching users:', error);
-        }
-      $('#loading').remove();
-        
+                  .addClass('btn btn-primary btn-sm active')
+                  .attr('role', 'button')
+                  .attr('aria-pressed', 'true')
+                  .text('Semester toewijzen')
+              )
+            );
 
+            row.appendTo(tableBody);
+          }
+        });
+      } else {
+        console.error('Users is not an array');
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+    $('#loading').remove();
   }
 }

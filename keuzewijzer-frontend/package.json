@@ -1,7 +1,7 @@
 {
-    "name": "jsframework",
+    "name": "Keuzewijzer deeltijd HBO-ICT",
     "version": "1.0.0",
-    "description": "",
+    "description": "Deze applicaitie is gemaakt voor de keuzewijzer van deeltijd HBO-ICT.",
     "private": true,
     "scripts": {
         "test": "jest",

@@ -2,9 +2,9 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { IUser } from 'interfaces/iUser';
-import { ApiService } from '../../services/ApiService';
-import { ICohort } from 'interfaces/iCohort';
+import { type IUser } from 'interfaces/iUser';
+import { type ApiService } from '../../services/ApiService';
+import { type ICohort } from 'interfaces/iCohort';
 
 export class CohortCreateView implements View {
   public apiService!: ApiService;
@@ -100,7 +100,7 @@ export class CohortCreateView implements View {
 
     const cohort = {
       name,
-      year: year,
+      year,
       semesterItems: [],
       UserId: userId,
       User: null

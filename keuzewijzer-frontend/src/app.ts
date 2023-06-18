@@ -15,7 +15,7 @@ import { UserIndexView } from './views/User/UserIndexView';
 import { UserUpdateRoleView } from './views/User/UserUpdateRoleView';
 import { UserUpdateSemesterView } from './views/User/UserUpdateSemesterView';
 import { StudentsIndexView } from './views/Students/StudentsIndexView';
-import { StudentsStudyrouteView } from './views/Students/StudentsStudyrouteView'
+import { StudentsStudyrouteView } from './views/Students/StudentsStudyrouteView';
 
 import { LoginView } from './views/Auth/LoginView';
 import { ApiService } from './services/ApiService';
@@ -45,15 +45,15 @@ export class App {
 
     // Users
     this.router.addRoute('/user', new UserIndexView());
-    this.router.addRoute('/user/update/:id', new UserUpdateRoleView())
+    this.router.addRoute('/user/update/:id', new UserUpdateRoleView());
     this.router.addRoute('/user/update/semester/:id', new UserUpdateSemesterView());
 
     // Login
     this.router.addRoute('/login', new LoginView());
 
-    //Students
-    this.router.addRoute('/students', new StudentsIndexView())
-    this.router.addRoute('/students/studyroute/:id', new StudentsStudyrouteView())
+    // Students
+    this.router.addRoute('/students', new StudentsIndexView());
+    this.router.addRoute('/students/studyroute/:id', new StudentsStudyrouteView());
 
     // Start the router
     this.router.start();
