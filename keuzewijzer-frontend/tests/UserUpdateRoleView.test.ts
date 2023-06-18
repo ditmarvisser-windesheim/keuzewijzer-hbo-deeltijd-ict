@@ -1,9 +1,6 @@
 import { UserUpdateRoleView } from '../src/views/User/UserUpdateRoleView'
 import { IUserData } from '../src/interfaces/iUserData';
 
-// Mock ApiService
-jest.mock('../src/services/ApiService');
-
 describe('StudentRoles', () => {
     it('should return true when student only has student roles', async () => {
         // Arrange
