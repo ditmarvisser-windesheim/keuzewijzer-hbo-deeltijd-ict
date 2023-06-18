@@ -10,7 +10,7 @@ export function registerHelpers (this: any): void {
     const valueList = values.split(',');
     
     valueList.forEach((value: string) => {
-      if (roles.includes(value)) {
+      if (roles?.includes(value)) {
         match = true;
       }
     });

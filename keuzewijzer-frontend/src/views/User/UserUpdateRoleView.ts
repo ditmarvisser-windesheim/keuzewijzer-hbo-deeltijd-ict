@@ -1,13 +1,15 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
-import { getAllRoles } from '../../api/role';
 import { ApiService } from 'services/ApiService';
 import { IUser } from 'interfaces/iUser';
 import { IRole } from 'interfaces/iRole';
+import AuthService from 'services/AuthService';
 
 export class UserUpdateRoleView implements View {
   
   public apiService!: ApiService;
+
+  public authService?: AuthService;
 
   public params: Record<string, string> = {};
   
@@ -30,6 +32,7 @@ export class UserUpdateRoleView implements View {
         <label for="year">Rollen:</label>
         <div class="checkBoxContainer", id="roles"></div>
         <div id="studentError" class="invalid-feedback"></div>
+        <div id="roleError" class="invalid-feedback"></div>
       </div>
       <button type="submit" class="btn btn-primary">Aanpassen</button>
     </form>
@@ -55,18 +58,12 @@ export class UserUpdateRoleView implements View {
 
     //Search for the user item with the id
     var updateUser = await this.apiService.get<IUser>(`/api/User/${id}`);
-    console.log(this.user);
     this.user = updateUser;
-    console.log(this.user);
-
-    console.log(updateUser);
     
-
-
-    // var rolesArray = updateUser.roles.map(r => r.id)
+    // Get all Roles and check the current roles of the user
     var rolesArray = await this.apiService.get<string[]>(`/api/User/${this.user.id}/roles`);
 
-    const roles = await getAllRoles();
+    const roles = await this.apiService.get<IRole[]>(`/api/Role`);
 
     $.each(roles,function(index, role){
       var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.name}" name="role-${role.id}"`;
@@ -102,11 +99,20 @@ export class UserUpdateRoleView implements View {
     
     const id = $('#id').val() as string;
 
+    // Check if student has any other roles
     const studentError = $('#studentError');
-
     if (roles.includes("Student") && (roles.length > 1)) {
       studentError.text('Een student kan geen andere rollen hebben.');
       studentError.addClass('d-block');
+      return;
+    }
+    
+    // Check if admin is removing himself from the admin role
+    const userdata = this.authService?.getUserData();
+    const roleError = $('#studentError');
+    if(id == userdata?.userId && !roles.includes("Administrator")){
+      roleError.text('Een admin kan de admin role niet bij zichzelf verwijderen.');
+      roleError.addClass('d-block');
       return;
     }
 

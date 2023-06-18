@@ -104,7 +104,7 @@ export class SemesterUpdateView implements View {
     if ('status' in response && response.status === 404) {
       Swal.fire({
         title: 'Fout!',
-        text: 'Semester niet gevonden!',
+        text: 'Module niet gevonden!',
         icon: 'error',
         confirmButtonText: 'Oké'
       });
@@ -180,8 +180,8 @@ export class SemesterUpdateView implements View {
     const semesterError = $('#semesterError');
     const yearError = $('#yearError');
 
-    if (name.length < 4 || name.length > 100) {
-      nameError.text('Semester item naam moet tussen de 4 en 100 karakters zijn.');
+    if (name.length < 1 || name.length > 100) {
+      nameError.text('Semester item naam moet tussen de 1 en 100 karakters zijn.');
       nameError.addClass('d-block');
       return;
     }
@@ -248,7 +248,7 @@ export class SemesterUpdateView implements View {
       }
 
       // Show a success message
-      Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
+      Swal.fire('Module ' + response.name + ' Aangepast!', '', 'success');
 
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
