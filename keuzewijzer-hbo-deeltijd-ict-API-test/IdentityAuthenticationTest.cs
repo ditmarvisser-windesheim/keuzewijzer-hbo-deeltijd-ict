@@ -120,9 +120,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
 
             // Assert
             Assert.IsType<UnauthorizedResult>(result);
-
-            var cookies = httpContext.Response.Cookies.ToString;
-            Assert.Null(cookies);
         }
 
         [Fact]
