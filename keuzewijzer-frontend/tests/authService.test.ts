@@ -1,8 +1,10 @@
+import { ApiService } from '../src/services/ApiService';
 import AuthService from '../src/services/AuthService';
 
 test('login should authenticate the user and set the access token and user data', async () => {
   // Arrange
-  const authService = new AuthService();
+  const apiService = new ApiService('http://localhost:7298');
+  const authService = new AuthService(apiService);
   const username = 'testUser';
   const password = 'testPassword';
 
