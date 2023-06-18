@@ -296,7 +296,24 @@ export class StudentsStudyrouteView implements View {
     });
   }
 
-  private async saveStudyRoute (studyRoute: IStudyRoute) {
+  public validateFeedback(feedback: string){
+    // Check if student has any other roles
+    if (feedback.length > 1500) {
+      return false;
+    }
+    return true
+  }
+
+  private async saveStudyRoute(studyRoute: IStudyRoute) {
+    // Validate inputs
+    if (!this.validateFeedback(studyRoute.note)){
+        const feedbackError = $('#feedbackError');
+        feedbackError.text('De feedback is te lang, overweeg om een gesprek te hebben met de student.');
+        feedbackError.addClass('d-block');
+        return
+    }
+
+    
     try {
       // Save StudyRoute via asynchronous API call
       const response = await this.apiService.post<IStudyRoute>('/api/StudyRoute', studyRoute);
