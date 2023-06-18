@@ -1,6 +1,5 @@
 import { View } from '../View';
 import Swal from 'sweetalert2';
-import { getAllRoles } from '../../api/role';
 import { ApiService } from 'services/ApiService';
 import { IUser } from 'interfaces/iUser';
 import { IRole } from 'interfaces/iRole';
@@ -66,7 +65,7 @@ export class UserUpdateRoleView implements View {
     // var rolesArray = updateUser.roles.map(r => r.id)
     var rolesArray = await this.apiService.get<string[]>(`/api/User/${this.user.id}/roles`);
 
-    const roles = await getAllRoles();
+    const roles = await this.apiService.get<IRole[]>(`/api/Role`);
 
     $.each(roles,function(index, role){
       var checkbox=`<input type='checkbox' class="form-check-input" id="role-${role.id}" value="${role.name}" name="role-${role.id}"`;
