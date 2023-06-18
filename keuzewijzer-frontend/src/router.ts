@@ -4,14 +4,14 @@ import type AuthService from './services/AuthService';
 import { type View } from './views/View';
 import { registerHelpers } from './helpers/handlebars';
 import SidebarPartial from './views/Partials/SidebarPartial';
-import { ApiService } from 'services/ApiService';
-import { IUserData } from 'interfaces/iUserData';
+import { type ApiService } from 'services/ApiService';
+import { type IUserData } from 'interfaces/iUserData';
 
 export class Router {
   private readonly routes: Map<string, View>;
   private currentView: View | null;
   private authService: AuthService;
-  private apiService: ApiService;
+  private readonly apiService: ApiService;
   private readonly sidebarPartial: SidebarPartial | undefined;
 
   constructor (authService: AuthService, apiService: ApiService) {
@@ -133,12 +133,12 @@ export class Router {
       const userData: IUserData | null = this.authService.getUserData();
 
       const sidebarData = {
-        isAuthenticated: isAuthenticated,
-        userData: userData
+        isAuthenticated,
+        userData
       };
 
       // Create a new instance of SidebarPartial with user data
-      var sidebar = new SidebarPartial(this.authService, userData);
+      const sidebar = new SidebarPartial(this.authService, userData);
       sidebar.setup();
 
       // Render the sidebar HTML

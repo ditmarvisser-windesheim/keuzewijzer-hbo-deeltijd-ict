@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { ISemester } from 'interfaces/iSemester';
-import { IUser } from 'interfaces/iUser';
-import { ApiService } from 'services/ApiService';
+import { type ISemester } from 'interfaces/iSemester';
+import { type IUser } from 'interfaces/iUser';
+import { type ApiService } from 'services/ApiService';
 
 export class UserUpdateSemesterView implements View {
   private readonly user: IUser | null = null;
@@ -55,7 +55,7 @@ export class UserUpdateSemesterView implements View {
     }
     await this.updateSemesters();
 
-    const user = response as IUser;
+    const user = response;
 
     await this.setForm(user);
 
@@ -69,10 +69,10 @@ export class UserUpdateSemesterView implements View {
 
     if (user.semesterItems != null) {
       const semesters = user.semesterItems.map((semester) => {
-        if(semester.id != null) {
+        if (semester.id != null) {
           return semester.id.toString();
         }
-        
+
         return '';
       });
       semestersInput.val(semesters);

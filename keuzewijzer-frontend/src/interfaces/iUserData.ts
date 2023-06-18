@@ -1,6 +1,6 @@
 export interface IUserData {
-    userId: string;
-    username: string;
-    email: string;
-    roles: string;
-} 
+  userId: string
+  username: string
+  email: string
+  roles: string
+}

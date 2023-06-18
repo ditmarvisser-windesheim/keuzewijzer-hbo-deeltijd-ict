@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { ApiService } from 'services/ApiService';
-import { ISemester } from 'interfaces/iSemester';
+import { type ApiService } from 'services/ApiService';
+import { type ISemester } from 'interfaces/iSemester';
 
 export class SemesterIndexView implements View {
   public apiService!: ApiService;
@@ -39,7 +39,7 @@ export class SemesterIndexView implements View {
 
   public data = {};
 
-  public async setup(): Promise<void> {
+  public async setup (): Promise<void> {
     try {
       const study_semesters = await this.apiService.get<ISemester[]>('/api/semesterItem');
 
@@ -79,7 +79,7 @@ export class SemesterIndexView implements View {
     });
   }
 
-  private async handleDeleteButtonClick(event: Event): Promise<void> {
+  private async handleDeleteButtonClick (event: Event): Promise<void> {
     try {
       const button = event.target as HTMLButtonElement;
       const moduleId = button.dataset.id;

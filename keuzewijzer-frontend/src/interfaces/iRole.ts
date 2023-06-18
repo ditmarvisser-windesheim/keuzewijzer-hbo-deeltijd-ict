@@ -1,6 +1,6 @@
 export interface IRole {
-    name: string;
-    id: string;
-    normalizedName: string;
-    concurrencyStamp: string;
+  name: string
+  id: string
+  normalizedName: string
+  concurrencyStamp: string
 }

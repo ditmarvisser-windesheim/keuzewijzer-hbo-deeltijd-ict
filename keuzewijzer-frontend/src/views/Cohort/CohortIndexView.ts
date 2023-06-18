@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { ApiService } from 'services/ApiService';
-import { ICohort } from 'interfaces/iCohort';
+import { type ApiService } from 'services/ApiService';
+import { type ICohort } from 'interfaces/iCohort';
 
 export class CohortIndexView implements View {
   public apiService!: ApiService;
@@ -108,7 +108,6 @@ export class CohortIndexView implements View {
     }
   }
 }
-function getAllCohorts() {
+function getAllCohorts () {
   throw new Error('Function not implemented.');
 }
-

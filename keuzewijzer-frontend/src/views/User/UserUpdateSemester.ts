@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2';
 
 import { type View } from '../View';
-import { IUser } from 'interfaces/iUser';
-import { ISemester } from 'interfaces/iSemester';
-import { ApiService } from 'services/ApiService';
+import { type IUser } from 'interfaces/iUser';
+import { type ISemester } from 'interfaces/iSemester';
+import { type ApiService } from 'services/ApiService';
 
 export class UserUpdateSemester implements View {
   private readonly Id = 1; // TODO: get the id form the url FIX DEZE
