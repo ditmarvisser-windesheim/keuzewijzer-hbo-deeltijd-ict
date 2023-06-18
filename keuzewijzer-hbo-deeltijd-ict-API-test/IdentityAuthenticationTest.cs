@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using keuzewijzer_hbo_deeltijd_ict_API.Dal;
+using Microsoft.EntityFrameworkCore;
 
 namespace keuzewijzer_hbo_deeltijd_ict_API_test
 {
@@ -122,6 +125,116 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
             Assert.Null(cookies);
         }
 
+        [Fact]
+        public async Task GetSBStudentsWithCorrectUser()
+        {
+            // Arrange
+
+            var testUser = GetTestStudiebegeleiderUser1();
+
+            var claims = new List<Claim>
+            {
+                new Claim(type: ClaimTypes.Email, value: testUser.Email),
+                new Claim(type: ClaimTypes.Name,value: testUser.Name),
+                new Claim(type: ClaimTypes.Sid,value: testUser.Id),
+                new Claim(type: ClaimTypes.Role, value: "Administrator")
+            };
+
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            // Mock the HttpContext and set the authentication cookie
+            var httpContext = new DefaultHttpContext();
+
+            var services = new ServiceCollection();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Events.OnRedirectToLogin = (context) =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                });
+            services.AddLogging();
+            httpContext.RequestServices = services.BuildServiceProvider();
+            httpContext.User = claimsPrincipal;
+
+            var store = new Mock<IUserStore<User>>();
+
+            var _options = new DbContextOptionsBuilder<KeuzewijzerContext>()
+                .UseInMemoryDatabase(databaseName: "test_database")
+                .Options;
+
+            var userManagerMock = new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+            var _userController = new UserController(new KeuzewijzerContext(_options), userManagerMock.Object);
+            _userController.ControllerContext = new ControllerContext { HttpContext= httpContext };
+
+            // Act
+            var result = await _userController.GetSBStudents("2");
+
+            // Assert
+            // If there is a result then the request is authorized
+            Assert.NotNull(result.Value);
+        }        
+        
+        [Fact]
+        public async Task GetSBStudentsWithIncorrectUser()
+        {
+            // Arrange
+
+            var testUser = GetTestStudiebegeleiderUser1();
+
+            var claims = new List<Claim>
+            {
+                new Claim(type: ClaimTypes.Email, value: testUser.Email),
+                new Claim(type: ClaimTypes.Name,value: testUser.Name),
+                new Claim(type: ClaimTypes.Sid,value: testUser.Id),
+                new Claim(type: ClaimTypes.Role, value: "Administrator")
+            };
+
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            // Mock the HttpContext and set the authentication cookie
+            var httpContext = new DefaultHttpContext();
+
+            var services = new ServiceCollection();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Events.OnRedirectToLogin = (context) =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                });
+            services.AddLogging();
+            httpContext.RequestServices = services.BuildServiceProvider();
+            httpContext.User = claimsPrincipal;
+
+            var store = new Mock<IUserStore<User>>();
+
+            var _options = new DbContextOptionsBuilder<KeuzewijzerContext>()
+                .UseInMemoryDatabase(databaseName: "test_database")
+                .Options;
+
+            var userManagerMock = new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+            var _userController = new UserController(new KeuzewijzerContext(_options), userManagerMock.Object);
+            _userController.ControllerContext = new ControllerContext { HttpContext= httpContext };
+
+            // Act
+            var result = await _userController.GetSBStudents("3");
+
+            // Assert
+            // If there is no result then the request is authorized
+            Assert.Null(result.Value);
+        }
+
         private Mock<SignInManager<TUser>> MockSignInManager<TUser>(UserManager<TUser> userManager) where TUser : class
         {
             var contextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -141,6 +254,45 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
             var user = new User
             {
                 Id = "1",
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "admin@example.com",
+                NormalizedEmail = "admin@example.com",
+                Name = "Arnold Dirk Min",
+                FirstName = "Arnold",
+                LastName = "Min",
+                PasswordHash = passwordHasher.HashPassword(null, "welkom")
+            };
+
+            return user;
+        }
+
+        private User GetTestStudiebegeleiderUser1()
+        {
+            var passwordHasher = new PasswordHasher<User>();
+
+            var user = new User
+            {
+                Id = "2",
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "admin@example.com",
+                NormalizedEmail = "admin@example.com",
+                Name = "Arnold Dirk Min",
+                FirstName = "Arnold",
+                LastName = "Min",
+                PasswordHash = passwordHasher.HashPassword(null, "welkom")
+            };
+
+            return user;
+        }
+        private User GetTestStudiebegeleiderUser2()
+        {
+            var passwordHasher = new PasswordHasher<User>();
+
+            var user = new User
+            {
+                Id = "3",
                 UserName = "admin",
                 NormalizedUserName = "admin",
                 Email = "admin@example.com",

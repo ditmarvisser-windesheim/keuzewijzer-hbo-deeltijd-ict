@@ -68,7 +68,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetSBStudents(string id)
         {
             string userid = User.FindFirstValue(ClaimTypes.Sid);
-            if (userid == null)
+            if (userid != id)
             {
                 return Unauthorized();
             }
