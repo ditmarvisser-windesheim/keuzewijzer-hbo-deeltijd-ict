@@ -83,6 +83,27 @@ export class UserUpdateRoleView implements View {
     $('#id').val(updateUser.id);
   }
 
+  private validateInput(roles: string[], id: string){
+    // Check if student has any other roles
+    const studentError = $('#studentError');
+    if (roles.includes("Student") && (roles.length > 1)) {
+      studentError.text('Een student kan geen andere rollen hebben.');
+      studentError.addClass('d-block');
+      return false;
+    }
+
+    // Check if admin is removing himself from the admin role
+    const userdata = this.authService?.getUserData();
+    const roleError = $('#studentError');
+    if(id == userdata?.userId && !roles.includes("Administrator")){
+      roleError.text('Een admin kan de admin role niet bij zichzelf verwijderen.');
+      roleError.addClass('d-block');
+      return false;
+    }
+
+    // If all validation passes return true
+    return true
+  }
 
   private async handleUserUpdate(event: Event): Promise<void> {
     event.preventDefault();
@@ -99,21 +120,8 @@ export class UserUpdateRoleView implements View {
     
     const id = $('#id').val() as string;
 
-    // Check if student has any other roles
-    const studentError = $('#studentError');
-    if (roles.includes("Student") && (roles.length > 1)) {
-      studentError.text('Een student kan geen andere rollen hebben.');
-      studentError.addClass('d-block');
-      return;
-    }
-    
-    // Check if admin is removing himself from the admin role
-    const userdata = this.authService?.getUserData();
-    const roleError = $('#studentError');
-    if(id == userdata?.userId && !roles.includes("Administrator")){
-      roleError.text('Een admin kan de admin role niet bij zichzelf verwijderen.');
-      roleError.addClass('d-block');
-      return;
+    if (!this.validateInput(roles, id)){
+      return
     }
 
     try {
