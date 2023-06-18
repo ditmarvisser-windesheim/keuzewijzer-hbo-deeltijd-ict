@@ -24,7 +24,6 @@ export class ApiService {
       credentials: 'include'
     })
       .then(async response => {
-        console.log('ÚRL STRING IS ', url);
         if (response.status === 401) {
           return await this.handleUnauthorizedResponse(response)
             .then(async () => await Promise.reject(`Request failed with status ${response.status}`));

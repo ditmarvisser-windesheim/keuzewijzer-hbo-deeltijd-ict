@@ -38,13 +38,10 @@ export class HomeView implements View {
   }
 
   public async fetchAsyncData () {
-    console.log('HomeView.fetchAsyncData()');
     this.data.semesterItems = await this.getSemesterItem();
     this.data.studyRouteItems = await this.getStudyRouteItem();
     this.modules = await this.getModules();
     this.cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
-
-    console.log(this.data);
   }
 
   public template = `<div class="container">
@@ -256,8 +253,6 @@ export class HomeView implements View {
             const latestYear = $('.year-' + yearCount);
             const colElements = latestYear.find('.col-md-4:not(:hidden)');
             const latestYearLenght = colElements.length;
-
-            console.log(latestYearLenght);
 
             if (latestYearLenght === 1) {
               const yearBefore = $('.year-' + (yearCount - 1));

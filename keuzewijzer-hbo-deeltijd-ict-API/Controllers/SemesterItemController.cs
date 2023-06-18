@@ -59,6 +59,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
 
         // GET: api/SemesterItems/5
         [HttpGet("{id}")]
+
         public async Task<ActionResult<SemesterItem>> GetSemesterItems(int id)
         {
             if (_context.SemesterItems == null)
@@ -79,7 +80,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
         // PUT: api/SemesterItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Moduleverantwoordelijke")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator, Moduleverantwoordelijke")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSemesterItem(int id, SemesterItem semesterItem)
         {

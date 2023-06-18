@@ -51,9 +51,6 @@ export class UserUpdateRoleView implements View {
   private async setForm (): Promise<void> {
     // TODO: get the id from the url
     const id = this.params?.id;
-    console.log('p');
-    console.log(this.params);
-    console.log('p');
 
     //Search for the user item with the id
     var updateUser = await this.apiService.get<IUser>(`/api/User/${id}`);
@@ -102,14 +99,12 @@ export class UserUpdateRoleView implements View {
     event.preventDefault();
 
     const rolesInput = $('#roles');
-    console.log(rolesInput);
 
     const roles: (string)[] = [];
     $('#roles input:checked').each(function () {
       roles.push($(this).attr('value') as string);
     });
 
-    console.log(roles);
 
     const id = $('#id').val() as string;
 
@@ -133,7 +128,6 @@ export class UserUpdateRoleView implements View {
     try {
       // Make the PUT request to the server
       const response = await this.apiService.put<IUser>(`/api/User/${id}/roles`, roles);
-      console.log(response);
       if (response.name === undefined) {
         Swal.fire('Oeps!', 'Er is iets misgegaan.', 'error');
         return;
@@ -141,7 +135,6 @@ export class UserUpdateRoleView implements View {
 
       // Show a success message
       Swal.fire('User ' + response.name + ' Aangepast!', '', 'success');
-      console.log(response);
 
       // Go back to the user overview wait for 3 seconds
       setTimeout(function () {

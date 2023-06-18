@@ -19,7 +19,7 @@ namespace keuzewijzer_hbo_deeltijd_ict_API.Controllers
         }
 
         // GET: api/StudyRoute
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrator,Studiebegeleider,Student")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<StudyRouteItem>>> GetStudyRouteByUserId(string userId)
         {

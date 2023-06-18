@@ -48,15 +48,12 @@ export class StudentsStudyrouteView implements View {
   }
 
   public async fetchAsyncData () {
-    console.log('HomeView.fetchAsyncData()');
     this.data.semesterItems = await this.getSemesterItem();
     this.data.studyRouteItems = await this.getStudyRouteItem();
     this.data.studyRoute = await this.getStudyRoute();
     this.data.user = await this.getUser();
     this.modules = await this.getModules();
     this.cohorts = await this.apiService.get<ICohort[]>('/api/Cohort');
-
-    console.log(this.data);
   }
 
   public template = `<div class="container">
@@ -151,8 +148,6 @@ export class StudentsStudyrouteView implements View {
 
   public setup (): void {
     const self = this;
-
-    console.log(self.data.studyRoute);
 
     $(document).on('click', '.fa-info-circle', function () {
       const semesterItemId = $(this).closest('.box').data('id');

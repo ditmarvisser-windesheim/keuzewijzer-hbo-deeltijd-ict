@@ -81,8 +81,7 @@ export class UserUpdateSemester implements View {
 
       // Show a success message
       Swal.fire('Semester ' + response.name + ' Aangepast!', '', 'success');
-      console.log(response);
-
+      
       // Go back to the semester overview wait for 3 seconds
       setTimeout(function () {
         window.location.href = '/user';
