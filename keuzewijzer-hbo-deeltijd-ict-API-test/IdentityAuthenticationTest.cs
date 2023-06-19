@@ -94,27 +94,6 @@ namespace keuzewijzer_hbo_deeltijd_ict_API_test
             var authController = new AuthController(userManagerMock.Object, signInManagerMock.Object);
             var loginRequest = new LoginRequest { UserName = "admin@example.com", Password = "ditisfout" };
 
-            // Mock the HttpContext and set the authentication cookie
-            var httpContext = new DefaultHttpContext();
-            var services = new ServiceCollection();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.Events.OnRedirectToLogin = (context) =>
-                    {
-                        context.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    };
-                });
-            services.AddLogging();
-            httpContext.RequestServices = services.BuildServiceProvider();
-
-            httpContext.Request.Headers["Host"] = "localhost";
-            authController.ControllerContext = new ControllerContext
-            {
-                HttpContext = httpContext
-            };
-
             // Act
             var result = await authController.Login(loginRequest);
 

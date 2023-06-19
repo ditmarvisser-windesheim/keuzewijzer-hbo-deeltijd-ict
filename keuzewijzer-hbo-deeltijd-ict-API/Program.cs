@@ -3,10 +3,6 @@ using keuzewijzer_hbo_deeltijd_ict_API.Dal;
 using Microsoft.AspNetCore.Identity;
 using keuzewijzer_hbo_deeltijd_ict_API.Models;
 using System.Text.Json.Serialization;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using keuzewijzer_hbo_deeltijd_ict_API.Controllers.ActionFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +13,6 @@ builder.Services.AddDbContext<KeuzewijzerContext>(options => options.UseSqlServe
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<KeuzewijzerContext>()
     .AddDefaultTokenProviders();
-
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -31,7 +25,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddMemoryCache();
-builder.Services.AddAuthentication();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
